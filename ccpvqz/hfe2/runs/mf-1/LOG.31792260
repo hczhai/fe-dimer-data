@@ -1,0 +1,33 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.1.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hfe2-def2-SVP-uks.7/runs/mf-1
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/block2.cpython-38-x86_64-linux-gnu.so
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/__init__.py
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=31792260
+SLURM_JOB_NAME=hfe2.1.hife
+HOST_NAME = hpc-82-33.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-qz/hfe2/runs/mf-1
+SLURM_CPUS_PER_TASK=24
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Traceback (most recent call last):
+  File "hife.py", line 52, in <module>
+    dm = b2scf.get_metal_init_guess(mol, orb="Fe 3d", atom_idxs=[20, 21], coupling="+-", atomic_spin=4)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/_pyscf/scf/init_guess.py", line 187, in get_metal_init_guess
+    dl0[0][idx, idx] += (dax + dspin) / len(idx)
+ZeroDivisionError: float division by zero
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[22415,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+ERROR TERMINATION

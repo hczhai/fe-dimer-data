@@ -1,0 +1,330 @@
+START  TIME =  02/11/2023 15:59:37
+#INFO: **** input file is /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-dz/hfe2/runs/mf-2/hife.py ****
+
+import time
+from datetime import datetime
+txst = time.perf_counter()
+print("START  TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+
+from pyscf import gto, scf
+mol = gto.Mole()
+mol.verbose = 4
+mol.atom = '''
+C    -0.6004690   -1.8541396   -4.3931123 
+H    -0.9885128   -0.8116508   -4.4441158 
+H    -1.2233186   -2.5109691   -5.0545639 
+H     0.4332653   -1.8614472   -4.8208224 
+S    -0.6420813   -2.4169491   -2.6407698 
+C     0.4911160    1.7119732   -3.4952934 
+H     1.1454118    1.7908560   -2.6017265 
+H     0.4940557    2.6834804   -4.0526033 
+H     0.9297739    0.9375322   -4.1667404 
+S    -1.2045031    1.2624527   -2.9490191 
+C    -0.5170233    2.7735147    1.7890395 
+H     0.1897341    2.5579946    0.9587402 
+H    -0.1817476    3.6864329    2.3434608 
+H    -1.5092436    2.9968065    1.3360800 
+S    -0.5859628    1.3069271    2.8986914 
+C    -0.5055631   -1.6440394    4.3765240 
+H    -1.3125977   -0.8903412    4.5041769 
+H     0.4429013   -1.1359999    4.6628636 
+H    -0.6817372   -2.4716890    5.1124802 
+S    -0.4582362   -2.2773941    2.6480953 
+Fe   -0.5822491   -0.4261876   -1.2438221 
+Fe   -0.4040092   -0.3452652    1.1749566 
+S     1.3672017    0.2724370   -0.2315191 
+C    -2.0078868    0.0019752    0.0519971 
+H    -0.5166457   -1.6358452   -0.0228939 
+H    -2.3493298    1.0582445   -0.0027923 
+H    -2.8433420   -0.7077099    0.2366894 
+
+'''
+mol.basis = "ccpvdz-dk"
+mol.spin = 0
+mol.charge = -3
+mol.max_memory = 82000
+
+mol.build()
+print("NAO   = ", mol.nao)
+print("NELEC = ", mol.nelec)
+dm = None
+
+
+from pyblock2._pyscf import scf as b2scf
+dm = b2scf.get_metal_init_guess(mol, orb="Fe 3d", atom_idxs=[20, 21], coupling="+-", atomic_spin=4)
+
+
+
+print("PG = ", mol.groupname)
+
+mf = scf.sfx2c(scf.UKS(mol))
+mf.chkfile = 'mf.chk'
+mf.conv_tol = 1E-12
+mf.xc = 'tpss'
+mf.max_cycle = 1000
+mf = mf.newton()
+
+mf.kernel(dm0=dm)
+dm = mf.make_rdm1()
+
+import numpy as np
+np.save("mf_occ.npy", mf.mo_occ)
+np.save("mo_coeff.npy", mf.mo_coeff)
+np.save("mo_energy.npy", mf.mo_energy)
+np.save("e_tot.npy", mf.e_tot)
+np.save("mf_dmao.npy", dm)
+
+from pyblock2._pyscf import scf as b2scf
+b2scf.mulliken_pop_dmao(mol, dm)
+
+
+txed = time.perf_counter()
+print("FINISH TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+print("TOTAL TIME  = %20.3f" % (txed - txst))
+#INFO: ******************** input file end ********************
+
+
+System: uname_result(system='Linux', node='hpc-82-33.cm.cluster', release='3.10.0-1160.25.1.el7.x86_64', version='#1 SMP Wed Apr 28 21:49:45 UTC 2021', machine='x86_64', processor='x86_64')  Threads 24
+Python 3.8.5 (default, Sep  4 2020, 07:30:14) 
+[GCC 7.3.0]
+numpy 1.19.4  scipy 1.4.1
+Date: Sat Feb 11 15:59:38 2023
+PySCF version 2.1.1
+PySCF path  /central/groups/changroup/members/hczhai/program/pyscf
+GIT ORIG_HEAD 9d5b5bd309d1cc55fbd1a0ec76e26b5b0c7f76af
+GIT HEAD (branch ccsd_t_cas) bce349cd58351d56507ebb3005a119fa94c75308
+
+[ENV] PYSCF_MPIPREFIX orterun --map-by ppr:1:node:pe=24
+[ENV] PYSCF_TMPDIR /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/mf-2
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 27
+[INPUT] num. electrons = 180
+[INPUT] charge = -3
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT] Symbol           X                Y                Z      unit          X                Y                Z       unit  Magmom
+[INPUT]  1 C     -0.600469000000  -1.854139600000  -4.393112300000 AA   -1.134721956291  -3.503816040711  -8.301779081458 Bohr   0.0
+[INPUT]  2 H     -0.988512800000  -0.811650800000  -4.444115800000 AA   -1.868018462627  -1.533797720784  -8.398161727852 Bohr   0.0
+[INPUT]  3 H     -1.223318600000  -2.510969100000  -5.054563900000 AA   -2.311737117086  -4.745043906246  -9.551741450113 Bohr   0.0
+[INPUT]  4 H      0.433265300000  -1.861447200000  -4.820822400000 AA    0.818752756278  -3.517625403338  -9.110034031168 Bohr   0.0
+[INPUT]  5 S     -0.642081300000  -2.416949100000  -2.640769800000 AA   -1.213357806705  -4.567371856014  -4.990331680022 Bohr   0.0
+[INPUT]  6 C      0.491116000000   1.711973200000  -3.495293400000 AA    0.928074735392   3.235160480595  -6.605147251000 Bohr   0.0
+[INPUT]  7 H      1.145411800000   1.790856000000  -2.601726500000 AA    2.164514601845   3.384227368534  -4.916550536023 Bohr   0.0
+[INPUT]  8 H      0.494055700000   2.683480400000  -4.052603300000 AA    0.933629963280   5.071043016638  -7.658310328509 Bohr   0.0
+[INPUT]  9 H      0.929773900000   0.937532200000  -4.166740400000 AA    1.757018028769   1.771679090961  -7.873998188161 Bohr   0.0
+[INPUT] 10 S     -1.204503100000   1.262452700000  -2.949019100000 AA   -2.276180975190   2.385689848218  -5.572838435111 Bohr   0.0
+[INPUT] 11 C     -0.517023300000   2.773514700000   1.789039500000 AA   -0.977032437019   5.241183185455   3.380794681029 Bohr   0.0
+[INPUT] 12 H      0.189734100000   2.557994600000   0.958740200000 AA    0.358545485491   4.833909222116   1.811756402611 Bohr   0.0
+[INPUT] 13 H     -0.181747600000   3.686432900000   2.343460800000 AA   -0.343453187797   6.966348557586   4.428499095654 Bohr   0.0
+[INPUT] 14 H     -1.509243600000   2.996806500000   1.336080000000 AA   -2.852057059253   5.663143533316   2.524825280509 Bohr   0.0
+[INPUT] 15 S     -0.585962800000   1.306927100000   2.898691400000 AA   -1.107309211183   2.469734283772   5.477732865632 Bohr   0.0
+[INPUT] 16 C     -0.505563100000  -1.644039400000   4.376524000000 AA   -0.955375797686  -3.106784203994   8.270431737586 Bohr   0.0
+[INPUT] 17 H     -1.312597700000  -0.890341200000   4.504176900000 AA   -2.480450164734  -1.682501025417   8.511660757592 Bohr   0.0
+[INPUT] 18 H      0.442901300000  -1.135999900000   4.662863600000 AA    0.836962157214  -2.146728688533   8.811535160203 Bohr   0.0
+[INPUT] 19 H     -0.681737200000  -2.471689000000   5.112480200000 AA   -1.288296596928  -4.670815275100   9.661187395262 Bohr   0.0
+[INPUT] 20 S     -0.458236200000  -2.277394100000   2.648095300000 AA   -0.865940918361  -4.303651126700   5.004174868748 Bohr   0.0
+[INPUT] 21 Fe    -0.582249100000  -0.426187600000  -1.243822100000 AA   -1.100291335274  -0.805377841686  -2.350483116681 Bohr   0.0
+[INPUT] 22 Fe    -0.404009200000  -0.345265200000   1.174956600000 AA   -0.763466739805  -0.652456668343   2.220346182250 Bohr   0.0
+[INPUT] 23 S      1.367201700000   0.272437000000  -0.231519100000 AA    2.583636770040   0.514831316198  -0.437507691606 Bohr   0.0
+[INPUT] 24 C     -2.007886800000   0.001975200000   0.051997100000 AA   -3.794356141129   0.003732587041   0.098260278272 Bohr   0.0
+[INPUT] 25 H     -0.516645700000  -1.635845200000  -0.022893900000 AA   -0.976318876434  -3.091299410184  -0.043263200923 Bohr   0.0
+[INPUT] 26 H     -2.349329800000   1.058244500000  -0.002792300000 AA   -4.439589898279   1.999792277827  -0.005276682258 Bohr   0.0
+[INPUT] 27 H     -2.843342000000  -0.707709900000   0.236689400000 AA   -5.373137658473  -1.337377886643   0.447278142588 Bohr   0.0
+
+nuclear repulsion = 2171.37322695753
+number of shells = 109
+number of NR pGTOs = 684
+number of NR cGTOs = 321
+basis = ccpvdz-dk
+ecp = {}
+CPU time:         0.39
+NAO   =  321
+NELEC =  (90, 90)
+Initial guess from superposition of atomic densities.
+Spherically averaged atomic HF for {'H', 'Fe', 'S', 'C'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/mf-2/tmpcgrx7v8k
+max_memory 82000 MB (current use 65 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2778403618741
+cycle= 1 E= -37.3221723718505  delta_E= -0.0443  |g|=    0  |ddm|= 0.403
+cycle= 2 E= -37.3262233935161  delta_E= -0.00405  |g|=    0  |ddm|= 0.158
+cycle= 3 E= -37.3266444246313  delta_E= -0.000421  |g|=    0  |ddm|= 0.0315
+cycle= 4 E= -37.3266480712563  delta_E= -3.65e-06  |g|=    0  |ddm|= 0.00608
+cycle= 5 E= -37.3266480713122  delta_E= -5.59e-11  |g|=    0  |ddm|= 2.35e-05
+Extra cycle  E= -37.3266480713125  delta_E= -2.77e-13  |g|=    0  |ddm|= 1.44e-06
+Atomic HF for atom  C  converged. SCF energy = -37.3266480713125
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.499278400906055
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/mf-2/tmpyq50cu38
+max_memory 82000 MB (current use 71 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.92188350895
+cycle= 1 E= -396.929751369149  delta_E= -0.00787  |g|=    0  |ddm|= 0.15
+cycle= 2 E= -396.929927981947  delta_E= -0.000177  |g|=    0  |ddm|= 0.0424
+cycle= 3 E= -396.929937409763  delta_E= -9.43e-06  |g|=    0  |ddm|= 0.00593
+cycle= 4 E= -396.929937609026  delta_E= -1.99e-07  |g|=    0  |ddm|= 0.00179
+cycle= 5 E= -396.929937609065  delta_E= -3.96e-11  |g|=    0  |ddm|= 1.42e-05
+Extra cycle  E= -396.929937609066  delta_E= -3.41e-13  |g|=    0  |ddm|= 4.6e-08
+Atomic HF for atom  S  converged. SCF energy = -396.929937609066
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/mf-2/tmpi1ndj7l4
+max_memory 82000 MB (current use 72 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.92561418025
+cycle= 1 E= -1252.27154065659  delta_E= 4.65  |g|=    0  |ddm|= 5.12
+cycle= 2 E= -1252.5244939456  delta_E= -0.253  |g|=    0  |ddm|= 9.91
+cycle= 3 E= -1257.3673655746  delta_E= -4.84  |g|=    0  |ddm|= 8.11
+cycle= 4 E= -1257.37254960653  delta_E= -0.00518  |g|=    0  |ddm|= 0.546
+cycle= 5 E= -1257.37688815125  delta_E= -0.00434  |g|=    0  |ddm|= 0.135
+cycle= 6 E= -1257.37854941671  delta_E= -0.00166  |g|=    0  |ddm|= 0.0943
+cycle= 7 E= -1257.37855339926  delta_E= -3.98e-06  |g|=    0  |ddm|= 0.011
+cycle= 8 E= -1257.37855446745  delta_E= -1.07e-06  |g|=    0  |ddm|= 0.00227
+cycle= 9 E= -1257.37855446856  delta_E= -1.11e-09  |g|=    0  |ddm|= 6.88e-05
+cycle= 10 E= -1257.37855446857  delta_E= -6.14e-12  |g|=    0  |ddm|= 6.13e-06
+Extra cycle  E= -1257.37855446857  delta_E= -6.82e-13  |g|=    0  |ddm|= 1.08e-07
+Atomic HF for atom  Fe  converged. SCF energy = -1257.37855446857
+NELEC BEFORE = 88.5 88.5
+ORB = Fe 3d IDX = []
+ORB = Fe 3d IDX = []
+Spherically averaged atomic HF for {'H', 'Fe', 'S', 'C'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/mf-2/tmp99dud4pb
+max_memory 82000 MB (current use 102 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2778403618741
+cycle= 1 E= -37.3221723718505  delta_E= -0.0443  |g|=    0  |ddm|= 0.403
+cycle= 2 E= -37.3262233935161  delta_E= -0.00405  |g|=    0  |ddm|= 0.158
+cycle= 3 E= -37.3266444246313  delta_E= -0.000421  |g|=    0  |ddm|= 0.0315
+cycle= 4 E= -37.3266480712564  delta_E= -3.65e-06  |g|=    0  |ddm|= 0.00608
+cycle= 5 E= -37.3266480713122  delta_E= -5.59e-11  |g|=    0  |ddm|= 2.35e-05
+Extra cycle  E= -37.3266480713125  delta_E= -2.84e-13  |g|=    0  |ddm|= 1.44e-06
+Atomic HF for atom  C  converged. SCF energy = -37.3266480713125
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.499278400906055
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/mf-2/tmpwnne4bis
+max_memory 82000 MB (current use 103 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.92188350895
+cycle= 1 E= -396.929751369149  delta_E= -0.00787  |g|=    0  |ddm|= 0.15
+cycle= 2 E= -396.929927981947  delta_E= -0.000177  |g|=    0  |ddm|= 0.0424
+cycle= 3 E= -396.929937409763  delta_E= -9.43e-06  |g|=    0  |ddm|= 0.00593
+cycle= 4 E= -396.929937609026  delta_E= -1.99e-07  |g|=    0  |ddm|= 0.00179
+cycle= 5 E= -396.929937609065  delta_E= -3.94e-11  |g|=    0  |ddm|= 1.42e-05
+Extra cycle  E= -396.929937609066  delta_E= -3.41e-13  |g|=    0  |ddm|= 4.6e-08
+Atomic HF for atom  S  converged. SCF energy = -396.929937609066
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/mf-2/tmpuk1b4res
+max_memory 82000 MB (current use 103 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.92561418025
+cycle= 1 E= -1252.27154065659  delta_E= 4.65  |g|=    0  |ddm|= 5.12
+cycle= 2 E= -1252.5244939456  delta_E= -0.253  |g|=    0  |ddm|= 9.91
+cycle= 3 E= -1257.3673655746  delta_E= -4.84  |g|=    0  |ddm|= 8.11
+cycle= 4 E= -1257.37254960653  delta_E= -0.00518  |g|=    0  |ddm|= 0.546
+cycle= 5 E= -1257.37688815125  delta_E= -0.00434  |g|=    0  |ddm|= 0.135
+cycle= 6 E= -1257.37854941671  delta_E= -0.00166  |g|=    0  |ddm|= 0.0943
+cycle= 7 E= -1257.37855339927  delta_E= -3.98e-06  |g|=    0  |ddm|= 0.011
+cycle= 8 E= -1257.37855446745  delta_E= -1.07e-06  |g|=    0  |ddm|= 0.00227
+cycle= 9 E= -1257.37855446856  delta_E= -1.11e-09  |g|=    0  |ddm|= 6.88e-05
+cycle= 10 E= -1257.37855446857  delta_E= -5.46e-12  |g|=    0  |ddm|= 6.13e-06
+Extra cycle  E= -1257.37855446857  delta_E= -2.27e-13  |g|=    0  |ddm|= 1.08e-07
+Atomic HF for atom  Fe  converged. SCF energy = -1257.37855446857

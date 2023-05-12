@@ -1,0 +1,41 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.0.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hc-def2-SVP-uks.9/runs/mp-25
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=29919339
+SLURM_JOB_NAME=hc.25.hife
+HOST_NAME = hpc-19-15.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers/x2c-dk/hc/runs/mp-25
+SLURM_CPUS_PER_TASK=36
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Overwritten attributes  max_cycle  of <class 'pyscf.mp.ump2.UMP2'>
+<class 'pyscf.mp.ump2.UMP2'> does not have attributes  diis_file
+Traceback (most recent call last):
+  File "hife.py", line 53, in <module>
+    mc.kernel()
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/mp/mp2.py", line 558, in kernel
+    self.converged, self.e_corr, self.t2 = _iterative_kernel(self, eris)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/mp/mp2.py", line 86, in _iterative_kernel
+    t2new = mp.update_amps(t2, eris)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/mp/ump2.py", line 142, in update_amps
+    u2ab += lib.einsum('iJeA,be->iJbA', t2ab, fvva)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 239, in einsum
+    out = _contract(subscripts, *tensors, **kwargs)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 217, in _contract
+    At = numpy.asarray(At.reshape(-1,inner_shape), order='C')
+MemoryError: Unable to allocate 78.2 GiB for an array with shape (90, 90, 1138, 1138) and data type float64
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[53204,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+ERROR TERMINATION

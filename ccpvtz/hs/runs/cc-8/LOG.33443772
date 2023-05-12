@@ -1,0 +1,86 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.1.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hs-def2-SVP-uks.9/runs/cc-8
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/block2.cpython-38-x86_64-linux-gnu.so
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/__init__.py
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=33443772
+SLURM_JOB_NAME=hs.8.hife
+HOST_NAME = hpc-19-27.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-tz/hs/runs/cc-8
+SLURM_CPUS_PER_TASK=64
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Traceback (most recent call last):
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/ao2mo/outcore.py", line 324, in general
+    async_write(icomp, row0, row1, outbuf)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 950, in async_fn
+    raise ThreadRuntimeError('Error on thread %s:\n%s'
+pyscf.lib.misc.ThreadRuntimeError: Error on thread <pyscf.lib.misc.call_in_background object at 0x7f43a294fd60>:
+Can't write data (file write failed: time = Tue Apr 11 14:35:04 2023
+, filename = '/central/scratch/hczhai/hife/hs-def2-SVP-uks.9/runs/cc-8/tmpuwk54cda', file descriptor = 6, errno = 122, error message = 'Disk quota exceeded', buf = 0x7f1460d3d4c8, total write size = 2654208, bytes this sub-write = 2654208, bytes actually written = 18446744073709551615, offset = 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 968, in __exit__
+    handler.result()
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/concurrent/futures/_base.py", line 432, in result
+    return self.__get_result()
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/concurrent/futures/_base.py", line 388, in __get_result
+    raise self._exception
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 948, in async_fn
+    handlers[i].result()
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/concurrent/futures/_base.py", line 432, in result
+    return self.__get_result()
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/concurrent/futures/_base.py", line 388, in __get_result
+    raise self._exception
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/concurrent/futures/thread.py", line 57, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/ao2mo/outcore.py", line 288, in save
+    h5d_eri[row0:row1] = buf[:row1-row0]
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/h5py/_hl/dataset.py", line 945, in __setitem__
+    self.id.write(mspace, fspace, val, mtype, dxpl=self._dxpl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5d.pyx", line 232, in h5py.h5d.DatasetID.write
+  File "h5py/_proxy.pyx", line 114, in h5py._proxy.dset_rw
+OSError: Can't write data (file write failed: time = Tue Apr 11 14:35:04 2023
+, filename = '/central/scratch/hczhai/hife/hs-def2-SVP-uks.9/runs/cc-8/tmpuwk54cda', file descriptor = 6, errno = 122, error message = 'Disk quota exceeded', buf = 0x7f1460d3d4c8, total write size = 2654208, bytes this sub-write = 2654208, bytes actually written = 18446744073709551615, offset = 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "hife.py", line 133, in <module>
+    eris = mc.ao2mo()
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd.py", line 698, in ao2mo
+    return _make_eris_outcore(self, mo_coeff)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd.py", line 1181, in _make_eris_outcore
+    ao2mo.full(mol, orbvb, eris.feri, dataname='VVVV')
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/ao2mo/__init__.py", line 153, in full
+    return mod.full(eri_or_mol, mo_coeff, erifile, dataname, intor,
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/ao2mo/outcore.py", line 110, in full
+    general(mol, (mo_coeff,)*4, erifile, dataname,
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/ao2mo/outcore.py", line 330, in general
+    ti0 = ti1
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 970, in __exit__
+    raise ThreadRuntimeError('Error on thread %s:\n%s' % (self, e))
+pyscf.lib.misc.ThreadRuntimeError: Error on thread <pyscf.lib.misc.call_in_background object at 0x7f43a294fd60>:
+Can't write data (file write failed: time = Tue Apr 11 14:35:04 2023
+, filename = '/central/scratch/hczhai/hife/hs-def2-SVP-uks.9/runs/cc-8/tmpuwk54cda', file descriptor = 6, errno = 122, error message = 'Disk quota exceeded', buf = 0x7f1460d3d4c8, total write size = 2654208, bytes this sub-write = 2654208, bytes actually written = 18446744073709551615, offset = 0)
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[18937,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+ERROR TERMINATION

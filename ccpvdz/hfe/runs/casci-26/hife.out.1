@@ -1,0 +1,280 @@
+START  TIME =  03/19/2023 12:19:51
+use: ../select-18/lo_coeff.npy
+use: ../select-18/active_space.npy
+act: orb = 55 elec = 48 spin = 0
+use RHF
+Mar 19 12:19:52 ####### 
+                ####### libDMET   version 0.5
+                ####### A periodic DMET library for lattice model and realistic solid.
+                ####### 
+idemponency of dmcas[0]: 0.0064624753705267825
+idemponency of dmcas[1]: 0.005747087545089096
+trace of dmcas[0]: 23.980914830152997
+trace of dmcas[1]: 23.982226128757684
+
+******** CASCI flags ********
+CAS (24e+24e, 55o), ncore = 66, nvir = 200
+natorb = False
+canonicalization = False
+sorting_mo_energy = False
+max_memory 82000 (MB)
+#INFO: **** input file is /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-dz/hfe/runs/casci-26/hife.py ****
+
+import time
+from datetime import datetime
+txst = time.perf_counter()
+print("START  TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+
+from pyscf import scf
+import numpy as np
+mfchk = "../mf-1/mf.chk"
+mol, mfx = scf.chkfile.load_scf(mfchk)
+x2c = True
+d3 = False
+nactorb = None
+nactelec = None
+semi_canonical = False
+cascc_mf_relax = False
+lde = '../select-18'
+spin = 0
+
+from pyscf import mcscf
+import os
+
+mcscf.casci.FRAC_OCC_THRESHOLD = 1E-6
+
+for fname in ["mo_coeff.npy", "lo_coeff.npy", "nat_coeff.npy"]:
+    if os.path.isfile(lde + "/" + fname):
+        print("use: " + lde + "/" + fname)
+        coeff = np.load(lde + "/" + fname)
+        break
+
+if nactelec is None or nactelec is None:
+    print("use: " + lde + "/active_space.npy")
+    nactorb, nactelec = np.load(lde + "/active_space.npy")
+
+print("act: orb = %d elec = %d spin = %d" % (nactorb, nactelec, spin))
+
+nacta = (nactelec + spin) // 2
+nactb = (nactelec - spin) // 2
+
+if coeff.ndim == 3:
+    print('use UHF')
+    mf = scf.UHF(mol)
+else:
+    print('use RHF')
+    mf = scf.RHF(mol)
+if x2c:
+    mf = scf.sfx2c(mf)
+if d3:
+    from pyscf import dftd3
+    mf = dftd3.dftd3(mf)
+
+mf.chkfile = "mf.chk"
+mf.mo_coeff = coeff
+
+mc = mcscf.CASCI(mf, nactorb, (nacta, nactb))
+mc.conv_tol = 1E-8
+mc.max_cycle_macro = 50
+mc.canonicalization = False
+mc.natorb = False
+
+mcfs = [mc.fcisolver]
+
+import numpy as np
+from pyscf import cc, gto
+from libdmet.basis_transform import make_basis
+
+scf_dmao = np.load("../mf-1/mf_dmao.npy")
+scf_dmlo = make_basis.transform_rdm1_to_lo_mol(scf_dmao, coeff, mf.get_ovlp())
+dmcas = scf_dmlo[:, mc.ncore:mc.ncore + mc.ncas, mc.ncore:mc.ncore + mc.ncas]
+
+print('idemponency of dmcas[0]: %s' % np.linalg.norm(dmcas[0].dot(dmcas[0]) - dmcas[0]))
+print('idemponency of dmcas[1]: %s' % np.linalg.norm(dmcas[1].dot(dmcas[1]) - dmcas[1]))
+print('trace of dmcas[0]: %s' % np.trace(dmcas[0]))
+print('trace of dmcas[1]: %s' % np.trace(dmcas[1]))
+
+class UCCSolver:
+    def __init__(self, ccsd_t=False, dmcas=None):
+        self.ccsd_t = ccsd_t
+        self.dmcas = dmcas
+
+    def kernel(self, h1, h2, norb, nelec, ci0=None, ecore=0, **kwargs):
+        mol = gto.M(verbose=4)
+        mol.nelectron = sum(nelec)
+        mol.spin = nelec[0] - nelec[1]
+        mf = mol.UHF()
+        mf._eri = h2
+        mf.get_hcore = lambda *args: h1
+        mf.get_ovlp = lambda *args: np.identity(norb)
+        mf.max_cycle = 200
+        mf.kernel(dm0=self.dmcas)
+
+        if semi_canonical:
+            semi_canon(mf)
+
+        self.cc = cc.UCCSD(mf)
+        self.cc.level_shift = 0.0
+        self.cc.max_cycle = 200
+        self.cc.run()
+        if self.ccsd_t:
+            e_ccsd_t = self.cc.e_tot + self.cc.ccsd_t()
+        else:
+            e_ccsd_t = self.cc.e_tot
+        return e_ccsd_t + ecore, dict(t1=self.cc.t1, t2=self.cc.t2)
+
+    def make_rdm1(self, t12, norb, nelec):
+        dms = self.cc.make_rdm1(**t12)
+        if isinstance(dms, tuple):
+            return dms[0] + dms[1]
+        else:
+            return dms
+
+mc.fcisolver = UCCSolver(ccsd_t=False, dmcas=dmcas)
+mcfs = [mc.fcisolver]
+
+for mcf in mcfs:
+    mcf.conv_tol = 1E-10
+mc.kernel()
+for _ in range(2):
+    if not mc.converged:
+        mc.kernel()
+dmao = mc.make_rdm1()
+
+import numpy as np
+coeff_inv = np.linalg.pinv(mc.mo_coeff)
+dmmo = np.einsum('...ip,...pq,...jq->...ij', coeff_inv, dmao, coeff_inv, optimize=True)
+if dmmo[0].ndim == 2:
+    mc_occ = np.diag(dmmo[0]) + np.diag(dmmo[1])
+else:
+    mc_occ = np.diag(dmmo)
+
+np.save("mc_occ.npy", mc_occ)
+np.save("mc_mo_coeff.npy", mc.mo_coeff)
+np.save("mc_e_tot.npy", mc.e_tot)
+np.save("mc_dmao.npy", dmao)
+np.save("mc_dmmo.npy", dmmo)
+
+nat_occ, u = np.linalg.eigh(dmmo)
+nat_coeff = np.einsum('...pi,...ij->...pj', mc.mo_coeff, u, optimize=True)
+np.save("nat_coeff.npy", nat_coeff[..., ::-1])
+np.save("nat_occ.npy", nat_occ[..., ::-1])
+np.save("active_space.npy", (nactorb, nactelec))
+np.save("spin.npy", (spin, ))
+
+txed = time.perf_counter()
+print("FINISH TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+print("TOTAL TIME  = %20.3f" % (txed - txst))
+#INFO: ******************** input file end ********************
+
+
+System: uname_result(system='Linux', node='hpc-91-24.cm.cluster', release='3.10.0-1160.25.1.el7.x86_64', version='#1 SMP Wed Apr 28 21:49:45 UTC 2021', machine='x86_64', processor='x86_64')  Threads 24
+Python 3.8.5 (default, Sep  4 2020, 07:30:14) 
+[GCC 7.3.0]
+numpy 1.19.4  scipy 1.4.1
+Date: Sun Mar 19 12:20:37 2023
+PySCF version 2.1.1
+PySCF path  /central/groups/changroup/members/hczhai/program/pyscf
+GIT ORIG_HEAD 9d5b5bd309d1cc55fbd1a0ec76e26b5b0c7f76af
+GIT HEAD (branch ccsd_t_cas) bce349cd58351d56507ebb3005a119fa94c75308
+
+[ENV] PYSCF_MPIPREFIX orterun --map-by ppr:1:node:pe=24
+[ENV] PYSCF_TMPDIR /central/scratch/hczhai/hife/hfe-def2-SVP-uks.6/runs/casci-26
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 0
+[INPUT] num. electrons = 0
+[INPUT] charge = 0
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT] Symbol           X                Y                Z      unit          X                Y                Z       unit  Magmom
+
+nuclear repulsion = 0
+number of shells = 0
+number of NR pGTOs = 0
+number of NR cGTOs = 0
+basis = sto-3g
+ecp = {}
+CPU time:       569.23
+
+
+******** <class 'pyscf.scf.uhf.UHF'> ********
+method = UHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 200
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hfe-def2-SVP-uks.6/runs/casci-26/tmp_lj2rgny
+max_memory 4000 MB (current use 10957 MB)
+number electrons alpha = 24  beta = 24
+Set gradient conv threshold to 3.16228e-05
+init E= -214.545458112589
+  alpha nocc = 24  HOMO = 0.10518119903762  LUMO = 0.471097947174849
+  beta  nocc = 24  HOMO = 0.0859936111421029  LUMO = 0.468181925041696
+cycle= 1 E= -214.566007736735  delta_E= -0.0205  |g|= 0.0512  |ddm|= 0.207
+  alpha nocc = 24  HOMO = 0.121604199777971  LUMO = 0.52082922907129
+  beta  nocc = 24  HOMO = 0.101591889438863  LUMO = 0.522637362226223
+cycle= 2 E= -214.568025633679  delta_E= -0.00202  |g|= 0.0216  |ddm|= 0.09
+  alpha nocc = 24  HOMO = 0.117044115638425  LUMO = 0.502550545851643
+  beta  nocc = 24  HOMO = 0.0960721752729473  LUMO = 0.507985551422846
+cycle= 3 E= -214.568604509856  delta_E= -0.000579  |g|= 0.00739  |ddm|= 0.0367
+  alpha nocc = 24  HOMO = 0.116985878727091  LUMO = 0.501439512236244
+  beta  nocc = 24  HOMO = 0.0952471328424986  LUMO = 0.506321116380779
+cycle= 4 E= -214.56884200678  delta_E= -0.000237  |g|= 0.00445  |ddm|= 0.0317
+  alpha nocc = 24  HOMO = 0.117226601939647  LUMO = 0.498574080294195
+  beta  nocc = 24  HOMO = 0.0942638381450565  LUMO = 0.507172514148108
+cycle= 5 E= -214.568961766653  delta_E= -0.00012  |g|= 0.00296  |ddm|= 0.026
+  alpha nocc = 24  HOMO = 0.11750439155081  LUMO = 0.496035902692548
+  beta  nocc = 24  HOMO = 0.0931151676152842  LUMO = 0.506229820788306
+cycle= 6 E= -214.569040460921  delta_E= -7.87e-05  |g|= 0.00178  |ddm|= 0.0269
+  alpha nocc = 24  HOMO = 0.117652952659627  LUMO = 0.494188210015405
+  beta  nocc = 24  HOMO = 0.0924336588316644  LUMO = 0.506128086280217
+cycle= 7 E= -214.569073365593  delta_E= -3.29e-05  |g|= 0.00111  |ddm|= 0.0191
+  alpha nocc = 24  HOMO = 0.117736135113523  LUMO = 0.493122767028433
+  beta  nocc = 24  HOMO = 0.0918131756074672  LUMO = 0.506009671818942
+cycle= 8 E= -214.569085450401  delta_E= -1.21e-05  |g|= 0.000646  |ddm|= 0.0128
+  alpha nocc = 24  HOMO = 0.117941535936209  LUMO = 0.49261676537066
+  beta  nocc = 24  HOMO = 0.0916428546854759  LUMO = 0.506213217733845
+cycle= 9 E= -214.56908978298  delta_E= -4.33e-06  |g|= 0.000359  |ddm|= 0.00816
+  alpha nocc = 24  HOMO = 0.117967815993243  LUMO = 0.492432623590681
+  beta  nocc = 24  HOMO = 0.0914997263774923  LUMO = 0.506319586423507
+cycle= 10 E= -214.569091058942  delta_E= -1.28e-06  |g|= 0.000173  |ddm|= 0.00437
+  alpha nocc = 24  HOMO = 0.118006838987731  LUMO = 0.49242696899672
+  beta  nocc = 24  HOMO = 0.0914755721050244  LUMO = 0.506409572847872
+cycle= 11 E= -214.569091330526  delta_E= -2.72e-07  |g|= 6.01e-05  |ddm|= 0.00218
+  alpha nocc = 24  HOMO = 0.118003108567934  LUMO = 0.492412588347667
+  beta  nocc = 24  HOMO = 0.0914670512849311  LUMO = 0.506405431433573
+cycle= 12 E= -214.569091352417  delta_E= -2.19e-08  |g|= 2.82e-05  |ddm|= 0.000472
+  alpha nocc = 24  HOMO = 0.118006695072636  LUMO = 0.492424033076521
+  beta  nocc = 24  HOMO = 0.0914723840239882  LUMO = 0.506414016343044
+cycle= 13 E= -214.569091357054  delta_E= -4.64e-09  |g|= 1.43e-05  |ddm|= 0.000195
+  alpha nocc = 24  HOMO = 0.118006664877262  LUMO = 0.492425619237361
+  beta  nocc = 24  HOMO = 0.091473419671162  LUMO = 0.506409105373443
+cycle= 14 E= -214.569091358282  delta_E= -1.23e-09  |g|= 9.2e-06  |ddm|= 8.58e-05
+  alpha nocc = 24  HOMO = 0.118006913104751  LUMO = 0.492424352412412
+  beta  nocc = 24  HOMO = 0.0914719992024149  LUMO = 0.506407441304493
+cycle= 15 E= -214.569091358856  delta_E= -5.74e-10  |g|= 5.53e-06  |ddm|= 7.22e-05
+  alpha nocc = 24  HOMO = 0.118007131985346  LUMO = 0.492424770727714
+  beta  nocc = 24  HOMO = 0.0914720314384872  LUMO = 0.506406353559996
+Extra cycle  E= -214.569091358953  delta_E= -9.74e-11  |g|= 4.42e-06  |ddm|= 1.43e-05
+converged SCF energy = -214.569091358953  <S^2> = 4.9777629  2S+1 = 4.5728603
+
+******** <class 'pyscf.cc.uccsd.UCCSD'> ********
+CC2 = 0
+CCSD nocc = (24, 24), nmo = (55, 55)
+max_cycle = 200
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-06
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 1e+09
+max_memory 4000 MB (current use 10958 MB)

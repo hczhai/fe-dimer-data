@@ -1,0 +1,83 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.1.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hs-def2-SVP-uks.9/runs/cc-8
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/block2.cpython-38-x86_64-linux-gnu.so
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/__init__.py
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=64
+SLURM_JOBID=1
+SLURM_JOB_NAME=hs.8.hife
+HOST_NAME = hpc-21-24.cm.cluster
+PWD = /home/hczhai/changroup/work/hife/feh-dimers-new/x2c-tz/hs/runs/cc-8
+SLURM_CPUS_PER_TASK=64
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+--------------------------------------------------------------------------
+While trying to determine what resources are available, the SLURM
+resource allocator expects to find the following environment variables:
+
+    SLURM_NODELIST
+    SLURM_TASKS_PER_NODE
+
+However, it was unable to find the following environment variable:
+
+    SLURM_NODELIST
+
+--------------------------------------------------------------------------
+[hpc-21-24.cm.cluster:05348] [[9073,0],0] ORTE_ERROR_LOG: Not found in file base/ras_base_allocate.c at line 193
+--------------------------------------------------------------------------
+An internal error has occurred in ORTE:
+
+[[9073,0],0] FORCE-TERMINATE AT (null):1 - error base/ras_base_allocate.c(195)
+
+This is something that should be reported to the developers.
+--------------------------------------------------------------------------
+ERROR TERMINATION
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.1.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hs-def2-SVP-uks.9/runs/cc-8
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/block2.cpython-38-x86_64-linux-gnu.so
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/__init__.py
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=64
+SLURM_JOBID=1
+SLURM_JOB_NAME=hs.8.hife
+HOST_NAME = hpc-21-24.cm.cluster
+PWD = /home/hczhai/changroup/work/hife/feh-dimers-new/x2c-tz/hs/runs/cc-8
+SLURM_CPUS_PER_TASK=64
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Traceback (most recent call last):
+  File "hife.py", line 181, in <module>
+    mc.solve_lambda(mc.t1, mc.t2)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd.py", line 624, in solve_lambda
+    uccsd_lambda.kernel(self, eris, t1, t2, l1, l2,
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd_lambda.py", line 31, in kernel
+    return ccsd_lambda.kernel(mycc, eris, t1, t2, l1, l2, max_cycle, tol,
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/ccsd_lambda.py", line 51, in kernel
+    imds = fintermediates(mycc, t1, t2, eris)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd_lambda.py", line 156, in make_intermediates
+    wVVvo  = einsum('JAck,JB->BAck', v4OVvo, t1b)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 239, in einsum
+    out = _contract(subscripts, *tensors, **kwargs)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 223, in _contract
+    return dot(At,Bt).reshape(shapeCt, order='A').transpose(new_orderCt)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 775, in dot
+    return ddot(a, b, alpha, c, beta)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 707, in ddot
+    c = numpy.empty((m,n))
+MemoryError: Unable to allocate 71.2 GiB for an array with shape (16588800, 576) and data type float64
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[12114,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+ERROR TERMINATION

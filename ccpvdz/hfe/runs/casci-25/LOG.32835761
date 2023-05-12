@@ -1,0 +1,21 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.1.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hfe-def2-SVP-uks.6/runs/casci-25
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/block2.cpython-38-x86_64-linux-gnu.so
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/__init__.py
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=32835761
+SLURM_JOB_NAME=hfe.25.hife
+HOST_NAME = hpc-92-05.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-dz/hfe/runs/casci-25
+SLURM_CPUS_PER_TASK=24
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Overwritten attributes  get_ovlp get_hcore  of <class 'pyscf.scf.uhf.UHF'>
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/gto/mole.py:1193: UserWarning: Function mol.dumps drops attribute spin because it is not JSON-serializable
+  warnings.warn(msg)
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/gto/mole.py:1193: UserWarning: Function mol.dumps drops attribute _nelectron because it is not JSON-serializable
+  warnings.warn(msg)
+SUCCESSFUL TERMINATION

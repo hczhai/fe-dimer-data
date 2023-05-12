@@ -1,0 +1,484 @@
+START  TIME =  04/03/2023 11:15:57
+#INFO: **** input file is /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/functional/hc/runs/mf-21/hife.py ****
+
+import time
+from datetime import datetime
+txst = time.perf_counter()
+print("START  TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+
+from pyscf import gto, scf
+mol = gto.Mole()
+mol.verbose = 4
+mol.atom = '''
+C    -1.0654597   -1.6165964   -3.6938910 
+H    -1.4383635   -0.5689779   -3.6741341 
+H    -1.7807115   -2.2443224   -3.1121367 
+H    -1.0773907   -1.9924332   -4.7494055 
+S     0.6243829   -1.6537410   -2.9602556 
+C     0.4156598    1.7876147   -4.0556776 
+H     1.3488982    2.3835358   -3.9218054 
+H    -0.1330190    2.2251636   -4.9293434 
+H     0.7135941    0.7422418   -4.2919146 
+S    -0.6070437    1.7896179   -2.5222937 
+C    -0.8232495    2.8573739    1.4681234 
+H    -0.0877151    2.8066116    0.6407689 
+H    -0.9439809    3.9246222    1.7897946 
+H    -1.7975667    2.5226444    1.0498580 
+S    -0.2735647    1.7807874    2.8579066 
+C    -1.0643237   -1.5242334    4.0337374 
+H    -1.0304628   -1.8368555    5.1103107 
+H    -1.8734238   -2.1231958    3.5494502 
+H    -1.3541746   -0.4526895    3.9781077 
+S     0.5588840   -1.7538671    3.1864833 
+Fe    0.4943827    0.0464709   -1.2052434 
+Fe    0.5810012   -0.0475200    1.4684925 
+S     2.2702018    0.5987571    0.0818694 
+C    -0.9804810   -0.8504359    0.1595883 
+H    -0.9278775   -1.9603768    0.2106940 
+H    -1.5301625   -0.5677658   -0.7796813 
+H    -1.6330329   -0.4914309    0.9945982 
+
+'''
+mol.basis = "ccpvqz-dk"
+mol.spin = 0
+mol.charge = -3
+mol.max_memory = 82000
+from pyscf import dftd3
+
+mol.build()
+print("NAO   = ", mol.nao)
+print("NELEC = ", mol.nelec)
+dm = None
+
+from pyblock2._pyscf import scf as b2scf
+dm = b2scf.get_metal_init_guess(mol, orb="Fe 3d", atom_idxs=[20, 21], coupling="+-", atomic_spin=4)
+
+
+print("PG = ", mol.groupname)
+
+mf = scf.sfx2c(scf.UKS(mol))
+mf.chkfile = 'mf.chk'
+mf.conv_tol = 1E-12
+mf.xc = 'tpssh'
+mf.max_cycle = 1000
+mf = dftd3.dftd3(mf)
+mf = mf.newton()
+
+mf.kernel(dm0=dm)
+dm = mf.make_rdm1()
+
+import numpy as np
+np.save("mf_occ.npy", mf.mo_occ)
+np.save("mo_coeff.npy", mf.mo_coeff)
+np.save("mo_energy.npy", mf.mo_energy)
+np.save("e_tot.npy", mf.e_tot)
+np.save("mf_dmao.npy", dm)
+
+from pyblock2._pyscf import scf as b2scf
+b2scf.mulliken_pop_dmao(mol, dm)
+
+
+txed = time.perf_counter()
+print("FINISH TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+print("TOTAL TIME  = %20.3f" % (txed - txst))
+#INFO: ******************** input file end ********************
+
+
+System: uname_result(system='Linux', node='hpc-83-21.cm.cluster', release='3.10.0-1160.25.1.el7.x86_64', version='#1 SMP Wed Apr 28 21:49:45 UTC 2021', machine='x86_64', processor='x86_64')  Threads 24
+Python 3.8.5 (default, Sep  4 2020, 07:30:14) 
+[GCC 7.3.0]
+numpy 1.19.4  scipy 1.4.1
+Date: Mon Apr  3 11:15:57 2023
+PySCF version 2.1.1
+PySCF path  /central/groups/changroup/members/hczhai/program/pyscf
+GIT ORIG_HEAD 9d5b5bd309d1cc55fbd1a0ec76e26b5b0c7f76af
+GIT HEAD (branch ccsd_t_cas) bce349cd58351d56507ebb3005a119fa94c75308
+
+[ENV] PYSCF_MPIPREFIX orterun --map-by ppr:1:node:pe=24
+[ENV] PYSCF_TMPDIR /central/scratch/hczhai/hife/hc-def2-SVP-uks.16/runs/mf-21
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 27
+[INPUT] num. electrons = 180
+[INPUT] charge = -3
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT] Symbol           X                Y                Z      unit          X                Y                Z       unit  Magmom
+[INPUT]  1 C     -1.065459700000  -1.616596400000  -3.693891000000 AA   -2.013427029761  -3.054924449958  -6.980442323996 Bohr   0.0
+[INPUT]  2 H     -1.438363500000  -0.568977900000  -3.674134100000 AA   -2.718113082571  -1.075212401930  -6.943107193925 Bohr   0.0
+[INPUT]  3 H     -1.780711500000  -2.244322400000  -3.112136700000 AA   -3.365057041863  -4.241154671227  -5.881086025208 Bohr   0.0
+[INPUT]  4 H     -1.077390700000  -1.992433200000  -4.749405500000 AA   -2.035973352153  -3.765153069491  -8.975075649503 Bohr   0.0
+[INPUT]  5 S      0.624382900000  -1.653741000000  -2.960255600000 AA    1.179912677862  -3.125117570964  -5.594072342710 Bohr   0.0
+[INPUT]  6 C      0.415659800000   1.787614700000  -4.055677600000 AA    0.785483182991   3.378102199247  -7.664119913533 Bohr   0.0
+[INPUT]  7 H      1.348898200000   2.383535800000  -3.921805400000 AA    2.549048167919   4.504229870096  -7.411138119840 Bohr   0.0
+[INPUT]  8 H     -0.133019000000   2.225163600000  -4.929343400000 AA   -0.251369479364   4.204949786351  -9.315108999932 Bohr   0.0
+[INPUT]  9 H      0.713594100000   0.742241800000  -4.291914600000 AA    1.348497413105   1.402633720204  -8.110543144022 Bohr   0.0
+[INPUT] 10 S     -0.607043700000   1.789617900000  -2.522293700000 AA   -1.147146338643   3.381887698619  -4.766444298716 Bohr   0.0
+[INPUT] 11 C     -0.823249500000   2.857373900000   1.468123400000 AA   -1.555716087185   5.399654106480   2.774351143065 Bohr   0.0
+[INPUT] 12 H     -0.087715100000   2.806611600000   0.640768900000 AA   -0.165757515989   5.303727262027   1.210877730139 Bohr   0.0
+[INPUT] 13 H     -0.943980900000   3.924622200000   1.789794600000 AA   -1.783865367820   7.416461100388   3.382221613225 Bohr   0.0
+[INPUT] 14 H     -1.797566700000   2.522644400000   1.049858000000 AA   -3.396908753638   4.767107025668   1.983944089684 Bohr   0.0
+[INPUT] 15 S     -0.273564700000   1.780787400000   2.857906600000 AA   -0.516962360349   3.365200472076   5.400660763587 Bohr   0.0
+[INPUT] 16 C     -1.064323700000  -1.524233400000   4.033737400000 AA   -2.011280300884  -2.880383675915   7.622658944415 Bohr   0.0
+[INPUT] 17 H     -1.030462800000  -1.836855500000   5.110310700000 AA   -1.947292473552  -3.471153825401   9.657087634434 Bohr   0.0
+[INPUT] 18 H     -1.873423800000  -2.123195800000   3.549450200000 AA   -3.540257897242  -4.012258570827   6.707488770783 Bohr   0.0
+[INPUT] 19 H     -1.354174600000  -0.452689500000   3.978107700000 AA   -2.559019118842  -0.855459174466   7.517534047023 Bohr   0.0
+[INPUT] 20 S      0.558884000000  -1.753867100000   3.186483300000 AA    1.056137695401  -3.314328477885   6.021580737500 Bohr   0.0
+[INPUT] 21 Fe     0.494382700000   0.046470900000  -1.205243400000 AA    0.934247903723   0.087817273762  -2.277579939440 Bohr   0.0
+[INPUT] 22 Fe     0.581001200000  -0.047520000000   1.468492500000 AA    1.097933146044  -0.089799785439   2.775048640978 Bohr   0.0
+[INPUT] 23 S      2.270201800000   0.598757100000   0.081869400000 AA    4.290059649495   1.131486934139   0.154710743982 Bohr   0.0
+[INPUT] 24 C     -0.980481000000  -0.850435900000   0.159588300000 AA   -1.852840560340  -1.607090937498   0.301578179685 Bohr   0.0
+[INPUT] 25 H     -0.927877500000  -1.960376800000   0.210694000000 AA   -1.753434352146  -3.704575252951   0.398153956089 Bohr   0.0
+[INPUT] 26 H     -1.530162500000  -0.567765800000  -0.779681300000 AA   -2.891588051080  -1.072921864895  -1.473384121445 Bohr   0.0
+[INPUT] 27 H     -1.633032900000  -0.491430900000   0.994598200000 AA   -3.085984933404  -0.928669810149   1.879518201985 Bohr   0.0
+
+nuclear repulsion = 2132.47477471161
+number of shells = 314
+number of NR pGTOs = 1617
+number of NR cGTOs = 1228
+basis = ccpvqz-dk
+ecp = {}
+CPU time:         0.39
+NAO   =  1228
+NELEC =  (90, 90)
+Initial guess from superposition of atomic densities.
+Spherically averaged atomic HF for {'H', 'C', 'Fe', 'S'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.16/runs/mf-21/tmpm6odrwql
+max_memory 82000 MB (current use 67 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2849024065773
+cycle= 1 E= -37.331250084558  delta_E= -0.0463  |g|=    0  |ddm|= 0.39
+cycle= 2 E= -37.3382471372258  delta_E= -0.007  |g|=    0  |ddm|= 0.183
+cycle= 3 E= -37.3396945460226  delta_E= -0.00145  |g|=    0  |ddm|= 0.0461
+cycle= 4 E= -37.3397015614048  delta_E= -7.02e-06  |g|=    0  |ddm|= 0.00785
+cycle= 5 E= -37.3397016243851  delta_E= -6.3e-08  |g|=    0  |ddm|= 0.00075
+cycle= 6 E= -37.3397016244677  delta_E= -8.26e-11  |g|=    0  |ddm|= 5.49e-05
+Extra cycle  E= -37.3397016244687  delta_E= -1.04e-12  |g|=    0  |ddm|= 5.55e-06
+Atomic HF for atom  C  converged. SCF energy = -37.3397016244687
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.49994556410378
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.16/runs/mf-21/tmplxp1ushg
+max_memory 82000 MB (current use 105 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.897504398642
+cycle= 1 E= -396.908854163447  delta_E= -0.0113  |g|=    0  |ddm|= 0.711
+cycle= 2 E= -396.90924489687  delta_E= -0.000391  |g|=    0  |ddm|= 0.0798
+cycle= 3 E= -396.909278571278  delta_E= -3.37e-05  |g|=    0  |ddm|= 0.0165
+cycle= 4 E= -396.909279278409  delta_E= -7.07e-07  |g|=    0  |ddm|= 0.00334
+cycle= 5 E= -396.909279283535  delta_E= -5.13e-09  |g|=    0  |ddm|= 0.000332
+cycle= 6 E= -396.909279283538  delta_E= -2.9e-12  |g|=    0  |ddm|= 1.27e-05
+Extra cycle  E= -396.909279283538  delta_E=    0  |g|=    0  |ddm|= 1.35e-06
+Atomic HF for atom  S  converged. SCF energy = -396.909279283538
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.16/runs/mf-21/tmp5td_fbes
+max_memory 82000 MB (current use 143 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.84480797088
+cycle= 1 E= -1245.33219188788  delta_E= 11.5  |g|=    0  |ddm|= 5.18
+cycle= 2 E= -1247.82932011441  delta_E= -2.5  |g|=    0  |ddm|= 5.87
+cycle= 3 E= -1255.04142642069  delta_E= -7.21  |g|=    0  |ddm|= 3.74
+cycle= 4 E= -1257.02539876505  delta_E= -1.98  |g|=    0  |ddm|= 1.45
+cycle= 5 E= -1257.32518641739  delta_E= -0.3  |g|=    0  |ddm|= 0.601
+cycle= 6 E= -1257.33753536854  delta_E= -0.0123  |g|=    0  |ddm|= 0.225
+cycle= 7 E= -1257.33760405641  delta_E= -6.87e-05  |g|=    0  |ddm|= 0.0291
+cycle= 8 E= -1257.33764958741  delta_E= -4.55e-05  |g|=    0  |ddm|= 0.00606
+cycle= 9 E= -1257.33765918375  delta_E= -9.6e-06  |g|=    0  |ddm|= 0.00333
+cycle= 10 E= -1257.33765919681  delta_E= -1.31e-08  |g|=    0  |ddm|= 0.000369
+cycle= 11 E= -1257.33765919686  delta_E= -5.43e-11  |g|=    0  |ddm|= 2.19e-05
+Extra cycle  E= -1257.33765919686  delta_E= -1.14e-12  |g|=    0  |ddm|= 1.97e-06
+Atomic HF for atom  Fe  converged. SCF energy = -1257.33765919686
+NELEC BEFORE = 88.5 88.5
+ORB = 20 Fe 3d.* IDX = [845 846 847 848 849]
+ORB = 21 Fe 3d.* IDX = [949 950 951 952 953]
+Spherically averaged atomic HF for {'H', 'C', 'Fe', 'S'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.16/runs/mf-21/tmp4r_r3r1e
+max_memory 82000 MB (current use 194 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2849024065773
+cycle= 1 E= -37.3312500845579  delta_E= -0.0463  |g|=    0  |ddm|= 0.39
+cycle= 2 E= -37.3382471372258  delta_E= -0.007  |g|=    0  |ddm|= 0.183
+cycle= 3 E= -37.3396945460226  delta_E= -0.00145  |g|=    0  |ddm|= 0.0461
+cycle= 4 E= -37.3397015614048  delta_E= -7.02e-06  |g|=    0  |ddm|= 0.00785
+cycle= 5 E= -37.3397016243851  delta_E= -6.3e-08  |g|=    0  |ddm|= 0.00075
+cycle= 6 E= -37.3397016244677  delta_E= -8.26e-11  |g|=    0  |ddm|= 5.49e-05
+Extra cycle  E= -37.3397016244687  delta_E= -1.03e-12  |g|=    0  |ddm|= 5.55e-06
+Atomic HF for atom  C  converged. SCF energy = -37.3397016244687
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.49994556410378
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.16/runs/mf-21/tmp2rgl6ecr
+max_memory 82000 MB (current use 212 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.897504398642
+cycle= 1 E= -396.908854163448  delta_E= -0.0113  |g|=    0  |ddm|= 0.711
+cycle= 2 E= -396.90924489687  delta_E= -0.000391  |g|=    0  |ddm|= 0.0798
+cycle= 3 E= -396.909278571277  delta_E= -3.37e-05  |g|=    0  |ddm|= 0.0165
+cycle= 4 E= -396.909279278409  delta_E= -7.07e-07  |g|=    0  |ddm|= 0.00334
+cycle= 5 E= -396.909279283534  delta_E= -5.12e-09  |g|=    0  |ddm|= 0.000332
+cycle= 6 E= -396.909279283537  delta_E= -3.24e-12  |g|=    0  |ddm|= 1.27e-05
+Extra cycle  E= -396.909279283537  delta_E=    0  |g|=    0  |ddm|= 1.35e-06
+Atomic HF for atom  S  converged. SCF energy = -396.909279283537
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.16/runs/mf-21/tmppghbqavd
+max_memory 82000 MB (current use 220 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.84480797088
+cycle= 1 E= -1245.33219188788  delta_E= 11.5  |g|=    0  |ddm|= 5.18
+cycle= 2 E= -1247.82932011441  delta_E= -2.5  |g|=    0  |ddm|= 5.87
+cycle= 3 E= -1255.04142642069  delta_E= -7.21  |g|=    0  |ddm|= 3.74
+cycle= 4 E= -1257.02539876505  delta_E= -1.98  |g|=    0  |ddm|= 1.45
+cycle= 5 E= -1257.32518641738  delta_E= -0.3  |g|=    0  |ddm|= 0.601
+cycle= 6 E= -1257.33753536854  delta_E= -0.0123  |g|=    0  |ddm|= 0.225
+cycle= 7 E= -1257.3376040564  delta_E= -6.87e-05  |g|=    0  |ddm|= 0.0291
+cycle= 8 E= -1257.33764958741  delta_E= -4.55e-05  |g|=    0  |ddm|= 0.00606
+cycle= 9 E= -1257.33765918375  delta_E= -9.6e-06  |g|=    0  |ddm|= 0.00333
+cycle= 10 E= -1257.33765919681  delta_E= -1.31e-08  |g|=    0  |ddm|= 0.000369
+cycle= 11 E= -1257.33765919686  delta_E= -5.59e-11  |g|=    0  |ddm|= 2.19e-05
+Extra cycle  E= -1257.33765919686  delta_E= 2.05e-12  |g|=    0  |ddm|= 1.97e-06
+Atomic HF for atom  Fe  converged. SCF energy = -1257.33765919686
+NELEC AFTER  = 88.5 88.5
+PG =  C1
+
+
+
+
+******** <class 'pyscf.dftd3.itrf.dftd3.<locals>.DFTD3'> ********
+method = DFTD3-SFX2C1E_SCF-UKS
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-12
+SCF conv_tol_grad = None
+SCF max_cycles = 1000
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = mf.chk
+max_memory 82000 MB (current use 250 MB)
+number electrons alpha = 90  beta = 90
+XC library pyscf.dft.libxc version 6.0.0
+    S. Lehtola, C. Steigemann, M. J.T. Oliveira, and M. A.L. Marques.,  SoftwareX 7, 1–5 (2018)
+XC functionals = tpssh
+    V. N. Staroverov, G. E. Scuseria, J. Tao, and J. P. Perdew.,  J. Chem. Phys. 119, 12129 (2003)
+radial grids: 
+    Treutler-Ahlrichs [JCP 102, 346 (1995); DOI:10.1063/1.469408] (M4) radial grids
+    
+becke partition: Becke, JCP 88, 2547 (1988); DOI:10.1063/1.454033
+pruning grids: <function nwchem_prune at 0x7fde253021f0>
+grids dens level: 3
+symmetrized grids: False
+atomic radii adjust function: <function treutler_atomic_radii_adjust at 0x7fde25302160>
+small_rho_cutoff = 1e-07
+
+
+******** <class 'pyscf.x2c.sfx2c1e.SpinFreeX2CHelper'> ********
+approx = 1e
+xuncontract = 1
+** DFTD3 parameter **
+func TPSSH
+version 4
+******** <class 'pyscf.dftd3.itrf.dftd3.<locals>.DFTD3'> Newton solver flags ********
+SCF tol = 1e-12
+conv_tol_grad = None
+max. SCF cycles = 1000
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = mf.chk
+max_cycle_inner = 12
+max_stepsize = 0.05
+ah_start_tol = 1e+09
+ah_level_shift = 0
+ah_conv_tol = 1e-12
+ah_lindep = 1e-14
+ah_start_cycle = 1
+ah_max_cycle = 40
+ah_grad_trust_region = 2.5
+kf_interval = 4
+kf_trust_region = 5
+canonicalization = True
+max_memory 82000 MB (current use 250 MB)
+Set conv_tol_grad to 1e-06
+tot grids = 354352
+  alpha nocc = 90  HOMO = -91.0772359364347  LUMO = -89.1433466006646
+  beta  nocc = 90  HOMO = -507.119407465261  LUMO = -506.350184863663
+
+WARN: system HOMO -507.119407465261 >= system LUMO -506.350184863663
+
+Initial guess E= -980.439892164445  |g|= 75.4999
+macro= 0  E= -1053.45480421369  delta_E= -73.0149  |g|= 75.4355  3 KF 15 JK
+macro= 1  E= -1198.28959392994  delta_E= -144.835  |g|= 99.7584  3 KF 15 JK
+macro= 2  E= -1426.75653639877  delta_E= -228.467  |g|= 115.243  3 KF 15 JK
+macro= 3  E= -1791.60728994268  delta_E= -364.851  |g|= 121.585  3 KF 15 JK
+macro= 4  E= -2282.96129781323  delta_E= -491.354  |g|= 108.573  3 KF 15 JK
+macro= 5  E= -2749.75947355793  delta_E= -466.798  |g|= 114.998  3 KF 15 JK
+macro= 6  E= -3028.54266482352  delta_E= -278.783  |g|= 173.203  3 KF 15 JK
+macro= 7  E= -3268.47732370996  delta_E= -239.935  |g|= 175.655  2 KF 14 JK
+macro= 8  E= -3560.07192406085  delta_E= -291.595  |g|= 43.3745  3 KF 15 JK
+macro= 9  E= -4065.68765915145  delta_E= -505.616  |g|= 48.4708  3 KF 15 JK
+macro= 10  E= -4428.0297061359  delta_E= -362.342  |g|= 34.8766  3 KF 15 JK
+macro= 11  E= -4622.79584835451  delta_E= -194.766  |g|= 15.2683  3 KF 15 JK
+macro= 12  E= -4696.06416506742  delta_E= -73.2683  |g|= 11.258  3 KF 15 JK
+macro= 13  E= -4723.44802122354  delta_E= -27.3839  |g|= 10.056  3 KF 15 JK
+macro= 14  E= -4733.6207598704  delta_E= -10.1727  |g|= 6.89158  3 KF 15 JK
+macro= 15  E= -4737.72498373028  delta_E= -4.10422  |g|= 4.44623  3 KF 15 JK
+macro= 16  E= -4739.53480595741  delta_E= -1.80982  |g|= 3.14791  3 KF 15 JK
+macro= 17  E= -4740.45146639556  delta_E= -0.91666  |g|= 2.16805  3 KF 15 JK
+macro= 18  E= -4740.89629787166  delta_E= -0.444831  |g|= 1.50701  3 KF 15 JK
+macro= 19  E= -4741.12275797478  delta_E= -0.22646  |g|= 1.0611  3 KF 15 JK
+macro= 20  E= -4741.2609867618  delta_E= -0.138229  |g|= 0.907646  2 KF 14 JK
+macro= 21  E= -4741.36139180877  delta_E= -0.100405  |g|= 0.774687  2 KF 14 JK
+macro= 22  E= -4741.434376667  delta_E= -0.0729849  |g|= 0.672719  2 KF 14 JK
+macro= 23  E= -4741.49638536825  delta_E= -0.0620087  |g|= 0.596754  3 KF 16 JK
+macro= 24  E= -4741.55548650918  delta_E= -0.0591011  |g|= 0.602807  3 KF 16 JK
+macro= 25  E= -4741.60113701339  delta_E= -0.0456505  |g|= 0.52373  3 KF 16 JK
+macro= 26  E= -4741.63465410171  delta_E= -0.0335171  |g|= 0.420729  3 KF 16 JK
+macro= 27  E= -4741.66045262745  delta_E= -0.0257985  |g|= 0.357966  3 KF 17 JK
+macro= 28  E= -4741.67690317616  delta_E= -0.0164505  |g|= 0.261273  3 KF 17 JK
+macro= 29  E= -4741.68818234966  delta_E= -0.0112792  |g|= 0.244253  2 KF 16 JK
+macro= 30  E= -4741.69723480221  delta_E= -0.00905245  |g|= 0.194979  3 KF 18 JK
+macro= 31  E= -4741.7051509103  delta_E= -0.00791611  |g|= 0.193343  3 KF 18 JK
+macro= 32  E= -4741.71238038442  delta_E= -0.00722947  |g|= 0.189299  3 KF 18 JK
+macro= 33  E= -4741.72025334987  delta_E= -0.00787297  |g|= 0.210507  3 KF 18 JK
+macro= 34  E= -4741.72818163608  delta_E= -0.00792829  |g|= 0.192506  3 KF 18 JK
+macro= 35  E= -4741.73502918993  delta_E= -0.00684755  |g|= 0.17608  3 KF 18 JK
+macro= 36  E= -4741.73947746548  delta_E= -0.00444828  |g|= 0.147528  3 KF 19 JK
+macro= 37  E= -4741.74317426122  delta_E= -0.0036968  |g|= 0.111598  3 KF 19 JK
+macro= 38  E= -4741.74560778607  delta_E= -0.00243352  |g|= 0.09718  3 KF 19 JK
+macro= 39  E= -4741.74748748724  delta_E= -0.0018797  |g|= 0.0822239  3 KF 19 JK
+macro= 40  E= -4741.74897801608  delta_E= -0.00149053  |g|= 0.0781896  3 KF 20 JK
+macro= 41  E= -4741.75056113433  delta_E= -0.00158312  |g|= 0.0791483  3 KF 20 JK
+macro= 42  E= -4741.7520580556  delta_E= -0.00149692  |g|= 0.0851031  3 KF 19 JK
+macro= 43  E= -4741.75369297517  delta_E= -0.00163492  |g|= 0.0862121  3 KF 19 JK
+macro= 44  E= -4741.75643070263  delta_E= -0.00273773  |g|= 0.131048  3 KF 19 JK
+macro= 45  E= -4741.7562810113  delta_E= 0.000149691  |g|= 0.287823  3 KF 17 JK
+macro= 46  E= -4741.75818705078  delta_E= -0.00190604  |g|= 0.408567  4 KF 17 JK
+macro= 47  E= -4741.76474680234  delta_E= -0.00655975  |g|= 0.173546  3 KF 17 JK
+macro= 48  E= -4741.77033878672  delta_E= -0.00559198  |g|= 0.393343  3 KF 16 JK
+macro= 49  E= -4741.78442271639  delta_E= -0.0140839  |g|= 0.397554  4 KF 18 JK
+macro= 50  E= -4741.8017030663  delta_E= -0.0172803  |g|= 0.289567  3 KF 18 JK
+macro= 51  E= -4741.81399577855  delta_E= -0.0122927  |g|= 0.138888  3 KF 18 JK
+macro= 52  E= -4741.81815202228  delta_E= -0.00415624  |g|= 0.130186  3 KF 19 JK
+macro= 53  E= -4741.82109426546  delta_E= -0.00294224  |g|= 0.101879  3 KF 19 JK
+macro= 54  E= -4741.8246880338  delta_E= -0.00359377  |g|= 0.120291  3 KF 19 JK
+macro= 55  E= -4741.82822618047  delta_E= -0.00353815  |g|= 0.122147  3 KF 19 JK
+macro= 56  E= -4741.83128651169  delta_E= -0.00306033  |g|= 0.0988321  3 KF 19 JK
+macro= 57  E= -4741.8332828117  delta_E= -0.0019963  |g|= 0.0848861  3 KF 19 JK
+macro= 58  E= -4741.83479282475  delta_E= -0.00151001  |g|= 0.0703145  3 KF 20 JK
+macro= 59  E= -4741.83621474813  delta_E= -0.00142192  |g|= 0.0741713  3 KF 20 JK
+macro= 60  E= -4741.83770019166  delta_E= -0.00148544  |g|= 0.0717504  3 KF 20 JK
+macro= 61  E= -4741.83879737785  delta_E= -0.00109719  |g|= 0.0604061  3 KF 20 JK
+macro= 62  E= -4741.83962039544  delta_E= -0.000823018  |g|= 0.053321  3 KF 20 JK
+macro= 63  E= -4741.84035579427  delta_E= -0.000735399  |g|= 0.0488826  3 KF 21 JK
+macro= 64  E= -4741.84105167882  delta_E= -0.000695885  |g|= 0.0513303  3 KF 20 JK
+macro= 65  E= -4741.84176840132  delta_E= -0.000716723  |g|= 0.0518685  3 KF 20 JK
+macro= 66  E= -4741.84248632808  delta_E= -0.000717927  |g|= 0.050915  3 KF 20 JK
+macro= 67  E= -4741.84312327664  delta_E= -0.000636949  |g|= 0.0449972  3 KF 21 JK
+macro= 68  E= -4741.84355670475  delta_E= -0.000433428  |g|= 0.0342509  3 KF 21 JK
+macro= 69  E= -4741.84378670896  delta_E= -0.000230004  |g|= 0.0235057  3 KF 22 JK
+macro= 70  E= -4741.8438909669  delta_E= -0.000104258  |g|= 0.0150635  3 KF 23 JK
+macro= 71  E= -4741.84395262264  delta_E= -6.16557e-05  |g|= 0.0136828  3 KF 23 JK
+macro= 72  E= -4741.84400705089  delta_E= -5.44282e-05  |g|= 0.0122169  3 KF 23 JK
+macro= 73  E= -4741.84404986298  delta_E= -4.28121e-05  |g|= 0.0105865  3 KF 24 JK
+macro= 74  E= -4741.84407847108  delta_E= -2.86081e-05  |g|= 0.0085683  3 KF 24 JK
+macro= 75  E= -4741.84409859951  delta_E= -2.01284e-05  |g|= 0.00716403  3 KF 24 JK
+macro= 76  E= -4741.84411293615  delta_E= -1.43366e-05  |g|= 0.00582262  3 KF 25 JK

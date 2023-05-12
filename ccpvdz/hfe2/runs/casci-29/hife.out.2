@@ -1,0 +1,398 @@
+START  TIME =  03/19/2023 22:57:40
+use: ../select-17/lo_coeff.npy
+use: ../select-17/active_space.npy
+act: orb = 36 elec = 48 spin = 0
+use RHF
+Mar 19 22:57:41 ####### 
+                ####### libDMET   version 0.5
+                ####### A periodic DMET library for lattice model and realistic solid.
+                ####### 
+idemponency of dmcas[0]: 0.01110074261609363
+idemponency of dmcas[1]: 0.011298848556242712
+trace of dmcas[0]: 23.967137448482607
+trace of dmcas[1]: 23.966637110612808
+
+******** CASCI flags ********
+CAS (24e+24e, 36o), ncore = 66, nvir = 219
+natorb = False
+canonicalization = False
+sorting_mo_energy = False
+max_memory 82000 (MB)
+#INFO: **** input file is /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-dz/hfe2/runs/casci-29/hife.py ****
+
+import time
+from datetime import datetime
+txst = time.perf_counter()
+print("START  TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+
+from pyscf import scf
+import numpy as np
+mfchk = "../mf-1/mf.chk"
+mol, mfx = scf.chkfile.load_scf(mfchk)
+x2c = True
+d3 = False
+nactorb = None
+nactelec = None
+semi_canonical = False
+cascc_mf_relax = False
+lde = '../select-17'
+spin = 0
+
+from pyscf import mcscf
+import os
+
+mcscf.casci.FRAC_OCC_THRESHOLD = 1E-6
+
+for fname in ["mo_coeff.npy", "lo_coeff.npy", "nat_coeff.npy"]:
+    if os.path.isfile(lde + "/" + fname):
+        print("use: " + lde + "/" + fname)
+        coeff = np.load(lde + "/" + fname)
+        break
+
+if nactelec is None or nactelec is None:
+    print("use: " + lde + "/active_space.npy")
+    nactorb, nactelec = np.load(lde + "/active_space.npy")
+
+print("act: orb = %d elec = %d spin = %d" % (nactorb, nactelec, spin))
+
+nacta = (nactelec + spin) // 2
+nactb = (nactelec - spin) // 2
+
+if coeff.ndim == 3:
+    print('use UHF')
+    mf = scf.UHF(mol)
+else:
+    print('use RHF')
+    mf = scf.RHF(mol)
+if x2c:
+    mf = scf.sfx2c(mf)
+if d3:
+    from pyscf import dftd3
+    mf = dftd3.dftd3(mf)
+
+mf.chkfile = "mf.chk"
+mf.mo_coeff = coeff
+
+mc = mcscf.CASCI(mf, nactorb, (nacta, nactb))
+mc.conv_tol = 1E-8
+mc.max_cycle_macro = 50
+mc.canonicalization = False
+mc.natorb = False
+
+mcfs = [mc.fcisolver]
+
+import numpy as np
+from pyscf import cc, gto
+from libdmet.basis_transform import make_basis
+
+scf_dmao = np.load("../mf-1/mf_dmao.npy")
+scf_dmlo = make_basis.transform_rdm1_to_lo_mol(scf_dmao, coeff, mf.get_ovlp())
+dmcas = scf_dmlo[:, mc.ncore:mc.ncore + mc.ncas, mc.ncore:mc.ncore + mc.ncas]
+
+print('idemponency of dmcas[0]: %s' % np.linalg.norm(dmcas[0].dot(dmcas[0]) - dmcas[0]))
+print('idemponency of dmcas[1]: %s' % np.linalg.norm(dmcas[1].dot(dmcas[1]) - dmcas[1]))
+print('trace of dmcas[0]: %s' % np.trace(dmcas[0]))
+print('trace of dmcas[1]: %s' % np.trace(dmcas[1]))
+
+class UCCSolver:
+    def __init__(self, ccsd_t=False, dmcas=None):
+        self.ccsd_t = ccsd_t
+        self.dmcas = dmcas
+
+    def kernel(self, h1, h2, norb, nelec, ci0=None, ecore=0, **kwargs):
+        mol = gto.M(verbose=4)
+        mol.nelectron = sum(nelec)
+        mol.spin = nelec[0] - nelec[1]
+        mf = mol.UHF()
+        mf._eri = h2
+        mf.get_hcore = lambda *args: h1
+        mf.get_ovlp = lambda *args: np.identity(norb)
+        mf.max_cycle = 200
+        mf.kernel(dm0=self.dmcas)
+
+        if semi_canonical:
+            semi_canon(mf)
+
+        self.cc = cc.UCCSD(mf)
+        self.cc.level_shift = 0.0
+        self.cc.max_cycle = 200
+        self.cc.incore_complete = True
+        self.cc.run()
+        if self.ccsd_t:
+            e_ccsd_t = self.cc.e_tot + self.cc.ccsd_t()
+        else:
+            e_ccsd_t = self.cc.e_tot
+        return e_ccsd_t + ecore, dict(t1=self.cc.t1, t2=self.cc.t2)
+
+    def make_rdm1(self, t12, norb, nelec):
+        dms = self.cc.make_rdm1(**t12)
+        if isinstance(dms, tuple):
+            return dms[0] + dms[1]
+        else:
+            return dms
+
+mc.fcisolver = UCCSolver(ccsd_t=True, dmcas=dmcas)
+mcfs = [mc.fcisolver]
+
+for mcf in mcfs:
+    mcf.conv_tol = 1E-10
+mc.kernel()
+for _ in range(2):
+    if not mc.converged:
+        mc.kernel()
+dmao = mc.make_rdm1()
+
+import numpy as np
+coeff_inv = np.linalg.pinv(mc.mo_coeff)
+dmmo = np.einsum('...ip,...pq,...jq->...ij', coeff_inv, dmao, coeff_inv, optimize=True)
+if dmmo[0].ndim == 2:
+    mc_occ = np.diag(dmmo[0]) + np.diag(dmmo[1])
+else:
+    mc_occ = np.diag(dmmo)
+
+np.save("mc_occ.npy", mc_occ)
+np.save("mc_mo_coeff.npy", mc.mo_coeff)
+np.save("mc_e_tot.npy", mc.e_tot)
+np.save("mc_dmao.npy", dmao)
+np.save("mc_dmmo.npy", dmmo)
+
+nat_occ, u = np.linalg.eigh(dmmo)
+nat_coeff = np.einsum('...pi,...ij->...pj', mc.mo_coeff, u, optimize=True)
+np.save("nat_coeff.npy", nat_coeff[..., ::-1])
+np.save("nat_occ.npy", nat_occ[..., ::-1])
+np.save("active_space.npy", (nactorb, nactelec))
+np.save("spin.npy", (spin, ))
+
+txed = time.perf_counter()
+print("FINISH TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+print("TOTAL TIME  = %20.3f" % (txed - txst))
+#INFO: ******************** input file end ********************
+
+
+System: uname_result(system='Linux', node='hpc-20-15.cm.cluster', release='3.10.0-1160.53.1.el7.x86_64', version='#1 SMP Fri Jan 14 13:59:45 UTC 2022', machine='x86_64', processor='x86_64')  Threads 24
+Python 3.8.5 (default, Sep  4 2020, 07:30:14) 
+[GCC 7.3.0]
+numpy 1.19.4  scipy 1.4.1
+Date: Sun Mar 19 22:58:29 2023
+PySCF version 2.1.1
+PySCF path  /central/groups/changroup/members/hczhai/program/pyscf
+GIT ORIG_HEAD 9d5b5bd309d1cc55fbd1a0ec76e26b5b0c7f76af
+GIT HEAD (branch ccsd_t_cas) bce349cd58351d56507ebb3005a119fa94c75308
+
+[ENV] PYSCF_MPIPREFIX orterun --map-by ppr:1:node:pe=24
+[ENV] PYSCF_TMPDIR /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/casci-29
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 0
+[INPUT] num. electrons = 0
+[INPUT] charge = 0
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT] Symbol           X                Y                Z      unit          X                Y                Z       unit  Magmom
+
+nuclear repulsion = 0
+number of shells = 0
+number of NR pGTOs = 0
+number of NR cGTOs = 0
+basis = sto-3g
+ecp = {}
+CPU time:       712.40
+
+
+******** <class 'pyscf.scf.uhf.UHF'> ********
+method = UHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 200
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/casci-29/tmpznaun5qd
+max_memory 4000 MB (current use 10955 MB)
+number electrons alpha = 24  beta = 24
+Set gradient conv threshold to 3.16228e-05
+init E= -217.172824653901
+  alpha nocc = 24  HOMO = 0.107581292727038  LUMO = 0.4540501784539
+  beta  nocc = 24  HOMO = 0.108567303692224  LUMO = 0.466095839542517
+cycle= 1 E= -217.212442506736  delta_E= -0.0396  |g|= 0.057  |ddm|= 0.311
+  alpha nocc = 24  HOMO = 0.133394485108834  LUMO = 0.540868143647354
+  beta  nocc = 24  HOMO = 0.132752221698038  LUMO = 0.547739658428247
+cycle= 2 E= -217.216113399061  delta_E= -0.00367  |g|= 0.0188  |ddm|= 0.11
+  alpha nocc = 24  HOMO = 0.126561892311335  LUMO = 0.519941975976277
+  beta  nocc = 24  HOMO = 0.12665198213453  LUMO = 0.528153441867713
+cycle= 3 E= -217.216826789261  delta_E= -0.000713  |g|= 0.0107  |ddm|= 0.0403
+  alpha nocc = 24  HOMO = 0.124358877859533  LUMO = 0.51526041839098
+  beta  nocc = 24  HOMO = 0.124444584416272  LUMO = 0.52361288749368
+cycle= 4 E= -217.217543577646  delta_E= -0.000717  |g|= 0.0053  |ddm|= 0.0694
+  alpha nocc = 24  HOMO = 0.124067724865695  LUMO = 0.510919153885205
+  beta  nocc = 24  HOMO = 0.124035276434173  LUMO = 0.519907656618712
+cycle= 5 E= -217.217793521324  delta_E= -0.00025  |g|= 0.00289  |ddm|= 0.0468
+  alpha nocc = 24  HOMO = 0.123190108936945  LUMO = 0.50798940419426
+  beta  nocc = 24  HOMO = 0.123005445701643  LUMO = 0.517331207655724
+cycle= 6 E= -217.217878817708  delta_E= -8.53e-05  |g|= 0.00134  |ddm|= 0.0331
+  alpha nocc = 24  HOMO = 0.123079072676757  LUMO = 0.506320251638591
+  beta  nocc = 24  HOMO = 0.122720333647608  LUMO = 0.516500786713528
+cycle= 7 E= -217.217894808974  delta_E= -1.6e-05  |g|= 0.000685  |ddm|= 0.0151
+  alpha nocc = 24  HOMO = 0.123097054051462  LUMO = 0.506278946665536
+  beta  nocc = 24  HOMO = 0.122638484310592  LUMO = 0.516537622095062
+cycle= 8 E= -217.217897523213  delta_E= -2.71e-06  |g|= 0.000513  |ddm|= 0.0036
+  alpha nocc = 24  HOMO = 0.123054798487494  LUMO = 0.505886707201965
+  beta  nocc = 24  HOMO = 0.12249357573044  LUMO = 0.516684691579981
+cycle= 9 E= -217.217899905246  delta_E= -2.38e-06  |g|= 0.000386  |ddm|= 0.00413
+  alpha nocc = 24  HOMO = 0.123047940122402  LUMO = 0.505543473920823
+  beta  nocc = 24  HOMO = 0.122353656187787  LUMO = 0.516728880592555
+cycle= 10 E= -217.217901626986  delta_E= -1.72e-06  |g|= 0.000279  |ddm|= 0.00417
+  alpha nocc = 24  HOMO = 0.123087068930459  LUMO = 0.50532309800426
+  beta  nocc = 24  HOMO = 0.122279356876629  LUMO = 0.51691695841178
+cycle= 11 E= -217.217902615545  delta_E= -9.89e-07  |g|= 0.000218  |ddm|= 0.00328
+  alpha nocc = 24  HOMO = 0.123140895036672  LUMO = 0.505123766159583
+  beta  nocc = 24  HOMO = 0.122199489839675  LUMO = 0.517116585889253
+cycle= 12 E= -217.217903432129  delta_E= -8.17e-07  |g|= 0.000149  |ddm|= 0.00366
+  alpha nocc = 24  HOMO = 0.123194184056213  LUMO = 0.504855651865327
+  beta  nocc = 24  HOMO = 0.122109899225048  LUMO = 0.517289274811683
+cycle= 13 E= -217.217903923031  delta_E= -4.91e-07  |g|= 6.57e-05  |ddm|= 0.00401
+  alpha nocc = 24  HOMO = 0.123228446155966  LUMO = 0.504756857895572
+  beta  nocc = 24  HOMO = 0.122080996189629  LUMO = 0.517378523535437
+cycle= 14 E= -217.21790399302  delta_E= -7e-08  |g|= 2.5e-05  |ddm|= 0.00177
+  alpha nocc = 24  HOMO = 0.123233965364938  LUMO = 0.50475224404379
+  beta  nocc = 24  HOMO = 0.12207978488382  LUMO = 0.517390581209928
+cycle= 15 E= -217.217903996894  delta_E= -3.87e-09  |g|= 1.49e-05  |ddm|= 0.00021
+  alpha nocc = 24  HOMO = 0.123238314075917  LUMO = 0.504759836739114
+  beta  nocc = 24  HOMO = 0.12208129903673  LUMO = 0.517403826674549
+cycle= 16 E= -217.217903998811  delta_E= -1.92e-09  |g|= 7.24e-06  |ddm|= 0.000154
+  alpha nocc = 24  HOMO = 0.123238519545613  LUMO = 0.504762159398633
+  beta  nocc = 24  HOMO = 0.122081067846649  LUMO = 0.517405161394632
+cycle= 17 E= -217.217903999165  delta_E= -3.55e-10  |g|= 4.42e-06  |ddm|= 6.21e-05
+  alpha nocc = 24  HOMO = 0.123238527178701  LUMO = 0.504762576057541
+  beta  nocc = 24  HOMO = 0.122080940206555  LUMO = 0.517405183954497
+Extra cycle  E= -217.217903999226  delta_E= -6.04e-11  |g|= 3.56e-06  |ddm|= 1.09e-05
+converged SCF energy = -217.217903999226  <S^2> = 4.8744778  2S+1 = 4.5274619
+
+******** <class 'pyscf.cc.uccsd.UCCSD'> ********
+CC2 = 0
+CCSD nocc = (24, 24), nmo = (36, 36)
+max_cycle = 200
+direct = 0
+conv_tol = 1e-07
+conv_tol_normt = 1e-06
+diis_space = 6
+diis_start_cycle = 0
+diis_start_energy_diff = 1e+09
+max_memory 4000 MB (current use 10955 MB)
+Init t2, MP2 energy = -0.10370228530154
+Init E_corr(CCSD) = -0.103702285324725
+cycle = 1  E_corr(CCSD) = -0.123976935764241  dE = -0.0202746504  norm(t1,t2) = 0.152234
+cycle = 2  E_corr(CCSD) = -0.139843213187284  dE = -0.0158662774  norm(t1,t2) = 0.0752619
+cycle = 3  E_corr(CCSD) = -0.145978048713532  dE = -0.00613483553  norm(t1,t2) = 0.0615274
+cycle = 4  E_corr(CCSD) = -0.15833266549903  dE = -0.0123546168  norm(t1,t2) = 0.0429703
+cycle = 5  E_corr(CCSD) = -0.160581863619047  dE = -0.00224919812  norm(t1,t2) = 0.0268388
+cycle = 6  E_corr(CCSD) = -0.163456615182333  dE = -0.00287475156  norm(t1,t2) = 0.0171367
+cycle = 7  E_corr(CCSD) = -0.165989857827382  dE = -0.00253324265  norm(t1,t2) = 0.0118647
+cycle = 8  E_corr(CCSD) = -0.165932671570106  dE = 5.71862573e-05  norm(t1,t2) = 0.0071423
+cycle = 9  E_corr(CCSD) = -0.166466424547491  dE = -0.000533752977  norm(t1,t2) = 0.00549963
+cycle = 10  E_corr(CCSD) = -0.166456716010377  dE = 9.70853711e-06  norm(t1,t2) = 0.00408415
+cycle = 11  E_corr(CCSD) = -0.166665876273182  dE = -0.000209160263  norm(t1,t2) = 0.00319523
+cycle = 12  E_corr(CCSD) = -0.166869396984039  dE = -0.000203520711  norm(t1,t2) = 0.0027517
+cycle = 13  E_corr(CCSD) = -0.1669704569236  dE = -0.00010105994  norm(t1,t2) = 0.00239345
+cycle = 14  E_corr(CCSD) = -0.167025906706856  dE = -5.54497833e-05  norm(t1,t2) = 0.0021724
+cycle = 15  E_corr(CCSD) = -0.167069018142267  dE = -4.31114354e-05  norm(t1,t2) = 0.00200012
+cycle = 16  E_corr(CCSD) = -0.167133537720453  dE = -6.45195782e-05  norm(t1,t2) = 0.00180349
+cycle = 17  E_corr(CCSD) = -0.167227033773326  dE = -9.34960529e-05  norm(t1,t2) = 0.00154217
+cycle = 18  E_corr(CCSD) = -0.167319923769084  dE = -9.28899958e-05  norm(t1,t2) = 0.0012733
+cycle = 19  E_corr(CCSD) = -0.167402931569582  dE = -8.30078005e-05  norm(t1,t2) = 0.0010613
+cycle = 20  E_corr(CCSD) = -0.16747182122962  dE = -6.888966e-05  norm(t1,t2) = 0.000806567
+cycle = 21  E_corr(CCSD) = -0.16748146927555  dE = -9.64804593e-06  norm(t1,t2) = 0.00057195
+cycle = 22  E_corr(CCSD) = -0.167486600911337  dE = -5.13163579e-06  norm(t1,t2) = 0.000417155
+cycle = 23  E_corr(CCSD) = -0.167484476960353  dE = 2.12395098e-06  norm(t1,t2) = 0.000305538
+cycle = 24  E_corr(CCSD) = -0.167478994942608  dE = 5.48201774e-06  norm(t1,t2) = 0.000235307
+cycle = 25  E_corr(CCSD) = -0.16747537914225  dE = 3.61580036e-06  norm(t1,t2) = 0.000162552
+cycle = 26  E_corr(CCSD) = -0.167472734470948  dE = 2.6446713e-06  norm(t1,t2) = 0.000115807
+cycle = 27  E_corr(CCSD) = -0.167466782030726  dE = 5.95244022e-06  norm(t1,t2) = 9.09335e-05
+cycle = 28  E_corr(CCSD) = -0.167462745442704  dE = 4.03658802e-06  norm(t1,t2) = 6.74688e-05
+cycle = 29  E_corr(CCSD) = -0.167458433581858  dE = 4.31186085e-06  norm(t1,t2) = 4.84878e-05
+cycle = 30  E_corr(CCSD) = -0.167455832885207  dE = 2.60069665e-06  norm(t1,t2) = 3.6889e-05
+cycle = 31  E_corr(CCSD) = -0.16745432418693  dE = 1.50869828e-06  norm(t1,t2) = 2.8207e-05
+cycle = 32  E_corr(CCSD) = -0.167453085698544  dE = 1.23848839e-06  norm(t1,t2) = 2.34054e-05
+cycle = 33  E_corr(CCSD) = -0.16745234264235  dE = 7.43056194e-07  norm(t1,t2) = 1.9528e-05
+cycle = 34  E_corr(CCSD) = -0.167451994541005  dE = 3.48101345e-07  norm(t1,t2) = 1.69499e-05
+cycle = 35  E_corr(CCSD) = -0.167451507001345  dE = 4.8753966e-07  norm(t1,t2) = 1.53824e-05
+cycle = 36  E_corr(CCSD) = -0.167451251550203  dE = 2.55451142e-07  norm(t1,t2) = 1.38182e-05
+cycle = 37  E_corr(CCSD) = -0.167450940539563  dE = 3.1101064e-07  norm(t1,t2) = 1.22371e-05
+cycle = 38  E_corr(CCSD) = -0.167450731310574  dE = 2.09228989e-07  norm(t1,t2) = 1.08055e-05
+cycle = 39  E_corr(CCSD) = -0.167450541104136  dE = 1.90206438e-07  norm(t1,t2) = 9.46178e-06
+cycle = 40  E_corr(CCSD) = -0.167450305564985  dE = 2.35539152e-07  norm(t1,t2) = 8.05243e-06
+cycle = 41  E_corr(CCSD) = -0.167449997398181  dE = 3.08166803e-07  norm(t1,t2) = 6.70828e-06
+cycle = 42  E_corr(CCSD) = -0.167449759065343  dE = 2.38332839e-07  norm(t1,t2) = 5.5924e-06
+cycle = 43  E_corr(CCSD) = -0.167449384359755  dE = 3.74705588e-07  norm(t1,t2) = 4.46737e-06
+cycle = 44  E_corr(CCSD) = -0.167449087198715  dE = 2.9716104e-07  norm(t1,t2) = 3.51991e-06
+cycle = 45  E_corr(CCSD) = -0.167448871136047  dE = 2.16062668e-07  norm(t1,t2) = 2.59863e-06
+cycle = 46  E_corr(CCSD) = -0.167448726991256  dE = 1.44144791e-07  norm(t1,t2) = 1.98892e-06
+cycle = 47  E_corr(CCSD) = -0.167448636670907  dE = 9.03203487e-08  norm(t1,t2) = 1.57998e-06
+cycle = 48  E_corr(CCSD) = -0.167448594773792  dE = 4.18971154e-08  norm(t1,t2) = 1.20372e-06
+cycle = 49  E_corr(CCSD) = -0.1674485689863  dE = 2.57874923e-08  norm(t1,t2) = 9.57954e-07
+UCCSD converged
+E(UCCSD) = -217.3853525682119  E_corr = -0.1674485689862997
+UCCSD(T) correction = -0.0178902661846203
+CASCI E = -4733.84446518917  E(CI) = -217.403242834396
+cycle = 1  norm(lambda1,lambda2) = 0.143898
+cycle = 2  norm(lambda1,lambda2) = 0.0416625
+cycle = 3  norm(lambda1,lambda2) = 0.0232441
+cycle = 4  norm(lambda1,lambda2) = 0.0120907
+cycle = 5  norm(lambda1,lambda2) = 0.00697443
+cycle = 6  norm(lambda1,lambda2) = 0.00443231
+cycle = 7  norm(lambda1,lambda2) = 0.00326048
+cycle = 8  norm(lambda1,lambda2) = 0.00229222
+cycle = 9  norm(lambda1,lambda2) = 0.00176493
+cycle = 10  norm(lambda1,lambda2) = 0.00128853
+cycle = 11  norm(lambda1,lambda2) = 0.000923308
+cycle = 12  norm(lambda1,lambda2) = 0.000762198
+cycle = 13  norm(lambda1,lambda2) = 0.000660094
+cycle = 14  norm(lambda1,lambda2) = 0.000597963
+cycle = 15  norm(lambda1,lambda2) = 0.000543345
+cycle = 16  norm(lambda1,lambda2) = 0.000487517
+cycle = 17  norm(lambda1,lambda2) = 0.000422119
+cycle = 18  norm(lambda1,lambda2) = 0.000359292
+cycle = 19  norm(lambda1,lambda2) = 0.000283091
+cycle = 20  norm(lambda1,lambda2) = 0.000219444
+cycle = 21  norm(lambda1,lambda2) = 0.000160299
+cycle = 22  norm(lambda1,lambda2) = 0.00011399
+cycle = 23  norm(lambda1,lambda2) = 8.53889e-05
+cycle = 24  norm(lambda1,lambda2) = 6.36206e-05
+cycle = 25  norm(lambda1,lambda2) = 5.24694e-05
+cycle = 26  norm(lambda1,lambda2) = 4.31878e-05
+cycle = 27  norm(lambda1,lambda2) = 3.76528e-05
+cycle = 28  norm(lambda1,lambda2) = 3.41078e-05
+cycle = 29  norm(lambda1,lambda2) = 3.13998e-05
+cycle = 30  norm(lambda1,lambda2) = 2.90386e-05
+cycle = 31  norm(lambda1,lambda2) = 2.67429e-05
+cycle = 32  norm(lambda1,lambda2) = 2.46892e-05
+cycle = 33  norm(lambda1,lambda2) = 2.25161e-05
+cycle = 34  norm(lambda1,lambda2) = 2.03401e-05
+cycle = 35  norm(lambda1,lambda2) = 1.7689e-05
+cycle = 36  norm(lambda1,lambda2) = 1.56105e-05
+cycle = 37  norm(lambda1,lambda2) = 1.32683e-05
+cycle = 38  norm(lambda1,lambda2) = 1.0771e-05
+cycle = 39  norm(lambda1,lambda2) = 8.60577e-06
+cycle = 40  norm(lambda1,lambda2) = 6.88276e-06
+cycle = 41  norm(lambda1,lambda2) = 5.58851e-06
+cycle = 42  norm(lambda1,lambda2) = 4.24405e-06
+cycle = 43  norm(lambda1,lambda2) = 3.41618e-06
+cycle = 44  norm(lambda1,lambda2) = 2.85944e-06
+cycle = 45  norm(lambda1,lambda2) = 2.38062e-06
+cycle = 46  norm(lambda1,lambda2) = 2.08792e-06
+cycle = 47  norm(lambda1,lambda2) = 1.82669e-06
+cycle = 48  norm(lambda1,lambda2) = 1.66218e-06
+cycle = 49  norm(lambda1,lambda2) = 1.51786e-06
+cycle = 50  norm(lambda1,lambda2) = 1.40083e-06
+cycle = 51  norm(lambda1,lambda2) = 1.27559e-06
+cycle = 52  norm(lambda1,lambda2) = 1.14852e-06
+cycle = 53  norm(lambda1,lambda2) = 1.02943e-06
+cycle = 54  norm(lambda1,lambda2) = 8.77404e-07
+FINISH TIME =  03/19/2023 22:58:44
+TOTAL TIME  =               63.857

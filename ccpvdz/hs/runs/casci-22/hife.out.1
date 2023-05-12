@@ -1,0 +1,106 @@
+START  TIME =  03/18/2023 14:45:58
+use: ../select-18/lo_coeff.npy
+use: ../select-18/active_space.npy
+act: orb = 55 elec = 48 spin = 0
+use RHF
+
+******** CASCI flags ********
+CAS (24e+24e, 55o), ncore = 66, nvir = 200
+natorb = False
+canonicalization = False
+sorting_mo_energy = False
+max_memory 82000 (MB)
+
+******** Block flags ********
+executable             = /home/hczhai/program/anaconda3/envs/python3.7/bin/block2main
+BLOCKEXE_COMPRESS_NEVPT= /path/to/serially/compiled/Block/block.spin_adapted
+Block version          = 2.0
+mpiprefix              = orterun --map-by ppr:1:node:pe=24
+scratchDirectory       = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22
+integralFile           = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/FCIDUMP
+configFile             = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/dmrg.conf
+outputFile             = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/dmrg.out
+maxIter                = 48
+scheduleSweeps         = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36]
+scheduleMaxMs          = [400, 800, 1200, 1600, 2000, 2500, 3000, 4000, 5000, 5000]
+scheduleTols           = [0.0001, 0.0001, 1e-05, 1e-05, 1e-06, 1e-06, 1e-06, 1e-06, 1e-06, 1e-07]
+scheduleNoises         = [0.0001, 0.0001, 0.0001, 5e-05, 5e-05, 5e-05, 5e-05, 5e-05, 5e-05, 0.0]
+twodot_to_onedot       = 40
+tol                    = 1e-08
+maxM                   = 5000
+dmrg switch tol        = 0.001
+wfnsym                 = 1
+fullrestart            = False
+num_thrds              = 24
+memory                 = 82
+
+Only write integral
+CASCI E = 0  E(CI) = 4530.35244654654  S^2 = 0.0000000
+
+******** CASCI flags ********
+CAS (24e+24e, 55o), ncore = 66, nvir = 200
+natorb = False
+canonicalization = False
+sorting_mo_energy = False
+max_memory 82000 (MB)
+
+******** Block flags ********
+executable             = /home/hczhai/program/anaconda3/envs/python3.7/bin/block2main
+BLOCKEXE_COMPRESS_NEVPT= /path/to/serially/compiled/Block/block.spin_adapted
+Block version          = 2.0
+mpiprefix              = orterun --map-by ppr:1:node:pe=24
+scratchDirectory       = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22
+integralFile           = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/FCIDUMP
+configFile             = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/dmrg-rev.conf
+outputFile             = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/dmrg.out
+maxIter                = 32
+scheduleSweeps         = [0, 4, 8, 12, 16, 20, 24, 28]
+scheduleMaxMs          = [5000, 4500, 4000, 3500, 3000, 2500, 2000, 1500]
+scheduleTols           = [1e-07, 1e-07, 1e-07, 1e-07, 1e-07, 1e-07, 1e-07, 1e-07]
+scheduleNoises         = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+twodot_to_onedot       = 0
+tol                    = 0
+maxM                   = 5000
+dmrg switch tol        = 0.001
+wfnsym                 = 1
+fullrestart            = False
+num_thrds              = 24
+memory                 = 82
+
+Only write integral
+CASCI E = 0  E(CI) = 4530.35244654654  S^2 = 0.0000000
+
+******** CASCI flags ********
+CAS (24e+24e, 55o), ncore = 66, nvir = 200
+natorb = False
+canonicalization = False
+sorting_mo_energy = False
+max_memory 82000 (MB)
+
+******** Block flags ********
+executable             = /home/hczhai/program/anaconda3/envs/python3.7/bin/block2main
+BLOCKEXE_COMPRESS_NEVPT= /path/to/serially/compiled/Block/block.spin_adapted
+Block version          = 2.0
+mpiprefix              = orterun --map-by ppr:1:node:pe=24
+scratchDirectory       = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22
+integralFile           = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/FCIDUMP
+configFile             = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/dmrg-csf.conf
+outputFile             = /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-22/dmrg.out
+maxIter                = 1
+scheduleSweeps         = [0]
+scheduleMaxMs          = [5000]
+scheduleTols           = [5e-06]
+scheduleNoises         = [0.0]
+twodot_to_onedot       = 0
+tol                    = 0
+maxM                   = 5000
+dmrg switch tol        = 0.001
+wfnsym                 = 1
+fullrestart            = False
+num_thrds              = 24
+memory                 = 82
+
+Only write integral
+CASCI E = 0  E(CI) = 4530.35244654654  S^2 = 0.0000000
+FINISH TIME =  03/18/2023 14:47:16
+TOTAL TIME  =               77.879

@@ -1,0 +1,2768 @@
+START  TIME =  03/28/2023 20:19:53
+#INFO: **** input file is /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-qz/hc/runs/mf-6/hife.py ****
+
+import time
+from datetime import datetime
+txst = time.perf_counter()
+print("START  TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+
+from pyscf import gto, scf
+mol = gto.Mole()
+mol.verbose = 4
+mol.atom = '''
+C    -1.0654597   -1.6165964   -3.6938910 
+H    -1.4383635   -0.5689779   -3.6741341 
+H    -1.7807115   -2.2443224   -3.1121367 
+H    -1.0773907   -1.9924332   -4.7494055 
+S     0.6243829   -1.6537410   -2.9602556 
+C     0.4156598    1.7876147   -4.0556776 
+H     1.3488982    2.3835358   -3.9218054 
+H    -0.1330190    2.2251636   -4.9293434 
+H     0.7135941    0.7422418   -4.2919146 
+S    -0.6070437    1.7896179   -2.5222937 
+C    -0.8232495    2.8573739    1.4681234 
+H    -0.0877151    2.8066116    0.6407689 
+H    -0.9439809    3.9246222    1.7897946 
+H    -1.7975667    2.5226444    1.0498580 
+S    -0.2735647    1.7807874    2.8579066 
+C    -1.0643237   -1.5242334    4.0337374 
+H    -1.0304628   -1.8368555    5.1103107 
+H    -1.8734238   -2.1231958    3.5494502 
+H    -1.3541746   -0.4526895    3.9781077 
+S     0.5588840   -1.7538671    3.1864833 
+Fe    0.4943827    0.0464709   -1.2052434 
+Fe    0.5810012   -0.0475200    1.4684925 
+S     2.2702018    0.5987571    0.0818694 
+C    -0.9804810   -0.8504359    0.1595883 
+H    -0.9278775   -1.9603768    0.2106940 
+H    -1.5301625   -0.5677658   -0.7796813 
+H    -1.6330329   -0.4914309    0.9945982 
+
+'''
+mol.basis = "ccpvqz-dk"
+mol.spin = 0
+mol.charge = -3
+mol.max_memory = 82000
+from pyscf import dftd3
+
+mol.build()
+print("NAO   = ", mol.nao)
+print("NELEC = ", mol.nelec)
+dm = None
+
+from pyblock2._pyscf import scf as b2scf
+dm = b2scf.get_metal_init_guess(mol, orb="Fe 3d", atom_idxs=[20, 21], coupling="+-", atomic_spin=4)
+
+
+print("PG = ", mol.groupname)
+
+mf = scf.sfx2c(scf.UKS(mol))
+mf.chkfile = 'mf.chk'
+mf.conv_tol = 1E-12
+mf.xc = 'tpss'
+mf.max_cycle = 1000
+mf = dftd3.dftd3(mf)
+mf = mf.newton()
+
+mf.kernel(dm0=dm)
+dm = mf.make_rdm1()
+
+import numpy as np
+np.save("mf_occ.npy", mf.mo_occ)
+np.save("mo_coeff.npy", mf.mo_coeff)
+np.save("mo_energy.npy", mf.mo_energy)
+np.save("e_tot.npy", mf.e_tot)
+np.save("mf_dmao.npy", dm)
+
+from pyblock2._pyscf import scf as b2scf
+b2scf.mulliken_pop_dmao(mol, dm)
+
+
+txed = time.perf_counter()
+print("FINISH TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+print("TOTAL TIME  = %20.3f" % (txed - txst))
+#INFO: ******************** input file end ********************
+
+
+System: uname_result(system='Linux', node='hpc-83-33.cm.cluster', release='3.10.0-1160.25.1.el7.x86_64', version='#1 SMP Wed Apr 28 21:49:45 UTC 2021', machine='x86_64', processor='x86_64')  Threads 24
+Python 3.8.5 (default, Sep  4 2020, 07:30:14) 
+[GCC 7.3.0]
+numpy 1.19.4  scipy 1.4.1
+Date: Tue Mar 28 20:19:54 2023
+PySCF version 2.1.1
+PySCF path  /central/groups/changroup/members/hczhai/program/pyscf
+GIT ORIG_HEAD 9d5b5bd309d1cc55fbd1a0ec76e26b5b0c7f76af
+GIT HEAD (branch ccsd_t_cas) bce349cd58351d56507ebb3005a119fa94c75308
+
+[ENV] PYSCF_MPIPREFIX orterun --map-by ppr:1:node:pe=24
+[ENV] PYSCF_TMPDIR /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 27
+[INPUT] num. electrons = 180
+[INPUT] charge = -3
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT] Symbol           X                Y                Z      unit          X                Y                Z       unit  Magmom
+[INPUT]  1 C     -1.065459700000  -1.616596400000  -3.693891000000 AA   -2.013427029761  -3.054924449958  -6.980442323996 Bohr   0.0
+[INPUT]  2 H     -1.438363500000  -0.568977900000  -3.674134100000 AA   -2.718113082571  -1.075212401930  -6.943107193925 Bohr   0.0
+[INPUT]  3 H     -1.780711500000  -2.244322400000  -3.112136700000 AA   -3.365057041863  -4.241154671227  -5.881086025208 Bohr   0.0
+[INPUT]  4 H     -1.077390700000  -1.992433200000  -4.749405500000 AA   -2.035973352153  -3.765153069491  -8.975075649503 Bohr   0.0
+[INPUT]  5 S      0.624382900000  -1.653741000000  -2.960255600000 AA    1.179912677862  -3.125117570964  -5.594072342710 Bohr   0.0
+[INPUT]  6 C      0.415659800000   1.787614700000  -4.055677600000 AA    0.785483182991   3.378102199247  -7.664119913533 Bohr   0.0
+[INPUT]  7 H      1.348898200000   2.383535800000  -3.921805400000 AA    2.549048167919   4.504229870096  -7.411138119840 Bohr   0.0
+[INPUT]  8 H     -0.133019000000   2.225163600000  -4.929343400000 AA   -0.251369479364   4.204949786351  -9.315108999932 Bohr   0.0
+[INPUT]  9 H      0.713594100000   0.742241800000  -4.291914600000 AA    1.348497413105   1.402633720204  -8.110543144022 Bohr   0.0
+[INPUT] 10 S     -0.607043700000   1.789617900000  -2.522293700000 AA   -1.147146338643   3.381887698619  -4.766444298716 Bohr   0.0
+[INPUT] 11 C     -0.823249500000   2.857373900000   1.468123400000 AA   -1.555716087185   5.399654106480   2.774351143065 Bohr   0.0
+[INPUT] 12 H     -0.087715100000   2.806611600000   0.640768900000 AA   -0.165757515989   5.303727262027   1.210877730139 Bohr   0.0
+[INPUT] 13 H     -0.943980900000   3.924622200000   1.789794600000 AA   -1.783865367820   7.416461100388   3.382221613225 Bohr   0.0
+[INPUT] 14 H     -1.797566700000   2.522644400000   1.049858000000 AA   -3.396908753638   4.767107025668   1.983944089684 Bohr   0.0
+[INPUT] 15 S     -0.273564700000   1.780787400000   2.857906600000 AA   -0.516962360349   3.365200472076   5.400660763587 Bohr   0.0
+[INPUT] 16 C     -1.064323700000  -1.524233400000   4.033737400000 AA   -2.011280300884  -2.880383675915   7.622658944415 Bohr   0.0
+[INPUT] 17 H     -1.030462800000  -1.836855500000   5.110310700000 AA   -1.947292473552  -3.471153825401   9.657087634434 Bohr   0.0
+[INPUT] 18 H     -1.873423800000  -2.123195800000   3.549450200000 AA   -3.540257897242  -4.012258570827   6.707488770783 Bohr   0.0
+[INPUT] 19 H     -1.354174600000  -0.452689500000   3.978107700000 AA   -2.559019118842  -0.855459174466   7.517534047023 Bohr   0.0
+[INPUT] 20 S      0.558884000000  -1.753867100000   3.186483300000 AA    1.056137695401  -3.314328477885   6.021580737500 Bohr   0.0
+[INPUT] 21 Fe     0.494382700000   0.046470900000  -1.205243400000 AA    0.934247903723   0.087817273762  -2.277579939440 Bohr   0.0
+[INPUT] 22 Fe     0.581001200000  -0.047520000000   1.468492500000 AA    1.097933146044  -0.089799785439   2.775048640978 Bohr   0.0
+[INPUT] 23 S      2.270201800000   0.598757100000   0.081869400000 AA    4.290059649495   1.131486934139   0.154710743982 Bohr   0.0
+[INPUT] 24 C     -0.980481000000  -0.850435900000   0.159588300000 AA   -1.852840560340  -1.607090937498   0.301578179685 Bohr   0.0
+[INPUT] 25 H     -0.927877500000  -1.960376800000   0.210694000000 AA   -1.753434352146  -3.704575252951   0.398153956089 Bohr   0.0
+[INPUT] 26 H     -1.530162500000  -0.567765800000  -0.779681300000 AA   -2.891588051080  -1.072921864895  -1.473384121445 Bohr   0.0
+[INPUT] 27 H     -1.633032900000  -0.491430900000   0.994598200000 AA   -3.085984933404  -0.928669810149   1.879518201985 Bohr   0.0
+
+nuclear repulsion = 2132.47477471161
+number of shells = 314
+number of NR pGTOs = 1617
+number of NR cGTOs = 1228
+basis = ccpvqz-dk
+ecp = {}
+CPU time:         0.51
+NAO   =  1228
+NELEC =  (90, 90)
+Initial guess from superposition of atomic densities.
+Spherically averaged atomic HF for {'C', 'H', 'Fe', 'S'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmp0tkxb3u4
+max_memory 82000 MB (current use 66 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2849024065773
+cycle= 1 E= -37.331250084558  delta_E= -0.0463  |g|=    0  |ddm|= 0.39
+cycle= 2 E= -37.3382471372258  delta_E= -0.007  |g|=    0  |ddm|= 0.183
+cycle= 3 E= -37.3396945460226  delta_E= -0.00145  |g|=    0  |ddm|= 0.0461
+cycle= 4 E= -37.3397015614048  delta_E= -7.02e-06  |g|=    0  |ddm|= 0.00785
+cycle= 5 E= -37.3397016243851  delta_E= -6.3e-08  |g|=    0  |ddm|= 0.00075
+cycle= 6 E= -37.3397016244677  delta_E= -8.26e-11  |g|=    0  |ddm|= 5.49e-05
+Extra cycle  E= -37.3397016244687  delta_E= -9.66e-13  |g|=    0  |ddm|= 5.55e-06
+Atomic HF for atom  C  converged. SCF energy = -37.3397016244687
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.49994556410378
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmpxnkfzwku
+max_memory 82000 MB (current use 104 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.897504398642
+cycle= 1 E= -396.908854163447  delta_E= -0.0113  |g|=    0  |ddm|= 0.711
+cycle= 2 E= -396.90924489687  delta_E= -0.000391  |g|=    0  |ddm|= 0.0798
+cycle= 3 E= -396.909278571278  delta_E= -3.37e-05  |g|=    0  |ddm|= 0.0165
+cycle= 4 E= -396.909279278409  delta_E= -7.07e-07  |g|=    0  |ddm|= 0.00334
+cycle= 5 E= -396.909279283534  delta_E= -5.13e-09  |g|=    0  |ddm|= 0.000332
+cycle= 6 E= -396.909279283538  delta_E= -3.35e-12  |g|=    0  |ddm|= 1.27e-05
+Extra cycle  E= -396.909279283538  delta_E= -1.14e-13  |g|=    0  |ddm|= 1.35e-06
+Atomic HF for atom  S  converged. SCF energy = -396.909279283538
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmpcaxliv1p
+max_memory 82000 MB (current use 142 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.84480797088
+cycle= 1 E= -1245.33219188788  delta_E= 11.5  |g|=    0  |ddm|= 5.18
+cycle= 2 E= -1247.82932011441  delta_E= -2.5  |g|=    0  |ddm|= 5.87
+cycle= 3 E= -1255.0414264207  delta_E= -7.21  |g|=    0  |ddm|= 3.74
+cycle= 4 E= -1257.02539876505  delta_E= -1.98  |g|=    0  |ddm|= 1.45
+cycle= 5 E= -1257.32518641739  delta_E= -0.3  |g|=    0  |ddm|= 0.601
+cycle= 6 E= -1257.33753536854  delta_E= -0.0123  |g|=    0  |ddm|= 0.225
+cycle= 7 E= -1257.3376040564  delta_E= -6.87e-05  |g|=    0  |ddm|= 0.0291
+cycle= 8 E= -1257.33764958741  delta_E= -4.55e-05  |g|=    0  |ddm|= 0.00606
+cycle= 9 E= -1257.33765918375  delta_E= -9.6e-06  |g|=    0  |ddm|= 0.00333
+cycle= 10 E= -1257.33765919681  delta_E= -1.31e-08  |g|=    0  |ddm|= 0.000369
+cycle= 11 E= -1257.33765919686  delta_E= -5.57e-11  |g|=    0  |ddm|= 2.19e-05
+Extra cycle  E= -1257.33765919686  delta_E= 2.05e-12  |g|=    0  |ddm|= 1.97e-06
+Atomic HF for atom  Fe  converged. SCF energy = -1257.33765919686
+NELEC BEFORE = 88.5 88.5
+ORB = 20 Fe 3d.* IDX = [845 846 847 848 849]
+ORB = 21 Fe 3d.* IDX = [949 950 951 952 953]
+Spherically averaged atomic HF for {'C', 'H', 'Fe', 'S'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmpinl8e1xm
+max_memory 82000 MB (current use 191 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2849024065773
+cycle= 1 E= -37.331250084558  delta_E= -0.0463  |g|=    0  |ddm|= 0.39
+cycle= 2 E= -37.3382471372258  delta_E= -0.007  |g|=    0  |ddm|= 0.183
+cycle= 3 E= -37.3396945460226  delta_E= -0.00145  |g|=    0  |ddm|= 0.0461
+cycle= 4 E= -37.3397015614048  delta_E= -7.02e-06  |g|=    0  |ddm|= 0.00785
+cycle= 5 E= -37.3397016243851  delta_E= -6.3e-08  |g|=    0  |ddm|= 0.00075
+cycle= 6 E= -37.3397016244677  delta_E= -8.26e-11  |g|=    0  |ddm|= 5.49e-05
+Extra cycle  E= -37.3397016244687  delta_E= -9.95e-13  |g|=    0  |ddm|= 5.55e-06
+Atomic HF for atom  C  converged. SCF energy = -37.3397016244687
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.49994556410378
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmp41kfz6vi
+max_memory 82000 MB (current use 207 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.897504398642
+cycle= 1 E= -396.908854163447  delta_E= -0.0113  |g|=    0  |ddm|= 0.711
+cycle= 2 E= -396.90924489687  delta_E= -0.000391  |g|=    0  |ddm|= 0.0798
+cycle= 3 E= -396.909278571277  delta_E= -3.37e-05  |g|=    0  |ddm|= 0.0165
+cycle= 4 E= -396.909279278409  delta_E= -7.07e-07  |g|=    0  |ddm|= 0.00334
+cycle= 5 E= -396.909279283536  delta_E= -5.13e-09  |g|=    0  |ddm|= 0.000332
+cycle= 6 E= -396.909279283537  delta_E= -1.08e-12  |g|=    0  |ddm|= 1.27e-05
+Extra cycle  E= -396.909279283538  delta_E= -1.14e-12  |g|=    0  |ddm|= 1.35e-06
+Atomic HF for atom  S  converged. SCF energy = -396.909279283538
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmprnwuy4e8
+max_memory 82000 MB (current use 215 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.84480797088
+cycle= 1 E= -1245.33219188788  delta_E= 11.5  |g|=    0  |ddm|= 5.18
+cycle= 2 E= -1247.82932011441  delta_E= -2.5  |g|=    0  |ddm|= 5.87
+cycle= 3 E= -1255.04142642069  delta_E= -7.21  |g|=    0  |ddm|= 3.74
+cycle= 4 E= -1257.02539876505  delta_E= -1.98  |g|=    0  |ddm|= 1.45
+cycle= 5 E= -1257.32518641738  delta_E= -0.3  |g|=    0  |ddm|= 0.601
+cycle= 6 E= -1257.33753536854  delta_E= -0.0123  |g|=    0  |ddm|= 0.225
+cycle= 7 E= -1257.3376040564  delta_E= -6.87e-05  |g|=    0  |ddm|= 0.0291
+cycle= 8 E= -1257.33764958741  delta_E= -4.55e-05  |g|=    0  |ddm|= 0.00606
+cycle= 9 E= -1257.33765918375  delta_E= -9.6e-06  |g|=    0  |ddm|= 0.00333
+cycle= 10 E= -1257.33765919681  delta_E= -1.31e-08  |g|=    0  |ddm|= 0.000369
+cycle= 11 E= -1257.33765919686  delta_E= -5.46e-11  |g|=    0  |ddm|= 2.19e-05
+Extra cycle  E= -1257.33765919686  delta_E= 4.55e-13  |g|=    0  |ddm|= 1.97e-06
+Atomic HF for atom  Fe  converged. SCF energy = -1257.33765919686
+NELEC AFTER  = 88.5 88.5
+PG =  C1
+
+
+
+
+******** <class 'pyscf.dftd3.itrf.dftd3.<locals>.DFTD3'> ********
+method = DFTD3-SFX2C1E_SCF-UKS
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-12
+SCF conv_tol_grad = None
+SCF max_cycles = 1000
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = mf.chk
+max_memory 82000 MB (current use 245 MB)
+number electrons alpha = 90  beta = 90
+XC library pyscf.dft.libxc version 6.0.0
+    S. Lehtola, C. Steigemann, M. J.T. Oliveira, and M. A.L. Marques.,  SoftwareX 7, 1–5 (2018)
+XC functionals = tpss
+    J. Tao, J. P. Perdew, V. N. Staroverov, and G. E. Scuseria.,  Phys. Rev. Lett. 91, 146401 (2003)
+    J. P. Perdew, J. Tao, V. N. Staroverov, and G. E. Scuseria.,  J. Chem. Phys. 120, 6898 (2004)
+    J. Tao, J. P. Perdew, V. N. Staroverov, and G. E. Scuseria.,  Phys. Rev. Lett. 91, 146401 (2003)
+    J. P. Perdew, J. Tao, V. N. Staroverov, and G. E. Scuseria.,  J. Chem. Phys. 120, 6898 (2004)
+radial grids: 
+    Treutler-Ahlrichs [JCP 102, 346 (1995); DOI:10.1063/1.469408] (M4) radial grids
+    
+becke partition: Becke, JCP 88, 2547 (1988); DOI:10.1063/1.454033
+pruning grids: <function nwchem_prune at 0x7f328c0b81f0>
+grids dens level: 3
+symmetrized grids: False
+atomic radii adjust function: <function treutler_atomic_radii_adjust at 0x7f328c0b8160>
+small_rho_cutoff = 1e-07
+
+
+******** <class 'pyscf.x2c.sfx2c1e.SpinFreeX2CHelper'> ********
+approx = 1e
+xuncontract = 1
+** DFTD3 parameter **
+func TPSS
+version 4
+******** <class 'pyscf.dftd3.itrf.dftd3.<locals>.DFTD3'> Newton solver flags ********
+SCF tol = 1e-12
+conv_tol_grad = None
+max. SCF cycles = 1000
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = mf.chk
+max_cycle_inner = 12
+max_stepsize = 0.05
+ah_start_tol = 1e+09
+ah_level_shift = 0
+ah_conv_tol = 1e-12
+ah_lindep = 1e-14
+ah_start_cycle = 1
+ah_max_cycle = 40
+ah_grad_trust_region = 2.5
+kf_interval = 4
+kf_trust_region = 5
+canonicalization = True
+max_memory 82000 MB (current use 245 MB)
+Set conv_tol_grad to 1e-06
+tot grids = 354352
+  alpha nocc = 90  HOMO = -90.5854754924412  LUMO = -89.284944675399
+  beta  nocc = 90  HOMO = -567.357743970156  LUMO = -513.960505529235
+
+WARN: system HOMO -567.357743970156 >= system LUMO -513.960505529235
+
+Initial guess E= -869.378551667198  |g|= 63.47
+macro= 0  E= -1088.41134993379  delta_E= -219.033  |g|= 78.9974  3 KF 15 JK
+macro= 1  E= -1310.569614415  delta_E= -222.158  |g|= 114.657  3 KF 15 JK
+macro= 2  E= -1622.36600426065  delta_E= -311.796  |g|= 130.463  3 KF 15 JK
+macro= 3  E= -2123.96414064917  delta_E= -501.598  |g|= 146.398  3 KF 15 JK
+macro= 4  E= -2506.55349758066  delta_E= -382.589  |g|= 159.095  3 KF 15 JK
+macro= 5  E= -2763.83836570149  delta_E= -257.285  |g|= 131.248  3 KF 15 JK
+macro= 6  E= -2985.11127242416  delta_E= -221.273  |g|= 112.578  3 KF 15 JK
+macro= 7  E= -3365.01735684066  delta_E= -379.906  |g|= 41.6636  3 KF 15 JK
+macro= 8  E= -3715.79325758942  delta_E= -350.776  |g|= 61.4414  3 KF 15 JK
+macro= 9  E= -3870.9799681292  delta_E= -155.187  |g|= 118.905  3 KF 15 JK
+macro= 10  E= -4002.4287241029  delta_E= -131.449  |g|= 49.3102  3 KF 15 JK
+macro= 11  E= -4279.11332413888  delta_E= -276.685  |g|= 43.1901  3 KF 15 JK
+macro= 12  E= -4533.4581826974  delta_E= -254.345  |g|= 28.9528  3 KF 15 JK
+macro= 13  E= -4672.44505797259  delta_E= -138.987  |g|= 12.1593  3 KF 15 JK
+macro= 14  E= -4714.81964469058  delta_E= -42.3746  |g|= 11.3587  3 KF 15 JK
+macro= 15  E= -4730.69692215949  delta_E= -15.8773  |g|= 8.86659  3 KF 15 JK
+macro= 16  E= -4736.73295745382  delta_E= -6.03604  |g|= 5.34617  3 KF 15 JK
+macro= 17  E= -4739.3305722124  delta_E= -2.59761  |g|= 3.87541  3 KF 15 JK
+macro= 18  E= -4740.55134918543  delta_E= -1.22078  |g|= 2.50177  3 KF 15 JK
+macro= 19  E= -4741.11982162285  delta_E= -0.568472  |g|= 1.67408  3 KF 15 JK
+macro= 20  E= -4741.42184681904  delta_E= -0.302025  |g|= 1.30337  3 KF 15 JK
+macro= 21  E= -4741.58990636581  delta_E= -0.16806  |g|= 1.0373  2 KF 14 JK
+macro= 22  E= -4741.6888026103  delta_E= -0.0988962  |g|= 0.795812  2 KF 14 JK
+macro= 23  E= -4741.7492485167  delta_E= -0.0604459  |g|= 0.613742  2 KF 14 JK
+macro= 24  E= -4741.79290650179  delta_E= -0.043658  |g|= 0.476528  3 KF 16 JK
+macro= 25  E= -4741.82401451121  delta_E= -0.031108  |g|= 0.398242  3 KF 16 JK
+macro= 26  E= -4741.84583376416  delta_E= -0.0218193  |g|= 0.325432  3 KF 17 JK
+macro= 27  E= -4741.86262730482  delta_E= -0.0167935  |g|= 0.311143  3 KF 17 JK
+macro= 28  E= -4741.88193038136  delta_E= -0.0193031  |g|= 0.355213  3 KF 17 JK
+macro= 29  E= -4741.90104943598  delta_E= -0.0191191  |g|= 0.345426  3 KF 17 JK
+macro= 30  E= -4741.91909581964  delta_E= -0.0180464  |g|= 0.308643  3 KF 17 JK
+macro= 31  E= -4741.93427088234  delta_E= -0.0151751  |g|= 0.266492  3 KF 17 JK
+macro= 32  E= -4741.94453384959  delta_E= -0.010263  |g|= 0.242342  2 KF 16 JK
+macro= 33  E= -4741.95138731566  delta_E= -0.00685347  |g|= 0.171921  3 KF 18 JK
+macro= 34  E= -4741.95625446262  delta_E= -0.00486715  |g|= 0.136809  3 KF 18 JK
+macro= 35  E= -4741.95894521412  delta_E= -0.00269075  |g|= 0.102495  3 KF 19 JK
+macro= 36  E= -4741.96062880098  delta_E= -0.00168359  |g|= 0.0762266  3 KF 20 JK
+macro= 37  E= -4741.96173301633  delta_E= -0.00110422  |g|= 0.0639572  3 KF 20 JK
+macro= 38  E= -4741.9625747836  delta_E= -0.000841767  |g|= 0.0574463  3 KF 20 JK
+macro= 39  E= -4741.96322631241  delta_E= -0.000651529  |g|= 0.0507099  3 KF 20 JK
+macro= 40  E= -4741.9637983725  delta_E= -0.00057206  |g|= 0.0456701  3 KF 21 JK
+macro= 41  E= -4741.96418793255  delta_E= -0.00038956  |g|= 0.0346715  3 KF 21 JK
+macro= 42  E= -4741.96437104736  delta_E= -0.000183115  |g|= 0.021796  3 KF 22 JK
+macro= 43  E= -4741.96444849497  delta_E= -7.74476e-05  |g|= 0.014366  3 KF 23 JK
+macro= 44  E= -4741.96448283662  delta_E= -3.43417e-05  |g|= 0.00959664  3 KF 24 JK
+macro= 45  E= -4741.96449797846  delta_E= -1.51418e-05  |g|= 0.00566465  3 KF 25 JK
+macro= 46  E= -4741.96450411673  delta_E= -6.13827e-06  |g|= 0.00358307  3 KF 26 JK
+macro= 47  E= -4741.96450654733  delta_E= -2.4306e-06  |g|= 0.00202328  3 KF 27 JK
+macro= 48  E= -4741.96450738138  delta_E= -8.34047e-07  |g|= 0.00124602  3 KF 28 JK
+macro= 49  E= -4741.96450774755  delta_E= -3.6617e-07  |g|= 0.000840876  3 KF 29 JK
+macro= 50  E= -4741.96450793515  delta_E= -1.87608e-07  |g|= 0.000639884  3 KF 29 JK
+macro= 51  E= -4741.96450804959  delta_E= -1.14437e-07  |g|= 0.000463789  3 KF 30 JK
+macro= 52  E= -4741.96450811177  delta_E= -6.21749e-08  |g|= 0.000371196  3 KF 30 JK
+macro= 53  E= -4741.96450815265  delta_E= -4.08872e-08  |g|= 0.000287622  3 KF 31 JK
+macro= 54  E= -4741.96450817505  delta_E= -2.23927e-08  |g|= 0.000209556  3 KF 31 JK
+macro= 55  E= -4741.96450818624  delta_E= -1.11959e-08  |g|= 0.000134986  3 KF 32 JK
+macro= 56  E= -4741.96450819104  delta_E= -4.7994e-09  |g|= 8.30783e-05  3 KF 33 JK
+macro= 57  E= -4741.96450819284  delta_E= -1.79716e-09  |g|= 5.20323e-05  3 KF 34 JK
+macro= 58  E= -4741.96450819357  delta_E= -7.31234e-10  |g|= 3.21145e-05  3 KF 35 JK
+macro= 59  E= -4741.96450819387  delta_E= -2.96495e-10  |g|= 2.02216e-05  3 KF 36 JK
+macro= 60  E= -4741.96450819398  delta_E= -1.18234e-10  |g|= 1.37409e-05  3 KF 37 JK
+macro= 61  E= -4741.96450819404  delta_E= -6.00267e-11  |g|= 7.24591e-06  3 KF 38 JK
+macro= 62  E= -4741.96450819405  delta_E= -1.81899e-12  |g|= 4.39448e-06  3 KF 39 JK
+macro= 63  E= -4741.96450819409  delta_E= -4.00178e-11  |g|= 2.46256e-06  3 KF 40 JK
+macro= 64  E= -4741.96450819409  delta_E= -9.09495e-12  |g|= 2.06039e-06  2 KF 20 JK
+macro= 65  E= -4741.9645081941  delta_E= -3.63798e-12  |g|= 2.12611e-06  1 KF 6 JK
+macro= 66  E= -4741.96450819411  delta_E= -8.18545e-12  |g|= 1.88845e-06  1 KF 6 JK
+macro= 67  E= -4741.9645081941  delta_E= 2.72848e-12  |g|= 2.10849e-06  1 KF 4 JK
+macro= 68  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 69  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 70  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 71  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 72  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 73  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 74  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 75  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 76  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 77  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 78  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 79  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 80  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 81  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 82  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 83  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 84  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 85  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 86  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 87  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 88  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 89  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 90  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 91  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 92  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 93  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 94  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 95  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 96  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 97  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 98  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 99  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 100  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 101  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 102  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 103  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 104  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 105  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 106  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 107  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 108  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 109  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 110  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 111  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 112  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 113  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 114  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 115  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 116  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 117  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 118  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 119  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 120  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 121  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 122  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 123  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 124  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 125  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 126  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 127  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 128  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 129  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 130  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 131  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 132  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 133  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 134  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 135  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 136  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 137  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 138  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 139  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 140  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 141  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 142  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 143  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 144  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 145  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 146  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 147  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 148  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 149  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 150  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 151  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 152  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 153  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 154  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 155  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 156  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 157  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 158  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 159  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 160  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 161  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 162  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 163  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 164  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 165  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 166  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 167  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 168  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 169  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 170  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 171  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 172  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 173  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 174  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 175  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 176  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 177  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 178  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 179  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 180  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 181  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 182  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 183  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 184  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 185  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 186  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 187  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 188  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 189  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 190  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 191  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 192  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 193  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 194  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 195  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 196  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 197  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 198  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 199  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 200  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 201  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 202  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 203  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 204  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 205  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 206  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 207  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 208  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 209  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 210  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 211  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 212  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 213  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 214  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 215  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 216  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 217  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 218  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 219  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 220  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 221  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 222  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 223  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 224  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 225  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 226  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 227  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 228  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 229  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 230  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 231  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 232  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 233  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 234  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 235  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 236  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 237  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 238  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 239  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 240  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 241  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 242  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 243  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 244  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 245  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 246  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 247  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 248  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 249  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 250  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 251  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 252  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 253  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 254  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 255  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 256  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 257  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 258  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 259  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 260  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 261  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 262  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 263  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 264  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 265  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 266  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 267  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 268  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 269  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 270  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 271  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 272  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 273  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 274  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 275  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 276  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 277  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 278  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 279  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 280  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 281  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 282  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 283  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 284  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 285  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 286  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 287  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 288  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 289  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 290  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 291  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 292  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 293  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 294  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 295  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 296  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 297  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 298  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 299  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 300  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 301  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 302  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 303  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 304  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 305  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 306  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 307  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 308  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 309  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 310  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 311  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 312  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 313  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 314  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 315  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 316  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 317  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 318  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 319  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 320  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 321  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 322  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 323  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 324  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 325  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 326  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 327  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 328  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 329  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 330  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 331  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 332  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 333  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 334  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 335  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 336  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 337  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 338  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 339  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 340  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 341  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 342  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 343  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 344  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 345  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 346  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 347  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 348  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 349  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 350  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 351  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 352  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 353  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 354  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 355  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 356  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 357  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 358  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 359  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 360  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 361  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 362  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 363  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 364  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 365  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 366  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 367  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 368  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 369  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 370  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 371  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 372  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 373  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 374  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 375  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 376  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 377  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 378  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 379  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 380  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 381  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 382  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 383  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 384  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 385  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 386  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 387  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 388  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 389  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 390  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 391  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 392  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 393  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 394  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 395  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 396  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 397  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 398  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 399  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 400  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 401  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 402  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 403  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 404  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 405  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 406  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 407  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 408  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 409  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 410  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 411  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 412  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 413  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 414  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 415  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 416  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 417  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 418  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 419  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 420  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 421  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 422  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 423  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 424  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 425  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 426  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 427  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 428  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 429  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 430  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 431  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 432  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 433  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 434  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 435  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 436  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 437  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 438  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 439  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 440  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 441  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 442  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 443  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 444  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 445  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 446  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 447  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 448  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 449  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 450  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 451  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 452  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 453  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 454  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 455  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 456  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 457  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 458  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 459  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 460  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 461  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 462  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 463  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 464  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 465  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 466  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 467  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 468  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 469  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 470  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 471  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 472  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 473  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 474  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 475  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 476  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 477  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 478  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 479  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 480  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 481  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 482  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 483  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 484  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 485  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 486  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 487  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 488  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 489  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 490  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 491  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 492  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 493  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 494  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 495  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 496  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 497  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 498  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 499  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 500  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 501  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 502  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 503  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 504  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 505  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 506  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 507  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 508  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 509  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 510  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 511  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 512  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 513  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 514  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 515  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 516  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 517  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 518  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 519  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 520  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 521  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 522  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 523  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 524  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 525  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 526  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 527  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 528  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 529  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 530  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 531  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 532  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 533  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 534  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 535  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 536  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 537  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 538  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 539  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 540  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 541  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 542  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 543  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 544  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 545  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 546  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 547  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 548  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 549  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 550  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 551  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 552  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 553  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 554  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 555  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 556  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 557  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 558  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 559  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 560  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 561  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 562  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 563  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 564  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 565  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 566  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 567  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 568  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 569  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 570  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 571  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 572  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 573  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 574  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 575  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 576  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 577  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 578  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 579  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 580  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 581  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 582  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 583  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 584  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 585  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 586  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 587  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 588  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 589  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 590  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 591  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 592  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 593  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 594  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 595  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 596  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 597  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 598  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 599  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 600  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 601  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 602  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 603  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 604  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 605  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 606  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 607  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 608  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 609  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 610  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 611  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 612  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 613  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 614  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 615  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 616  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 617  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 618  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 619  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 620  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 621  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 622  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 623  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 624  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 625  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 626  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 627  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 628  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 629  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 630  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 631  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 632  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 633  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 634  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 635  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 636  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 637  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 638  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 639  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 640  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 641  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 642  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 643  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 644  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 645  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 646  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 647  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 648  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 649  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 650  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 651  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 652  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 653  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 654  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 655  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 656  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 657  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 658  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 659  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 660  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 661  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 662  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 663  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 664  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 665  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 666  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 667  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 668  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 669  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 670  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 671  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 672  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 673  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 674  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 675  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 676  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 677  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 678  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 679  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 680  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 681  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 682  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 683  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 684  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 685  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 686  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 687  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 688  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 689  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 690  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 691  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 692  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 693  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 694  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 695  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 696  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 697  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 698  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 699  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 700  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 701  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 702  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 703  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 704  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 705  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 706  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 707  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 708  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 709  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 710  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 711  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 712  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 713  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 714  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 715  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 716  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 717  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 718  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 719  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 720  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 721  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 722  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 723  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 724  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 725  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 726  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 727  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 728  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 729  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 730  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 731  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 732  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 733  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 734  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 735  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 736  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 737  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 738  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 739  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 740  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 741  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 742  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 743  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 744  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 745  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 746  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 747  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 748  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 749  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 750  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 751  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 752  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 753  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 754  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 755  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 756  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 757  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 758  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 759  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 760  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 761  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 762  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 763  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 764  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 765  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 766  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 767  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 768  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 769  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 770  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 771  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 772  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 773  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 774  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 775  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 776  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 777  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 778  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 779  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 780  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 781  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 782  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 783  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 784  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 785  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 786  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 787  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 788  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 789  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 790  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 791  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 792  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 793  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 794  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 795  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 796  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 797  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 798  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 799  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 800  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 801  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 802  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 803  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 804  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 805  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 806  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 807  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 808  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 809  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 810  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 811  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 812  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 813  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 814  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 815  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 816  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 817  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 818  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 819  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 820  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 821  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 822  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 823  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 824  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 825  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 826  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 827  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 828  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 829  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 830  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 831  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 832  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 833  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 834  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 835  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 836  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 837  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 838  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 839  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 840  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 841  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 842  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 843  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 844  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 845  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 846  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 847  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 848  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 849  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 850  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 851  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 852  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 853  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 854  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 855  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 856  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 857  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 858  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 859  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 860  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 861  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 862  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 863  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 864  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 865  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 866  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 867  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 868  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 869  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 870  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 871  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 872  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 873  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 874  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 875  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 876  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 877  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 878  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 879  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 880  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 881  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 882  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 883  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 884  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 885  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 886  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 887  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 888  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 889  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 890  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 891  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 892  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 893  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 894  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 895  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 896  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 897  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 898  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 899  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 900  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 901  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 902  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 903  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 904  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 905  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 906  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 907  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 908  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 909  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 910  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 911  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 912  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 913  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 914  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 915  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 916  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 917  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 918  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 919  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 920  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 921  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 922  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 923  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 924  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 925  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 926  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 927  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 928  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 929  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 930  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 931  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 932  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 933  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 934  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 935  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 936  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 937  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 938  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 939  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 940  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 941  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 942  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 943  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 944  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 945  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 946  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 947  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 948  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 949  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 950  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 951  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 952  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 953  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 954  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 955  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 956  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 957  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 958  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 959  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 960  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 961  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 962  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 963  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 964  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 965  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 966  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 967  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 968  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 969  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 970  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 971  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 972  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 973  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 974  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 975  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 976  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 977  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 978  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 979  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 980  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 981  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 982  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 983  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 984  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 985  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 986  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 987  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 988  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 989  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 990  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 991  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 992  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 993  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 994  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 995  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 996  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 997  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 998  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+macro= 999  E= -4741.9645081941  delta_E= 0  |g|= 2.21673e-06  1 KF 2 JK
+Canonicalize SCF orbitals
+macro X = 1000  E=-4741.9645081941  |g|= 2.21673e-06  total 1126 KF 4264 JK
+SCF not converged.
+SCF energy = -4741.9645081941 after 1000 cycles  <S^2> = 3.6249328  2S+1 = 3.9369698
+Spherically averaged atomic HF for {'C', 'H', 'Fe', 'S'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmp4k9iths5
+max_memory 82000 MB (current use 1436 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2849024065773
+cycle= 1 E= -37.331250084558  delta_E= -0.0463  |g|=    0  |ddm|= 0.39
+cycle= 2 E= -37.3382471372258  delta_E= -0.007  |g|=    0  |ddm|= 0.183
+cycle= 3 E= -37.3396945460225  delta_E= -0.00145  |g|=    0  |ddm|= 0.0461
+cycle= 4 E= -37.3397015614049  delta_E= -7.02e-06  |g|=    0  |ddm|= 0.00785
+cycle= 5 E= -37.3397016243851  delta_E= -6.3e-08  |g|=    0  |ddm|= 0.00075
+cycle= 6 E= -37.3397016244677  delta_E= -8.25e-11  |g|=    0  |ddm|= 5.49e-05
+Extra cycle  E= -37.3397016244687  delta_E= -1.01e-12  |g|=    0  |ddm|= 5.55e-06
+Atomic HF for atom  C  converged. SCF energy = -37.3397016244687
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.49994556410378
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmpmt0ollim
+max_memory 82000 MB (current use 1436 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.897504398642
+cycle= 1 E= -396.908854163447  delta_E= -0.0113  |g|=    0  |ddm|= 0.711
+cycle= 2 E= -396.90924489687  delta_E= -0.000391  |g|=    0  |ddm|= 0.0798
+cycle= 3 E= -396.909278571277  delta_E= -3.37e-05  |g|=    0  |ddm|= 0.0165
+cycle= 4 E= -396.909279278409  delta_E= -7.07e-07  |g|=    0  |ddm|= 0.00334
+cycle= 5 E= -396.909279283535  delta_E= -5.13e-09  |g|=    0  |ddm|= 0.000332
+cycle= 6 E= -396.909279283537  delta_E= -2.05e-12  |g|=    0  |ddm|= 1.27e-05
+Extra cycle  E= -396.909279283538  delta_E= -1.02e-12  |g|=    0  |ddm|= 1.35e-06
+Atomic HF for atom  S  converged. SCF energy = -396.909279283538
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.13/runs/mf-6/tmp4bo0g05z
+max_memory 82000 MB (current use 1436 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.84480797088
+cycle= 1 E= -1245.33219188788  delta_E= 11.5  |g|=    0  |ddm|= 5.18
+cycle= 2 E= -1247.82932011441  delta_E= -2.5  |g|=    0  |ddm|= 5.87
+cycle= 3 E= -1255.04142642069  delta_E= -7.21  |g|=    0  |ddm|= 3.74
+cycle= 4 E= -1257.02539876505  delta_E= -1.98  |g|=    0  |ddm|= 1.45
+cycle= 5 E= -1257.32518641739  delta_E= -0.3  |g|=    0  |ddm|= 0.601
+cycle= 6 E= -1257.33753536854  delta_E= -0.0123  |g|=    0  |ddm|= 0.225
+cycle= 7 E= -1257.3376040564  delta_E= -6.87e-05  |g|=    0  |ddm|= 0.0291
+cycle= 8 E= -1257.33764958741  delta_E= -4.55e-05  |g|=    0  |ddm|= 0.00606
+cycle= 9 E= -1257.33765918375  delta_E= -9.6e-06  |g|=    0  |ddm|= 0.00333
+cycle= 10 E= -1257.33765919681  delta_E= -1.31e-08  |g|=    0  |ddm|= 0.000369
+cycle= 11 E= -1257.33765919686  delta_E= -5.59e-11  |g|=    0  |ddm|= 2.19e-05
+Extra cycle  E= -1257.33765919686  delta_E= 9.09e-13  |g|=    0  |ddm|= 1.97e-06
+Atomic HF for atom  Fe  converged. SCF energy = -1257.33765919686
+ ** Mulliken pop            alpha | beta         magnetism **
+pop of  0 C 1s            0.90581 | 0.90576        0.00005
+pop of  0 C 2s            0.28073 | 0.28031        0.00042
+pop of  0 C 3s            0.03519 | 0.03462        0.00056
+pop of  0 C 4s            0.00536 | 0.00542       -0.00006
+pop of  0 C 5s            0.00028 | 0.00028       -0.00000
+pop of  0 C 2px           0.35190 | 0.35138        0.00053
+pop of  0 C 2py           0.36815 | 0.36803        0.00012
+pop of  0 C 2pz           0.36233 | 0.36217        0.00016
+pop of  0 C 3px           0.07222 | 0.07377       -0.00154
+pop of  0 C 3py           0.03004 | 0.03065       -0.00061
+pop of  0 C 3pz           0.03070 | 0.03122       -0.00053
+pop of  0 C 4px           0.00379 | 0.00374        0.00005
+pop of  0 C 4py           0.00159 | 0.00161       -0.00003
+pop of  0 C 4pz           0.00227 | 0.00228       -0.00001
+pop of  0 C 5px           0.00246 | 0.00248       -0.00002
+pop of  0 C 5py           0.00132 | 0.00132       -0.00001
+pop of  0 C 5pz           0.00146 | 0.00146       -0.00000
+pop of  0 C 3dxy          0.09304 | 0.09638       -0.00335
+pop of  0 C 3dyz          0.03282 | 0.03312       -0.00030
+pop of  0 C 3dz^2         0.07555 | 0.07749       -0.00195
+pop of  0 C 3dxz          0.06974 | 0.07205       -0.00231
+pop of  0 C 3dx2-y2       0.06226 | 0.06323       -0.00096
+pop of  0 C 4dxy          0.00363 | 0.00372       -0.00008
+pop of  0 C 4dyz          0.00185 | 0.00193       -0.00008
+pop of  0 C 4dz^2         0.00322 | 0.00325       -0.00003
+pop of  0 C 4dxz          0.00631 | 0.00638       -0.00006
+pop of  0 C 4dx2-y2       0.00778 | 0.00786       -0.00008
+pop of  0 C 5dxy          0.00068 | 0.00069       -0.00001
+pop of  0 C 5dyz          0.00036 | 0.00038       -0.00002
+pop of  0 C 5dz^2         0.00065 | 0.00066       -0.00000
+pop of  0 C 5dxz          0.00098 | 0.00100       -0.00001
+pop of  0 C 5dx2-y2       0.00113 | 0.00114       -0.00001
+pop of  0 C 4f-3          0.01128 | 0.01177       -0.00049
+pop of  0 C 4f-2          0.00992 | 0.01009       -0.00017
+pop of  0 C 4f-1          0.00758 | 0.00762       -0.00004
+pop of  0 C 4f 0          0.00856 | 0.00863       -0.00007
+pop of  0 C 4f 1          0.01033 | 0.01073       -0.00041
+pop of  0 C 4f 2          0.00803 | 0.00824       -0.00021
+pop of  0 C 4f 3          0.01127 | 0.01146       -0.00019
+pop of  0 C 5f-3          0.00064 | 0.00067       -0.00004
+pop of  0 C 5f-2          0.00045 | 0.00046       -0.00001
+pop of  0 C 5f-1          0.00007 | 0.00007       -0.00000
+pop of  0 C 5f 0          0.00029 | 0.00030       -0.00000
+pop of  0 C 5f 1          0.00070 | 0.00073       -0.00003
+pop of  0 C 5f 2          0.00067 | 0.00068       -0.00001
+pop of  0 C 5f 3          0.00062 | 0.00064       -0.00002
+pop of  0 C 5g-4          0.00089 | 0.00090       -0.00001
+pop of  0 C 5g-3          0.00060 | 0.00060       -0.00000
+pop of  0 C 5g-2          0.00028 | 0.00029       -0.00000
+pop of  0 C 5g-1          0.00083 | 0.00083       -0.00000
+pop of  0 C 5g 0          0.00069 | 0.00070       -0.00001
+pop of  0 C 5g 1          0.00035 | 0.00035       -0.00000
+pop of  0 C 5g 2          0.00061 | 0.00063       -0.00002
+pop of  0 C 5g 3          0.00046 | 0.00047       -0.00001
+pop of  0 C 5g 4          0.00041 | 0.00042       -0.00001
+pop of  1 H 1s            0.26715 | 0.26777       -0.00061
+pop of  1 H 2s            0.09835 | 0.09788        0.00048
+pop of  1 H 3s            0.00992 | 0.00983        0.00009
+pop of  1 H 4s            0.00113 | 0.00112        0.00001
+pop of  1 H 2px           0.05104 | 0.05102        0.00002
+pop of  1 H 2py           0.07553 | 0.07610       -0.00057
+pop of  1 H 2pz           0.04784 | 0.04776        0.00009
+pop of  1 H 3px           0.00476 | 0.00477       -0.00001
+pop of  1 H 3py           0.02030 | 0.02036       -0.00006
+pop of  1 H 3pz           0.00176 | 0.00177       -0.00000
+pop of  1 H 4px           0.00090 | 0.00090       -0.00000
+pop of  1 H 4py           0.00288 | 0.00289       -0.00001
+pop of  1 H 4pz           0.00040 | 0.00040       -0.00000
+pop of  1 H 3dxy          0.01785 | 0.01784        0.00001
+pop of  1 H 3dyz          0.01698 | 0.01697        0.00001
+pop of  1 H 3dz^2         0.00521 | 0.00524       -0.00004
+pop of  1 H 3dxz          0.00184 | 0.00183        0.00000
+pop of  1 H 3dx2-y2       0.01537 | 0.01537       -0.00000
+pop of  1 H 4dxy          0.00156 | 0.00156       -0.00000
+pop of  1 H 4dyz          0.00131 | 0.00131        0.00000
+pop of  1 H 4dz^2         0.00071 | 0.00072       -0.00001
+pop of  1 H 4dxz          0.00016 | 0.00016        0.00000
+pop of  1 H 4dx2-y2       0.00177 | 0.00178       -0.00000
+pop of  1 H 4f-3          0.00180 | 0.00181       -0.00001
+pop of  1 H 4f-2          0.00041 | 0.00041       -0.00000
+pop of  1 H 4f-1          0.00119 | 0.00119       -0.00000
+pop of  1 H 4f 0          0.00070 | 0.00070       -0.00000
+pop of  1 H 4f 1          0.00026 | 0.00026       -0.00000
+pop of  1 H 4f 2          0.00083 | 0.00084       -0.00000
+pop of  1 H 4f 3          0.00204 | 0.00204        0.00000
+pop of  2 H 1s            0.29889 | 0.29925       -0.00036
+pop of  2 H 2s            0.06152 | 0.06081        0.00072
+pop of  2 H 3s            0.00630 | 0.00617        0.00013
+pop of  2 H 4s            0.00086 | 0.00085        0.00001
+pop of  2 H 2px           0.05785 | 0.05777        0.00008
+pop of  2 H 2py           0.05163 | 0.05161        0.00002
+pop of  2 H 2pz           0.05140 | 0.05139        0.00001
+pop of  2 H 3px           0.01091 | 0.01095       -0.00005
+pop of  2 H 3py           0.00792 | 0.00793       -0.00000
+pop of  2 H 3pz           0.00667 | 0.00668       -0.00001
+pop of  2 H 4px           0.00167 | 0.00168       -0.00001
+pop of  2 H 4py           0.00115 | 0.00114        0.00000
+pop of  2 H 4pz           0.00096 | 0.00095        0.00000
+pop of  2 H 3dxy          0.01023 | 0.01021        0.00001
+pop of  2 H 3dyz          0.00797 | 0.00797       -0.00000
+pop of  2 H 3dz^2         0.01262 | 0.01259        0.00003
+pop of  2 H 3dxz          0.01017 | 0.01016        0.00001
+pop of  2 H 3dx2-y2       0.01474 | 0.01475       -0.00001
+pop of  2 H 4dxy          0.00118 | 0.00118        0.00000
+pop of  2 H 4dyz          0.00094 | 0.00094       -0.00000
+pop of  2 H 4dz^2         0.00092 | 0.00092        0.00000
+pop of  2 H 4dxz          0.00115 | 0.00115        0.00000
+pop of  2 H 4dx2-y2       0.00107 | 0.00107       -0.00000
+pop of  2 H 4f-3          0.00122 | 0.00122       -0.00000
+pop of  2 H 4f-2          0.00157 | 0.00157        0.00000
+pop of  2 H 4f-1          0.00064 | 0.00064       -0.00000
+pop of  2 H 4f 0          0.00080 | 0.00080       -0.00000
+pop of  2 H 4f 1          0.00107 | 0.00107        0.00000
+pop of  2 H 4f 2          0.00098 | 0.00098       -0.00000
+pop of  2 H 4f 3          0.00091 | 0.00091       -0.00000
+pop of  3 H 1s            0.31342 | 0.31335        0.00007
+pop of  3 H 2s            0.05204 | 0.05191        0.00013
+pop of  3 H 3s            0.00538 | 0.00518        0.00019
+pop of  3 H 4s            0.00074 | 0.00073        0.00001
+pop of  3 H 2px           0.05101 | 0.05124       -0.00023
+pop of  3 H 2py           0.05092 | 0.05076        0.00016
+pop of  3 H 2pz           0.06017 | 0.05958        0.00059
+pop of  3 H 3px           0.00158 | 0.00161       -0.00003
+pop of  3 H 3py           0.00362 | 0.00362       -0.00001
+pop of  3 H 3pz           0.02022 | 0.02026       -0.00005
+pop of  3 H 4px           0.00040 | 0.00041       -0.00001
+pop of  3 H 4py           0.00058 | 0.00058       -0.00000
+pop of  3 H 4pz           0.00279 | 0.00279       -0.00000
+pop of  3 H 3dxy          0.00174 | 0.00176       -0.00002
+pop of  3 H 3dyz          0.01593 | 0.01592        0.00001
+pop of  3 H 3dz^2         0.01835 | 0.01833        0.00002
+pop of  3 H 3dxz          0.01597 | 0.01595        0.00003
+pop of  3 H 3dx2-y2       0.00288 | 0.00290       -0.00001
+pop of  3 H 4dxy          0.00012 | 0.00012       -0.00000
+pop of  3 H 4dyz          0.00153 | 0.00153        0.00000
+pop of  3 H 4dz^2         0.00212 | 0.00212        0.00000
+pop of  3 H 4dxz          0.00115 | 0.00115        0.00000
+pop of  3 H 4dx2-y2       0.00023 | 0.00023       -0.00000
+pop of  3 H 4f-3          0.00004 | 0.00004       -0.00000
+pop of  3 H 4f-2          0.00044 | 0.00044       -0.00000
+pop of  3 H 4f-1          0.00198 | 0.00198       -0.00000
+pop of  3 H 4f 0          0.00234 | 0.00233        0.00000
+pop of  3 H 4f 1          0.00156 | 0.00156        0.00000
+pop of  3 H 4f 2          0.00065 | 0.00065       -0.00000
+pop of  3 H 4f 3          0.00003 | 0.00003       -0.00000
+pop of  4 S 1s            0.99907 | 0.99907       -0.00000
+pop of  4 S 2s            0.94959 | 0.94960       -0.00001
+pop of  4 S 3s            0.52386 | 0.52463       -0.00077
+pop of  4 S 4s            0.04090 | 0.04237       -0.00147
+pop of  4 S 5s            0.00493 | 0.00527       -0.00034
+pop of  4 S 6s            0.00114 | 0.00118       -0.00004
+pop of  4 S 2px           0.99286 | 0.99285        0.00000
+pop of  4 S 2py           0.99739 | 0.99740       -0.00001
+pop of  4 S 2pz           0.99623 | 0.99624       -0.00001
+pop of  4 S 3px           0.48751 | 0.48755       -0.00004
+pop of  4 S 3py           0.62431 | 0.64008       -0.01576
+pop of  4 S 3pz           0.57197 | 0.59434       -0.02238
+pop of  4 S 4px           0.05880 | 0.06038       -0.00158
+pop of  4 S 4py           0.03530 | 0.03575       -0.00045
+pop of  4 S 4pz           0.04086 | 0.04160       -0.00074
+pop of  4 S 5px           0.00381 | 0.00376        0.00005
+pop of  4 S 5py           0.00398 | 0.00582       -0.00184
+pop of  4 S 5pz           0.00355 | 0.00530       -0.00175
+pop of  4 S 6px           0.00091 | 0.00090        0.00001
+pop of  4 S 6py           0.00085 | 0.00098       -0.00013
+pop of  4 S 6pz           0.00090 | 0.00102       -0.00011
+pop of  4 S 3dxy          0.03896 | 0.04293       -0.00396
+pop of  4 S 3dyz          0.01794 | 0.02548       -0.00754
+pop of  4 S 3dz^2         0.01975 | 0.02848       -0.00873
+pop of  4 S 3dxz          0.04237 | 0.04541       -0.00304
+pop of  4 S 3dx2-y2       0.02795 | 0.03335       -0.00540
+pop of  4 S 4dxy          0.00496 | 0.00552       -0.00056
+pop of  4 S 4dyz          0.00589 | 0.00588        0.00001
+pop of  4 S 4dz^2         0.00369 | 0.00491       -0.00122
+pop of  4 S 4dxz          0.00734 | 0.00779       -0.00044
+pop of  4 S 4dx2-y2       0.00920 | 0.00972       -0.00052
+pop of  4 S 5dxy          0.00083 | 0.00093       -0.00010
+pop of  4 S 5dyz          0.00154 | 0.00159       -0.00005
+pop of  4 S 5dz^2         0.00084 | 0.00112       -0.00028
+pop of  4 S 5dxz          0.00157 | 0.00162       -0.00005
+pop of  4 S 5dx2-y2       0.00222 | 0.00231       -0.00009
+pop of  4 S 4f-3          0.01115 | 0.01170       -0.00055
+pop of  4 S 4f-2          0.00703 | 0.00841       -0.00139
+pop of  4 S 4f-1          0.00341 | 0.00607       -0.00266
+pop of  4 S 4f 0          0.00293 | 0.00541       -0.00248
+pop of  4 S 4f 1          0.01216 | 0.01238       -0.00021
+pop of  4 S 4f 2          0.00951 | 0.01131       -0.00180
+pop of  4 S 4f 3          0.00660 | 0.00724       -0.00064
+pop of  4 S 5f-3          0.00124 | 0.00133       -0.00009
+pop of  4 S 5f-2          0.00082 | 0.00103       -0.00021
+pop of  4 S 5f-1          0.00073 | 0.00105       -0.00032
+pop of  4 S 5f 0          0.00046 | 0.00084       -0.00038
+pop of  4 S 5f 1          0.00135 | 0.00139       -0.00004
+pop of  4 S 5f 2          0.00151 | 0.00170       -0.00019
+pop of  4 S 5f 3          0.00088 | 0.00099       -0.00011
+pop of  4 S 5g-4          0.00069 | 0.00070       -0.00002
+pop of  4 S 5g-3          0.00049 | 0.00064       -0.00015
+pop of  4 S 5g-2          0.00011 | 0.00017       -0.00006
+pop of  4 S 5g-1          0.00012 | 0.00034       -0.00022
+pop of  4 S 5g 0          0.00041 | 0.00048       -0.00007
+pop of  4 S 5g 1          0.00051 | 0.00053       -0.00002
+pop of  4 S 5g 2          0.00072 | 0.00089       -0.00016
+pop of  4 S 5g 3          0.00071 | 0.00076       -0.00005
+pop of  4 S 5g 4          0.00053 | 0.00056       -0.00003
+pop of  5 C 1s            0.90590 | 0.90583        0.00006
+pop of  5 C 2s            0.28103 | 0.28057        0.00046
+pop of  5 C 3s            0.03554 | 0.03474        0.00080
+pop of  5 C 4s            0.00520 | 0.00533       -0.00013
+pop of  5 C 5s            0.00026 | 0.00027       -0.00001
+pop of  5 C 2px           0.36902 | 0.36844        0.00058
+pop of  5 C 2py           0.36712 | 0.36696        0.00016
+pop of  5 C 2pz           0.34855 | 0.34777        0.00078
+pop of  5 C 3px           0.04022 | 0.04069       -0.00047
+pop of  5 C 3py           0.03022 | 0.03127       -0.00105
+pop of  5 C 3pz           0.05986 | 0.06165       -0.00180
+pop of  5 C 4px           0.00191 | 0.00194       -0.00003
+pop of  5 C 4py           0.00158 | 0.00166       -0.00007
+pop of  5 C 4pz           0.00340 | 0.00347       -0.00007
+pop of  5 C 5px           0.00157 | 0.00157       -0.00000
+pop of  5 C 5py           0.00132 | 0.00133       -0.00001
+pop of  5 C 5pz           0.00220 | 0.00223       -0.00003
+pop of  5 C 3dxy          0.06027 | 0.06225       -0.00198
+pop of  5 C 3dyz          0.06763 | 0.07096       -0.00333
+pop of  5 C 3dz^2         0.08623 | 0.09050       -0.00427
+pop of  5 C 3dxz          0.07568 | 0.07675       -0.00107
+pop of  5 C 3dx2-y2       0.04139 | 0.04302       -0.00163
+pop of  5 C 4dxy          0.00218 | 0.00225       -0.00007
+pop of  5 C 4dyz          0.00320 | 0.00336       -0.00016
+pop of  5 C 4dz^2         0.00582 | 0.00590       -0.00008
+pop of  5 C 4dxz          0.00820 | 0.00825       -0.00005
+pop of  5 C 4dx2-y2       0.00345 | 0.00352       -0.00006
+pop of  5 C 5dxy          0.00047 | 0.00048       -0.00001
+pop of  5 C 5dyz          0.00058 | 0.00060       -0.00002
+pop of  5 C 5dz^2         0.00098 | 0.00099       -0.00001
+pop of  5 C 5dxz          0.00120 | 0.00121       -0.00001
+pop of  5 C 5dx2-y2       0.00060 | 0.00061       -0.00001
+pop of  5 C 4f-3          0.00895 | 0.00916       -0.00021
+pop of  5 C 4f-2          0.01062 | 0.01109       -0.00046
+pop of  5 C 4f-1          0.00994 | 0.01022       -0.00028
+pop of  5 C 4f 0          0.01069 | 0.01122       -0.00053
+pop of  5 C 4f 1          0.01464 | 0.01480       -0.00016
+pop of  5 C 4f 2          0.00781 | 0.00806       -0.00025
+pop of  5 C 4f 3          0.00404 | 0.00417       -0.00012
+pop of  5 C 5f-3          0.00013 | 0.00014       -0.00001
+pop of  5 C 5f-2          0.00052 | 0.00055       -0.00003
+pop of  5 C 5f-1          0.00048 | 0.00050       -0.00002
+pop of  5 C 5f 0          0.00070 | 0.00073       -0.00003
+pop of  5 C 5f 1          0.00090 | 0.00091       -0.00000
+pop of  5 C 5f 2          0.00056 | 0.00058       -0.00002
+pop of  5 C 5f 3          0.00012 | 0.00013       -0.00001
+pop of  5 C 5g-4          0.00083 | 0.00083       -0.00000
+pop of  5 C 5g-3          0.00040 | 0.00041       -0.00001
+pop of  5 C 5g-2          0.00107 | 0.00108       -0.00001
+pop of  5 C 5g-1          0.00044 | 0.00045       -0.00000
+pop of  5 C 5g 0          0.00048 | 0.00048       -0.00001
+pop of  5 C 5g 1          0.00072 | 0.00074       -0.00002
+pop of  5 C 5g 2          0.00052 | 0.00052       -0.00000
+pop of  5 C 5g 3          0.00033 | 0.00034       -0.00001
+pop of  5 C 5g 4          0.00037 | 0.00037       -0.00000
+pop of  6 H 1s            0.29873 | 0.29922       -0.00049
+pop of  6 H 2s            0.06020 | 0.05961        0.00060
+pop of  6 H 3s            0.00587 | 0.00589       -0.00002
+pop of  6 H 4s            0.00081 | 0.00081        0.00000
+pop of  6 H 2px           0.06026 | 0.06049       -0.00023
+pop of  6 H 2py           0.05124 | 0.05117        0.00007
+pop of  6 H 2pz           0.04904 | 0.04890        0.00014
+pop of  6 H 3px           0.01668 | 0.01675       -0.00007
+pop of  6 H 3py           0.00721 | 0.00722       -0.00000
+pop of  6 H 3pz           0.00159 | 0.00159        0.00000
+pop of  6 H 4px           0.00235 | 0.00236       -0.00001
+pop of  6 H 4py           0.00105 | 0.00105        0.00000
+pop of  6 H 4pz           0.00038 | 0.00038       -0.00000
+pop of  6 H 3dxy          0.01410 | 0.01407        0.00002
+pop of  6 H 3dyz          0.00409 | 0.00408        0.00001
+pop of  6 H 3dz^2         0.00524 | 0.00523        0.00001
+pop of  6 H 3dxz          0.01396 | 0.01396        0.00000
+pop of  6 H 3dx2-y2       0.01828 | 0.01825        0.00003
+pop of  6 H 4dxy          0.00175 | 0.00175       -0.00000
+pop of  6 H 4dyz          0.00032 | 0.00032       -0.00000
+pop of  6 H 4dz^2         0.00063 | 0.00063        0.00000
+pop of  6 H 4dxz          0.00108 | 0.00108       -0.00000
+pop of  6 H 4dx2-y2       0.00146 | 0.00146        0.00000
+pop of  6 H 4f-3          0.00200 | 0.00200        0.00000
+pop of  6 H 4f-2          0.00092 | 0.00092        0.00000
+pop of  6 H 4f-1          0.00039 | 0.00039       -0.00000
+pop of  6 H 4f 0          0.00069 | 0.00069        0.00000
+pop of  6 H 4f 1          0.00092 | 0.00092       -0.00000
+pop of  6 H 4f 2          0.00054 | 0.00054       -0.00000
+pop of  6 H 4f 3          0.00174 | 0.00173        0.00000
+pop of  7 H 1s            0.31359 | 0.31404       -0.00045
+pop of  7 H 2s            0.05273 | 0.05214        0.00058
+pop of  7 H 3s            0.00541 | 0.00519        0.00022
+pop of  7 H 4s            0.00074 | 0.00073        0.00002
+pop of  7 H 2px           0.05150 | 0.05157       -0.00007
+pop of  7 H 2py           0.05123 | 0.05101        0.00022
+pop of  7 H 2pz           0.05921 | 0.05922       -0.00001
+pop of  7 H 3px           0.00610 | 0.00611       -0.00001
+pop of  7 H 3py           0.00444 | 0.00445       -0.00001
+pop of  7 H 3pz           0.01480 | 0.01493       -0.00013
+pop of  7 H 4px           0.00093 | 0.00093       -0.00000
+pop of  7 H 4py           0.00069 | 0.00069       -0.00000
+pop of  7 H 4pz           0.00215 | 0.00217       -0.00002
+pop of  7 H 3dxy          0.00679 | 0.00681       -0.00002
+pop of  7 H 3dyz          0.01087 | 0.01083        0.00004
+pop of  7 H 3dz^2         0.01641 | 0.01633        0.00008
+pop of  7 H 3dxz          0.01315 | 0.01318       -0.00003
+pop of  7 H 3dx2-y2       0.00752 | 0.00750        0.00002
+pop of  7 H 4dxy          0.00064 | 0.00064       -0.00000
+pop of  7 H 4dyz          0.00112 | 0.00111        0.00000
+pop of  7 H 4dz^2         0.00133 | 0.00133        0.00000
+pop of  7 H 4dxz          0.00150 | 0.00150       -0.00000
+pop of  7 H 4dx2-y2       0.00056 | 0.00056        0.00000
+pop of  7 H 4f-3          0.00022 | 0.00022       -0.00000
+pop of  7 H 4f-2          0.00132 | 0.00132       -0.00000
+pop of  7 H 4f-1          0.00111 | 0.00111        0.00000
+pop of  7 H 4f 0          0.00128 | 0.00128        0.00000
+pop of  7 H 4f 1          0.00146 | 0.00145        0.00000
+pop of  7 H 4f 2          0.00117 | 0.00117        0.00000
+pop of  7 H 4f 3          0.00047 | 0.00047       -0.00000
+pop of  8 H 1s            0.26770 | 0.26851       -0.00081
+pop of  8 H 2s            0.09760 | 0.09786       -0.00026
+pop of  8 H 3s            0.00939 | 0.00933        0.00006
+pop of  8 H 4s            0.00106 | 0.00105        0.00000
+pop of  8 H 2px           0.05012 | 0.04993        0.00019
+pop of  8 H 2py           0.07561 | 0.07600       -0.00039
+pop of  8 H 2pz           0.04928 | 0.04909        0.00020
+pop of  8 H 3px           0.00323 | 0.00324       -0.00000
+pop of  8 H 3py           0.02015 | 0.02025       -0.00010
+pop of  8 H 3pz           0.00344 | 0.00347       -0.00003
+pop of  8 H 4px           0.00060 | 0.00060       -0.00000
+pop of  8 H 4py           0.00287 | 0.00288       -0.00001
+pop of  8 H 4pz           0.00072 | 0.00074       -0.00001
+pop of  8 H 3dxy          0.01825 | 0.01820        0.00004
+pop of  8 H 3dyz          0.01681 | 0.01672        0.00010
+pop of  8 H 3dz^2         0.00527 | 0.00530       -0.00003
+pop of  8 H 3dxz          0.00336 | 0.00337       -0.00001
+pop of  8 H 3dx2-y2       0.01349 | 0.01349       -0.00001
+pop of  8 H 4dxy          0.00153 | 0.00153        0.00000
+pop of  8 H 4dyz          0.00135 | 0.00134        0.00001
+pop of  8 H 4dz^2         0.00065 | 0.00065       -0.00000
+pop of  8 H 4dxz          0.00027 | 0.00027       -0.00000
+pop of  8 H 4dx2-y2       0.00171 | 0.00171       -0.00000
+pop of  8 H 4f-3          0.00154 | 0.00153        0.00000
+pop of  8 H 4f-2          0.00077 | 0.00076        0.00000
+pop of  8 H 4f-1          0.00106 | 0.00106       -0.00000
+pop of  8 H 4f 0          0.00075 | 0.00075       -0.00000
+pop of  8 H 4f 1          0.00018 | 0.00018        0.00000
+pop of  8 H 4f 2          0.00094 | 0.00094        0.00000
+pop of  8 H 4f 3          0.00200 | 0.00200       -0.00000
+pop of  9 S 1s            0.99908 | 0.99908       -0.00000
+pop of  9 S 2s            0.94969 | 0.94970       -0.00001
+pop of  9 S 3s            0.52106 | 0.52234       -0.00128
+pop of  9 S 4s            0.04123 | 0.04355       -0.00232
+pop of  9 S 5s            0.00471 | 0.00514       -0.00043
+pop of  9 S 6s            0.00111 | 0.00116       -0.00006
+pop of  9 S 2px           0.99604 | 0.99605       -0.00001
+pop of  9 S 2py           0.99733 | 0.99734       -0.00002
+pop of  9 S 2pz           0.99307 | 0.99308       -0.00000
+pop of  9 S 3px           0.60296 | 0.61594       -0.01298
+pop of  9 S 3py           0.61478 | 0.63263       -0.01785
+pop of  9 S 3pz           0.45318 | 0.46726       -0.01408
+pop of  9 S 4px           0.03560 | 0.03819       -0.00259
+pop of  9 S 4py           0.03855 | 0.03859       -0.00004
+pop of  9 S 4pz           0.07063 | 0.07098       -0.00036
+pop of  9 S 5px           0.00283 | 0.00364       -0.00082
+pop of  9 S 5py           0.00427 | 0.00637       -0.00210
+pop of  9 S 5pz           0.00517 | 0.00576       -0.00059
+pop of  9 S 6px           0.00067 | 0.00071       -0.00004
+pop of  9 S 6py           0.00095 | 0.00109       -0.00014
+pop of  9 S 6pz           0.00127 | 0.00132       -0.00005
+pop of  9 S 3dxy          0.02206 | 0.02821       -0.00615
+pop of  9 S 3dyz          0.03396 | 0.03867       -0.00471
+pop of  9 S 3dz^2         0.04822 | 0.04728        0.00094
+pop of  9 S 3dxz          0.03163 | 0.03447       -0.00284
+pop of  9 S 3dx2-y2       0.01469 | 0.02553       -0.01084
+pop of  9 S 4dxy          0.00469 | 0.00499       -0.00030
+pop of  9 S 4dyz          0.00604 | 0.00610       -0.00007
+pop of  9 S 4dz^2         0.00684 | 0.00717       -0.00032
+pop of  9 S 4dxz          0.00944 | 0.00990       -0.00046
+pop of  9 S 4dx2-y2       0.00388 | 0.00519       -0.00131
+pop of  9 S 5dxy          0.00105 | 0.00114       -0.00009
+pop of  9 S 5dyz          0.00137 | 0.00139       -0.00002
+pop of  9 S 5dz^2         0.00148 | 0.00155       -0.00007
+pop of  9 S 5dxz          0.00231 | 0.00240       -0.00009
+pop of  9 S 5dx2-y2       0.00086 | 0.00107       -0.00021
+pop of  9 S 4f-3          0.00252 | 0.00443       -0.00191
+pop of  9 S 4f-2          0.01072 | 0.01259       -0.00187
+pop of  9 S 4f-1          0.00859 | 0.00945       -0.00086
+pop of  9 S 4f 0          0.01233 | 0.01302       -0.00069
+pop of  9 S 4f 1          0.00869 | 0.00967       -0.00098
+pop of  9 S 4f 2          0.00770 | 0.00931       -0.00161
+pop of  9 S 4f 3          0.00290 | 0.00416       -0.00127
+pop of  9 S 5f-3          0.00032 | 0.00062       -0.00030
+pop of  9 S 5f-2          0.00148 | 0.00167       -0.00019
+pop of  9 S 5f-1          0.00103 | 0.00116       -0.00013
+pop of  9 S 5f 0          0.00149 | 0.00157       -0.00007
+pop of  9 S 5f 1          0.00126 | 0.00143       -0.00017
+pop of  9 S 5f 2          0.00101 | 0.00124       -0.00023
+pop of  9 S 5f 3          0.00052 | 0.00067       -0.00015
+pop of  9 S 5g-4          0.00010 | 0.00017       -0.00008
+pop of  9 S 5g-3          0.00040 | 0.00054       -0.00015
+pop of  9 S 5g-2          0.00070 | 0.00083       -0.00013
+pop of  9 S 5g-1          0.00025 | 0.00032       -0.00006
+pop of  9 S 5g 0          0.00058 | 0.00068       -0.00011
+pop of  9 S 5g 1          0.00105 | 0.00106       -0.00001
+pop of  9 S 5g 2          0.00073 | 0.00075       -0.00002
+pop of  9 S 5g 3          0.00037 | 0.00053       -0.00016
+pop of  9 S 5g 4          0.00008 | 0.00016       -0.00007
+pop of  10 C 1s           0.90496 | 0.90500       -0.00004
+pop of  10 C 2s           0.27544 | 0.27580       -0.00036
+pop of  10 C 3s           0.03475 | 0.03562       -0.00087
+pop of  10 C 4s           0.00519 | 0.00509        0.00010
+pop of  10 C 5s           0.00025 | 0.00025        0.00001
+pop of  10 C 2px          0.37117 | 0.37145       -0.00028
+pop of  10 C 2py          0.34877 | 0.34904       -0.00026
+pop of  10 C 2pz          0.35223 | 0.35274       -0.00051
+pop of  10 C 3px          0.03073 | 0.03040        0.00033
+pop of  10 C 3py          0.04461 | 0.04374        0.00087
+pop of  10 C 3pz          0.06490 | 0.06377        0.00113
+pop of  10 C 4px          0.00109 | 0.00107        0.00002
+pop of  10 C 4py          0.00289 | 0.00280        0.00010
+pop of  10 C 4pz          0.00319 | 0.00313        0.00007
+pop of  10 C 5px          0.00123 | 0.00123        0.00000
+pop of  10 C 5py          0.00177 | 0.00175        0.00002
+pop of  10 C 5pz          0.00218 | 0.00218        0.00001
+pop of  10 C 3dxy         0.03196 | 0.03117        0.00079
+pop of  10 C 3dyz         0.05851 | 0.05789        0.00062
+pop of  10 C 3dz^2        0.07789 | 0.07335        0.00454
+pop of  10 C 3dxz         0.09152 | 0.08698        0.00453
+pop of  10 C 3dx2-y2      0.08011 | 0.07889        0.00122
+pop of  10 C 4dxy         0.00337 | 0.00332        0.00006
+pop of  10 C 4dyz         0.00721 | 0.00717        0.00004
+pop of  10 C 4dz^2        0.00480 | 0.00462        0.00018
+pop of  10 C 4dxz         0.00474 | 0.00459        0.00015
+pop of  10 C 4dx2-y2      0.00290 | 0.00294       -0.00004
+pop of  10 C 5dxy         0.00054 | 0.00053        0.00001
+pop of  10 C 5dyz         0.00102 | 0.00102        0.00001
+pop of  10 C 5dz^2        0.00078 | 0.00076        0.00002
+pop of  10 C 5dxz         0.00090 | 0.00088        0.00002
+pop of  10 C 5dx2-y2      0.00062 | 0.00062       -0.00001
+pop of  10 C 4f-3         0.00921 | 0.00915        0.00006
+pop of  10 C 4f-2         0.00938 | 0.00901        0.00037
+pop of  10 C 4f-1         0.01014 | 0.01004        0.00010
+pop of  10 C 4f 0         0.01080 | 0.00991        0.00089
+pop of  10 C 4f 1         0.00939 | 0.00917        0.00023
+pop of  10 C 4f 2         0.01560 | 0.01528        0.00031
+pop of  10 C 4f 3         0.00427 | 0.00420        0.00006
+pop of  10 C 5f-3         0.00023 | 0.00023        0.00000
+pop of  10 C 5f-2         0.00068 | 0.00066        0.00002
+pop of  10 C 5f-1         0.00076 | 0.00075        0.00001
+pop of  10 C 5f 0         0.00063 | 0.00058        0.00006
+pop of  10 C 5f 1         0.00036 | 0.00035        0.00002
+pop of  10 C 5f 2         0.00063 | 0.00061        0.00002
+pop of  10 C 5f 3         0.00018 | 0.00018        0.00000
+pop of  10 C 5g-4         0.00044 | 0.00044        0.00000
+pop of  10 C 5g-3         0.00081 | 0.00080        0.00001
+pop of  10 C 5g-2         0.00036 | 0.00035        0.00001
+pop of  10 C 5g-1         0.00064 | 0.00063        0.00001
+pop of  10 C 5g 0         0.00032 | 0.00031        0.00001
+pop of  10 C 5g 1         0.00063 | 0.00062        0.00001
+pop of  10 C 5g 2         0.00097 | 0.00096        0.00001
+pop of  10 C 5g 3         0.00066 | 0.00065        0.00000
+pop of  10 C 5g 4         0.00047 | 0.00046        0.00000
+pop of  11 H 1s           0.26133 | 0.26037        0.00096
+pop of  11 H 2s           0.09834 | 0.09838       -0.00004
+pop of  11 H 3s           0.01026 | 0.01020        0.00007
+pop of  11 H 4s           0.00122 | 0.00122       -0.00000
+pop of  11 H 2px          0.05439 | 0.05429        0.00010
+pop of  11 H 2py          0.04587 | 0.04590       -0.00003
+pop of  11 H 2pz          0.05952 | 0.05905        0.00046
+pop of  11 H 3px          0.01032 | 0.01026        0.00006
+pop of  11 H 3py          0.00171 | 0.00169        0.00003
+pop of  11 H 3pz          0.01362 | 0.01357        0.00005
+pop of  11 H 4px          0.00147 | 0.00147       -0.00000
+pop of  11 H 4py          0.00042 | 0.00041        0.00001
+pop of  11 H 4pz          0.00204 | 0.00203        0.00001
+pop of  11 H 3dxy         0.00720 | 0.00719        0.00001
+pop of  11 H 3dyz         0.01062 | 0.01065       -0.00003
+pop of  11 H 3dz^2        0.01616 | 0.01623       -0.00007
+pop of  11 H 3dxz         0.01447 | 0.01447        0.00000
+pop of  11 H 3dx2-y2      0.00874 | 0.00866        0.00008
+pop of  11 H 4dxy         0.00056 | 0.00056       -0.00000
+pop of  11 H 4dyz         0.00081 | 0.00082       -0.00000
+pop of  11 H 4dz^2        0.00129 | 0.00130       -0.00000
+pop of  11 H 4dxz         0.00194 | 0.00194        0.00000
+pop of  11 H 4dx2-y2      0.00084 | 0.00084        0.00000
+pop of  11 H 4f-3         0.00031 | 0.00031        0.00000
+pop of  11 H 4f-2         0.00114 | 0.00114       -0.00000
+pop of  11 H 4f-1         0.00045 | 0.00045        0.00000
+pop of  11 H 4f 0         0.00096 | 0.00097       -0.00000
+pop of  11 H 4f 1         0.00237 | 0.00237       -0.00000
+pop of  11 H 4f 2         0.00164 | 0.00164        0.00000
+pop of  11 H 4f 3         0.00052 | 0.00052        0.00000
+pop of  12 H 1s           0.31275 | 0.31231        0.00044
+pop of  12 H 2s           0.05105 | 0.05115       -0.00010
+pop of  12 H 3s           0.00504 | 0.00525       -0.00022
+pop of  12 H 4s           0.00070 | 0.00071       -0.00001
+pop of  12 H 2px          0.05056 | 0.05068       -0.00013
+pop of  12 H 2py          0.05970 | 0.06012       -0.00042
+pop of  12 H 2pz          0.04976 | 0.04948        0.00028
+pop of  12 H 3px          0.00160 | 0.00159        0.00001
+pop of  12 H 3py          0.02080 | 0.02070        0.00010
+pop of  12 H 3pz          0.00297 | 0.00296        0.00001
+pop of  12 H 4px          0.00033 | 0.00032        0.00000
+pop of  12 H 4py          0.00290 | 0.00289        0.00001
+pop of  12 H 4pz          0.00055 | 0.00054        0.00001
+pop of  12 H 3dxy         0.01618 | 0.01622       -0.00004
+pop of  12 H 3dyz         0.01566 | 0.01563        0.00002
+pop of  12 H 3dz^2        0.00593 | 0.00596       -0.00003
+pop of  12 H 3dxz         0.00328 | 0.00326        0.00002
+pop of  12 H 3dx2-y2      0.01334 | 0.01337       -0.00003
+pop of  12 H 4dxy         0.00123 | 0.00123       -0.00000
+pop of  12 H 4dyz         0.00146 | 0.00146       -0.00000
+pop of  12 H 4dz^2        0.00056 | 0.00056       -0.00000
+pop of  12 H 4dxz         0.00023 | 0.00023        0.00000
+pop of  12 H 4dx2-y2      0.00163 | 0.00163       -0.00000
+pop of  12 H 4f-3         0.00158 | 0.00158       -0.00000
+pop of  12 H 4f-2         0.00071 | 0.00071        0.00000
+pop of  12 H 4f-1         0.00124 | 0.00124       -0.00001
+pop of  12 H 4f 0         0.00062 | 0.00062        0.00000
+pop of  12 H 4f 1         0.00006 | 0.00006        0.00000
+pop of  12 H 4f 2         0.00126 | 0.00126        0.00000
+pop of  12 H 4f 3         0.00151 | 0.00152       -0.00000
+pop of  13 H 1s           0.28689 | 0.28638        0.00051
+pop of  13 H 2s           0.06679 | 0.06666        0.00013
+pop of  13 H 3s           0.00668 | 0.00672       -0.00004
+pop of  13 H 4s           0.00091 | 0.00091       -0.00000
+pop of  13 H 2px          0.05671 | 0.05680       -0.00009
+pop of  13 H 2py          0.04761 | 0.04760        0.00001
+pop of  13 H 2pz          0.05272 | 0.05269        0.00003
+pop of  13 H 3px          0.01788 | 0.01785        0.00003
+pop of  13 H 3py          0.00283 | 0.00282        0.00000
+pop of  13 H 3pz          0.00464 | 0.00461        0.00004
+pop of  13 H 4px          0.00247 | 0.00247       -0.00000
+pop of  13 H 4py          0.00048 | 0.00048       -0.00000
+pop of  13 H 4pz          0.00080 | 0.00079        0.00001
+pop of  13 H 3dxy         0.01195 | 0.01196       -0.00001
+pop of  13 H 3dyz         0.00476 | 0.00476        0.00000
+pop of  13 H 3dz^2        0.00736 | 0.00734        0.00001
+pop of  13 H 3dxz         0.01640 | 0.01645       -0.00005
+pop of  13 H 3dx2-y2      0.01558 | 0.01560       -0.00001
+pop of  13 H 4dxy         0.00120 | 0.00120        0.00000
+pop of  13 H 4dyz         0.00042 | 0.00042        0.00000
+pop of  13 H 4dz^2        0.00067 | 0.00067        0.00000
+pop of  13 H 4dxz         0.00150 | 0.00151       -0.00000
+pop of  13 H 4dx2-y2      0.00152 | 0.00152       -0.00000
+pop of  13 H 4f-3         0.00124 | 0.00124        0.00000
+pop of  13 H 4f-2         0.00101 | 0.00101        0.00000
+pop of  13 H 4f-1         0.00011 | 0.00011       -0.00000
+pop of  13 H 4f 0         0.00072 | 0.00072        0.00000
+pop of  13 H 4f 1         0.00126 | 0.00126       -0.00001
+pop of  13 H 4f 2         0.00146 | 0.00146       -0.00000
+pop of  13 H 4f 3         0.00149 | 0.00149        0.00000
+pop of  14 S 1s           0.99908 | 0.99908        0.00000
+pop of  14 S 2s           0.95003 | 0.95003       -0.00000
+pop of  14 S 3s           0.52580 | 0.52446        0.00134
+pop of  14 S 4s           0.04387 | 0.04104        0.00283
+pop of  14 S 5s           0.00483 | 0.00459        0.00024
+pop of  14 S 6s           0.00114 | 0.00111        0.00002
+pop of  14 S 2px          0.99741 | 0.99740        0.00001
+pop of  14 S 2py          0.99484 | 0.99483        0.00002
+pop of  14 S 2pz          0.99428 | 0.99427        0.00001
+pop of  14 S 3px          0.68286 | 0.65695        0.02591
+pop of  14 S 3py          0.51578 | 0.49770        0.01808
+pop of  14 S 3pz          0.53912 | 0.53424        0.00487
+pop of  14 S 4px          0.02677 | 0.02355        0.00322
+pop of  14 S 4py          0.06580 | 0.06585       -0.00005
+pop of  14 S 4pz          0.04998 | 0.05006       -0.00008
+pop of  14 S 5px          0.00276 | 0.00222        0.00054
+pop of  14 S 5py          0.00755 | 0.00558        0.00197
+pop of  14 S 5pz          0.00510 | 0.00394        0.00116
+pop of  14 S 6px          0.00053 | 0.00050        0.00002
+pop of  14 S 6py          0.00146 | 0.00132        0.00014
+pop of  14 S 6pz          0.00100 | 0.00092        0.00008
+pop of  14 S 3dxy         0.02734 | 0.02170        0.00564
+pop of  14 S 3dyz         0.04246 | 0.03699        0.00547
+pop of  14 S 3dz^2        0.03859 | 0.03761        0.00097
+pop of  14 S 3dxz         0.03539 | 0.02713        0.00826
+pop of  14 S 3dx2-y2      0.02822 | 0.02262        0.00559
+pop of  14 S 4dxy         0.00482 | 0.00424        0.00059
+pop of  14 S 4dyz         0.01067 | 0.01065        0.00002
+pop of  14 S 4dz^2        0.00671 | 0.00631        0.00040
+pop of  14 S 4dxz         0.00627 | 0.00563        0.00065
+pop of  14 S 4dx2-y2      0.00454 | 0.00401        0.00053
+pop of  14 S 5dxy         0.00122 | 0.00108        0.00014
+pop of  14 S 5dyz         0.00267 | 0.00266        0.00001
+pop of  14 S 5dz^2        0.00129 | 0.00123        0.00006
+pop of  14 S 5dxz         0.00124 | 0.00117        0.00007
+pop of  14 S 5dx2-y2      0.00112 | 0.00100        0.00012
+pop of  14 S 4f-3         0.00541 | 0.00298        0.00243
+pop of  14 S 4f-2         0.01134 | 0.00982        0.00153
+pop of  14 S 4f-1         0.01322 | 0.01285        0.00038
+pop of  14 S 4f 0         0.00943 | 0.00889        0.00054
+pop of  14 S 4f 1         0.00601 | 0.00505        0.00096
+pop of  14 S 4f 2         0.01224 | 0.01070        0.00154
+pop of  14 S 4f 3         0.00508 | 0.00363        0.00145
+pop of  14 S 5f-3         0.00074 | 0.00040        0.00034
+pop of  14 S 5f-2         0.00156 | 0.00136        0.00020
+pop of  14 S 5f-1         0.00182 | 0.00172        0.00010
+pop of  14 S 5f 0         0.00115 | 0.00107        0.00007
+pop of  14 S 5f 1         0.00074 | 0.00061        0.00013
+pop of  14 S 5f 2         0.00156 | 0.00135        0.00021
+pop of  14 S 5f 3         0.00081 | 0.00064        0.00016
+pop of  14 S 5g-4         0.00022 | 0.00017        0.00005
+pop of  14 S 5g-3         0.00065 | 0.00048        0.00017
+pop of  14 S 5g-2         0.00084 | 0.00076        0.00009
+pop of  14 S 5g-1         0.00102 | 0.00095        0.00007
+pop of  14 S 5g 0         0.00041 | 0.00035        0.00006
+pop of  14 S 5g 1         0.00025 | 0.00022        0.00002
+pop of  14 S 5g 2         0.00080 | 0.00076        0.00004
+pop of  14 S 5g 3         0.00068 | 0.00053        0.00015
+pop of  14 S 5g 4         0.00016 | 0.00009        0.00007
+pop of  15 C 1s           0.90610 | 0.90617       -0.00008
+pop of  15 C 2s           0.28201 | 0.28253       -0.00052
+pop of  15 C 3s           0.03495 | 0.03624       -0.00129
+pop of  15 C 4s           0.00521 | 0.00513        0.00008
+pop of  15 C 5s           0.00026 | 0.00026        0.00000
+pop of  15 C 2px          0.35437 | 0.35548       -0.00111
+pop of  15 C 2py          0.37269 | 0.37288       -0.00019
+pop of  15 C 2pz          0.36085 | 0.36120       -0.00035
+pop of  15 C 3px          0.06779 | 0.06667        0.00112
+pop of  15 C 3py          0.03342 | 0.03273        0.00070
+pop of  15 C 3pz          0.03294 | 0.03222        0.00073
+pop of  15 C 4px          0.00335 | 0.00340       -0.00005
+pop of  15 C 4py          0.00124 | 0.00122        0.00002
+pop of  15 C 4pz          0.00229 | 0.00228        0.00002
+pop of  15 C 5px          0.00232 | 0.00230        0.00002
+pop of  15 C 5py          0.00126 | 0.00126        0.00000
+pop of  15 C 5pz          0.00152 | 0.00151        0.00001
+pop of  15 C 3dxy         0.09011 | 0.08685        0.00327
+pop of  15 C 3dyz         0.02893 | 0.02847        0.00047
+pop of  15 C 3dz^2        0.08995 | 0.08754        0.00241
+pop of  15 C 3dxz         0.06430 | 0.06315        0.00115
+pop of  15 C 3dx2-y2      0.06922 | 0.06705        0.00216
+pop of  15 C 4dxy         0.00396 | 0.00387        0.00009
+pop of  15 C 4dyz         0.00213 | 0.00204        0.00009
+pop of  15 C 4dz^2        0.00310 | 0.00307        0.00004
+pop of  15 C 4dxz         0.00684 | 0.00682        0.00003
+pop of  15 C 4dx2-y2      0.00708 | 0.00700        0.00009
+pop of  15 C 5dxy         0.00070 | 0.00069        0.00001
+pop of  15 C 5dyz         0.00037 | 0.00035        0.00002
+pop of  15 C 5dz^2        0.00066 | 0.00066        0.00000
+pop of  15 C 5dxz         0.00103 | 0.00103        0.00001
+pop of  15 C 5dx2-y2      0.00109 | 0.00107        0.00001
+pop of  15 C 4f-3         0.01244 | 0.01202        0.00042
+pop of  15 C 4f-2         0.01074 | 0.01044        0.00030
+pop of  15 C 4f-1         0.00695 | 0.00685        0.00010
+pop of  15 C 4f 0         0.00989 | 0.00986        0.00003
+pop of  15 C 4f 1         0.01083 | 0.01040        0.00043
+pop of  15 C 4f 2         0.00802 | 0.00788        0.00014
+pop of  15 C 4f 3         0.00964 | 0.00930        0.00034
+pop of  15 C 5f-3         0.00061 | 0.00058        0.00003
+pop of  15 C 5f-2         0.00059 | 0.00057        0.00002
+pop of  15 C 5f-1         0.00011 | 0.00010        0.00001
+pop of  15 C 5f 0         0.00028 | 0.00029       -0.00000
+pop of  15 C 5f 1         0.00074 | 0.00071        0.00003
+pop of  15 C 5f 2         0.00065 | 0.00065       -0.00000
+pop of  15 C 5f 3         0.00053 | 0.00051        0.00002
+pop of  15 C 5g-4         0.00083 | 0.00083        0.00001
+pop of  15 C 5g-3         0.00071 | 0.00071        0.00000
+pop of  15 C 5g-2         0.00016 | 0.00016        0.00001
+pop of  15 C 5g-1         0.00074 | 0.00074        0.00000
+pop of  15 C 5g 0         0.00080 | 0.00079        0.00001
+pop of  15 C 5g 1         0.00045 | 0.00045        0.00000
+pop of  15 C 5g 2         0.00061 | 0.00060        0.00001
+pop of  15 C 5g 3         0.00037 | 0.00036        0.00001
+pop of  15 C 5g 4         0.00050 | 0.00049        0.00001
+pop of  16 H 1s           0.31443 | 0.31466       -0.00022
+pop of  16 H 2s           0.05265 | 0.05293       -0.00028
+pop of  16 H 3s           0.00500 | 0.00522       -0.00023
+pop of  16 H 4s           0.00071 | 0.00073       -0.00002
+pop of  16 H 2px          0.05062 | 0.05083       -0.00020
+pop of  16 H 2py          0.05088 | 0.05101       -0.00013
+pop of  16 H 2pz          0.06025 | 0.06108       -0.00082
+pop of  16 H 3px          0.00156 | 0.00154        0.00002
+pop of  16 H 3py          0.00289 | 0.00289        0.00000
+pop of  16 H 3pz          0.02103 | 0.02097        0.00006
+pop of  16 H 4px          0.00040 | 0.00039        0.00001
+pop of  16 H 4py          0.00049 | 0.00048        0.00000
+pop of  16 H 4pz          0.00290 | 0.00290        0.00000
+pop of  16 H 3dxy         0.00111 | 0.00110        0.00001
+pop of  16 H 3dyz         0.01614 | 0.01616       -0.00002
+pop of  16 H 3dz^2        0.01846 | 0.01851       -0.00005
+pop of  16 H 3dxz         0.01666 | 0.01677       -0.00011
+pop of  16 H 3dx2-y2      0.00242 | 0.00241        0.00002
+pop of  16 H 4dxy         0.00008 | 0.00008        0.00000
+pop of  16 H 4dyz         0.00145 | 0.00145       -0.00000
+pop of  16 H 4dz^2        0.00220 | 0.00221       -0.00000
+pop of  16 H 4dxz         0.00122 | 0.00123       -0.00000
+pop of  16 H 4dx2-y2      0.00018 | 0.00018        0.00000
+pop of  16 H 4f-3         0.00003 | 0.00003        0.00000
+pop of  16 H 4f-2         0.00030 | 0.00030        0.00000
+pop of  16 H 4f-1         0.00187 | 0.00187       -0.00000
+pop of  16 H 4f 0         0.00252 | 0.00252       -0.00000
+pop of  16 H 4f 1         0.00170 | 0.00171       -0.00001
+pop of  16 H 4f 2         0.00055 | 0.00055        0.00000
+pop of  16 H 4f 3         0.00002 | 0.00002        0.00000
+pop of  17 H 1s           0.30264 | 0.30225        0.00038
+pop of  17 H 2s           0.05913 | 0.05975       -0.00062
+pop of  17 H 3s           0.00598 | 0.00615       -0.00017
+pop of  17 H 4s           0.00083 | 0.00084       -0.00002
+pop of  17 H 2px          0.05911 | 0.05935       -0.00024
+pop of  17 H 2py          0.05169 | 0.05174       -0.00006
+pop of  17 H 2pz          0.05053 | 0.05054       -0.00001
+pop of  17 H 3px          0.01335 | 0.01329        0.00006
+pop of  17 H 3py          0.00722 | 0.00722        0.00000
+pop of  17 H 3pz          0.00497 | 0.00496        0.00000
+pop of  17 H 4px          0.00199 | 0.00198        0.00001
+pop of  17 H 4py          0.00105 | 0.00105       -0.00000
+pop of  17 H 4pz          0.00074 | 0.00074       -0.00000
+pop of  17 H 3dxy         0.01122 | 0.01124       -0.00002
+pop of  17 H 3dyz         0.00606 | 0.00607       -0.00001
+pop of  17 H 3dz^2        0.01102 | 0.01108       -0.00006
+pop of  17 H 3dxz         0.01093 | 0.01093       -0.00000
+pop of  17 H 3dx2-y2      0.01619 | 0.01623       -0.00004
+pop of  17 H 4dxy         0.00134 | 0.00134       -0.00000
+pop of  17 H 4dyz         0.00069 | 0.00069        0.00000
+pop of  17 H 4dz^2        0.00083 | 0.00083       -0.00000
+pop of  17 H 4dxz         0.00118 | 0.00118       -0.00000
+pop of  17 H 4dx2-y2      0.00119 | 0.00119       -0.00000
+pop of  17 H 4f-3         0.00140 | 0.00140        0.00000
+pop of  17 H 4f-2         0.00136 | 0.00136       -0.00000
+pop of  17 H 4f-1         0.00049 | 0.00049       -0.00000
+pop of  17 H 4f 0         0.00068 | 0.00068        0.00000
+pop of  17 H 4f 1         0.00115 | 0.00116       -0.00000
+pop of  17 H 4f 2         0.00082 | 0.00082       -0.00000
+pop of  17 H 4f 3         0.00121 | 0.00122       -0.00000
+pop of  18 H 1s           0.27260 | 0.27189        0.00071
+pop of  18 H 2s           0.09971 | 0.10041       -0.00070
+pop of  18 H 3s           0.00862 | 0.00871       -0.00009
+pop of  18 H 4s           0.00100 | 0.00101       -0.00001
+pop of  18 H 2px          0.05092 | 0.05101       -0.00009
+pop of  18 H 2py          0.07744 | 0.07710        0.00034
+pop of  18 H 2pz          0.04755 | 0.04763       -0.00008
+pop of  18 H 3px          0.00375 | 0.00376       -0.00002
+pop of  18 H 3py          0.02212 | 0.02205        0.00008
+pop of  18 H 3pz          0.00173 | 0.00172        0.00001
+pop of  18 H 4px          0.00076 | 0.00076       -0.00000
+pop of  18 H 4py          0.00313 | 0.00313        0.00001
+pop of  18 H 4pz          0.00039 | 0.00039        0.00000
+pop of  18 H 3dxy         0.01855 | 0.01865       -0.00010
+pop of  18 H 3dyz         0.01696 | 0.01697       -0.00001
+pop of  18 H 3dz^2        0.00569 | 0.00566        0.00003
+pop of  18 H 3dxz         0.00126 | 0.00126       -0.00000
+pop of  18 H 3dx2-y2      0.01458 | 0.01458       -0.00000
+pop of  18 H 4dxy         0.00151 | 0.00151       -0.00000
+pop of  18 H 4dyz         0.00132 | 0.00132       -0.00000
+pop of  18 H 4dz^2        0.00073 | 0.00073        0.00000
+pop of  18 H 4dxz         0.00012 | 0.00012       -0.00000
+pop of  18 H 4dx2-y2      0.00183 | 0.00183        0.00000
+pop of  18 H 4f-3         0.00182 | 0.00182        0.00000
+pop of  18 H 4f-2         0.00029 | 0.00029        0.00000
+pop of  18 H 4f-1         0.00129 | 0.00129        0.00000
+pop of  18 H 4f 0         0.00068 | 0.00068        0.00000
+pop of  18 H 4f 1         0.00022 | 0.00022       -0.00000
+pop of  18 H 4f 2         0.00092 | 0.00092       -0.00000
+pop of  18 H 4f 3         0.00206 | 0.00206       -0.00001
+pop of  19 S 1s           0.99909 | 0.99909        0.00000
+pop of  19 S 2s           0.95029 | 0.95028        0.00001
+pop of  19 S 3s           0.52745 | 0.52705        0.00039
+pop of  19 S 4s           0.04161 | 0.04073        0.00087
+pop of  19 S 5s           0.00508 | 0.00460        0.00048
+pop of  19 S 6s           0.00113 | 0.00107        0.00006
+pop of  19 S 2px          0.99333 | 0.99333       -0.00000
+pop of  19 S 2py          0.99733 | 0.99732        0.00001
+pop of  19 S 2pz          0.99590 | 0.99588        0.00001
+pop of  19 S 3px          0.50763 | 0.50490        0.00274
+pop of  19 S 3py          0.65659 | 0.63835        0.01824
+pop of  19 S 3pz          0.58266 | 0.56235        0.02032
+pop of  19 S 4px          0.05593 | 0.05494        0.00099
+pop of  19 S 4py          0.03038 | 0.02960        0.00078
+pop of  19 S 4pz          0.04227 | 0.04253       -0.00026
+pop of  19 S 5px          0.00344 | 0.00354       -0.00010
+pop of  19 S 5py          0.00561 | 0.00361        0.00200
+pop of  19 S 5pz          0.00545 | 0.00340        0.00204
+pop of  19 S 6px          0.00084 | 0.00084       -0.00001
+pop of  19 S 6py          0.00091 | 0.00077        0.00014
+pop of  19 S 6pz          0.00102 | 0.00088        0.00014
+pop of  19 S 3dxy         0.03835 | 0.03486        0.00349
+pop of  19 S 3dyz         0.02493 | 0.01749        0.00744
+pop of  19 S 3dz^2        0.03169 | 0.02393        0.00776
+pop of  19 S 3dxz         0.04414 | 0.04404        0.00009
+pop of  19 S 3dx2-y2      0.03591 | 0.03083        0.00508
+pop of  19 S 4dxy         0.00548 | 0.00484        0.00064
+pop of  19 S 4dyz         0.00578 | 0.00585       -0.00007
+pop of  19 S 4dz^2        0.00503 | 0.00392        0.00112
+pop of  19 S 4dxz         0.00818 | 0.00775        0.00042
+pop of  19 S 4dx2-y2      0.00868 | 0.00821        0.00047
+pop of  19 S 5dxy         0.00095 | 0.00083        0.00012
+pop of  19 S 5dyz         0.00151 | 0.00144        0.00007
+pop of  19 S 5dz^2        0.00114 | 0.00087        0.00027
+pop of  19 S 5dxz         0.00178 | 0.00172        0.00006
+pop of  19 S 5dx2-y2      0.00201 | 0.00194        0.00007
+pop of  19 S 4f-3         0.00984 | 0.00946        0.00037
+pop of  19 S 4f-2         0.00982 | 0.00850        0.00132
+pop of  19 S 4f-1         0.00648 | 0.00385        0.00264
+pop of  19 S 4f 0         0.00567 | 0.00322        0.00245
+pop of  19 S 4f 1         0.01294 | 0.01277        0.00017
+pop of  19 S 4f 2         0.01108 | 0.00925        0.00183
+pop of  19 S 4f 3         0.00794 | 0.00727        0.00068
+pop of  19 S 5f-3         0.00116 | 0.00109        0.00007
+pop of  19 S 5f-2         0.00119 | 0.00098        0.00021
+pop of  19 S 5f-1         0.00113 | 0.00081        0.00032
+pop of  19 S 5f 0         0.00087 | 0.00049        0.00038
+pop of  19 S 5f 1         0.00145 | 0.00142        0.00003
+pop of  19 S 5f 2         0.00173 | 0.00156        0.00018
+pop of  19 S 5f 3         0.00102 | 0.00089        0.00013
+pop of  19 S 5g-4         0.00053 | 0.00050        0.00003
+pop of  19 S 5g-3         0.00074 | 0.00058        0.00016
+pop of  19 S 5g-2         0.00017 | 0.00014        0.00004
+pop of  19 S 5g-1         0.00038 | 0.00015        0.00023
+pop of  19 S 5g 0         0.00047 | 0.00040        0.00008
+pop of  19 S 5g 1         0.00059 | 0.00058        0.00001
+pop of  19 S 5g 2         0.00093 | 0.00072        0.00020
+pop of  19 S 5g 3         0.00078 | 0.00072        0.00006
+pop of  19 S 5g 4         0.00057 | 0.00054        0.00002
+pop of  20 Fe 1s          0.99980 | 0.99981       -0.00000
+pop of  20 Fe 2s          0.99076 | 0.99086       -0.00010
+pop of  20 Fe 3s          0.83560 | 0.83712       -0.00151
+pop of  20 Fe 4s          0.12255 | 0.12559       -0.00305
+pop of  20 Fe 5s          0.17694 | 0.18255       -0.00561
+pop of  20 Fe 6s          0.04782 | 0.05637       -0.00855
+pop of  20 Fe 7s          0.00434 | 0.00341        0.00092
+pop of  20 Fe 8s          0.00124 | 0.00120        0.00004
+pop of  20 Fe 2px         0.99977 | 0.99977       -0.00000
+pop of  20 Fe 2py         0.99984 | 0.99984       -0.00000
+pop of  20 Fe 2pz         0.99974 | 0.99975       -0.00000
+pop of  20 Fe 3px         0.94486 | 0.94544       -0.00057
+pop of  20 Fe 3py         0.95657 | 0.95705       -0.00048
+pop of  20 Fe 3pz         0.93891 | 0.93956       -0.00065
+pop of  20 Fe 4px         0.09169 | 0.08874        0.00295
+pop of  20 Fe 4py         0.10432 | 0.10424        0.00007
+pop of  20 Fe 4pz         0.11900 | 0.11553        0.00347
+pop of  20 Fe 5px         0.13774 | 0.17039       -0.03266
+pop of  20 Fe 5py         0.14964 | 0.17431       -0.02468
+pop of  20 Fe 5pz         0.17561 | 0.19290       -0.01729
+pop of  20 Fe 6px         0.03079 | 0.03934       -0.00855
+pop of  20 Fe 6py         0.02593 | 0.03210       -0.00616
+pop of  20 Fe 6pz         0.05719 | 0.06453       -0.00734
+pop of  20 Fe 7px         0.00302 | 0.00273        0.00029
+pop of  20 Fe 7py         0.00287 | 0.00259        0.00028
+pop of  20 Fe 7pz         0.00734 | 0.00613        0.00121
+pop of  20 Fe 8px         0.00076 | 0.00081       -0.00005
+pop of  20 Fe 8py         0.00074 | 0.00078       -0.00004
+pop of  20 Fe 8pz         0.00174 | 0.00167        0.00008
+pop of  20 Fe 3dxy        0.54423 | 0.86441       -0.32017
+pop of  20 Fe 3dyz        0.35258 | 0.85032       -0.49775
+pop of  20 Fe 3dz^2       0.21745 | 0.83401       -0.61656
+pop of  20 Fe 3dxz        0.32362 | 0.84275       -0.51913
+pop of  20 Fe 3dx2-y2     0.20385 | 0.86354       -0.65969
+pop of  20 Fe 4dxy        0.12047 | 0.15188       -0.03140
+pop of  20 Fe 4dyz        0.15286 | 0.18741       -0.03455
+pop of  20 Fe 4dz^2       0.11059 | 0.17419       -0.06360
+pop of  20 Fe 4dxz        0.13576 | 0.16318       -0.02742
+pop of  20 Fe 4dx2-y2     0.11112 | 0.16749       -0.05637
+pop of  20 Fe 5dxy        0.03201 | 0.05948       -0.02747
+pop of  20 Fe 5dyz        0.05917 | 0.11970       -0.06053
+pop of  20 Fe 5dz^2       0.02565 | 0.05099       -0.02534
+pop of  20 Fe 5dxz        0.04554 | 0.09070       -0.04516
+pop of  20 Fe 5dx2-y2     0.02907 | 0.06258       -0.03352
+pop of  20 Fe 6dxy        0.00362 | 0.00440       -0.00078
+pop of  20 Fe 6dyz        0.00741 | 0.00821       -0.00080
+pop of  20 Fe 6dz^2       0.00534 | 0.00606       -0.00072
+pop of  20 Fe 6dxz        0.00490 | 0.00613       -0.00123
+pop of  20 Fe 6dx2-y2     0.00325 | 0.00440       -0.00115
+pop of  20 Fe 7dxy        0.00090 | 0.00109       -0.00019
+pop of  20 Fe 7dyz        0.00219 | 0.00277       -0.00058
+pop of  20 Fe 7dz^2       0.00163 | 0.00174       -0.00011
+pop of  20 Fe 7dxz        0.00138 | 0.00171       -0.00033
+pop of  20 Fe 7dx2-y2     0.00081 | 0.00100       -0.00019
+pop of  20 Fe 4f-3        0.00426 | 0.00485       -0.00059
+pop of  20 Fe 4f-2        0.00822 | 0.00749        0.00073
+pop of  20 Fe 4f-1        0.00552 | 0.00565       -0.00013
+pop of  20 Fe 4f 0        0.00473 | 0.00432        0.00041
+pop of  20 Fe 4f 1        0.00529 | 0.00619       -0.00090
+pop of  20 Fe 4f 2        0.00866 | 0.00758        0.00108
+pop of  20 Fe 4f 3        0.00388 | 0.00446       -0.00058
+pop of  20 Fe 5f-3        0.00049 | 0.00052       -0.00003
+pop of  20 Fe 5f-2        0.00090 | 0.00084        0.00006
+pop of  20 Fe 5f-1        0.00060 | 0.00059        0.00001
+pop of  20 Fe 5f 0        0.00053 | 0.00045        0.00008
+pop of  20 Fe 5f 1        0.00057 | 0.00061       -0.00004
+pop of  20 Fe 5f 2        0.00093 | 0.00085        0.00009
+pop of  20 Fe 5f 3        0.00044 | 0.00048       -0.00004
+pop of  20 Fe 6f-3        0.00008 | 0.00008       -0.00000
+pop of  20 Fe 6f-2        0.00014 | 0.00013        0.00001
+pop of  20 Fe 6f-1        0.00010 | 0.00009        0.00000
+pop of  20 Fe 6f 0        0.00009 | 0.00007        0.00001
+pop of  20 Fe 6f 1        0.00009 | 0.00010       -0.00001
+pop of  20 Fe 6f 2        0.00015 | 0.00013        0.00001
+pop of  20 Fe 6f 3        0.00007 | 0.00008       -0.00001
+pop of  20 Fe 5g-4        0.00005 | 0.00006       -0.00001
+pop of  20 Fe 5g-3        0.00013 | 0.00012        0.00002
+pop of  20 Fe 5g-2        0.00009 | 0.00009        0.00000
+pop of  20 Fe 5g-1        0.00007 | 0.00006        0.00001
+pop of  20 Fe 5g 0        0.00010 | 0.00007        0.00002
+pop of  20 Fe 5g 1        0.00007 | 0.00007        0.00000
+pop of  20 Fe 5g 2        0.00010 | 0.00009        0.00001
+pop of  20 Fe 5g 3        0.00011 | 0.00009        0.00002
+pop of  20 Fe 5g 4        0.00004 | 0.00004        0.00001
+pop of  20 Fe 6g-4        0.00000 | 0.00001       -0.00000
+pop of  20 Fe 6g-3        0.00001 | 0.00001       -0.00000
+pop of  20 Fe 6g-2        0.00001 | 0.00001       -0.00000
+pop of  20 Fe 6g-1        0.00001 | 0.00001        0.00000
+pop of  20 Fe 6g 0        0.00001 | 0.00001        0.00000
+pop of  20 Fe 6g 1        0.00000 | 0.00001       -0.00000
+pop of  20 Fe 6g 2        0.00001 | 0.00001       -0.00000
+pop of  20 Fe 6g 3        0.00001 | 0.00001        0.00000
+pop of  20 Fe 6g 4        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 6h-5        0.00000 | 0.00000        0.00000
+pop of  20 Fe 6h-4        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 6h-3        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 6h-2        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 6h-1        0.00000 | 0.00000        0.00000
+pop of  20 Fe 6h 0        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 6h 1        0.00000 | 0.00000        0.00000
+pop of  20 Fe 6h 2        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 6h 3        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 6h 4        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 6h 5        0.00000 | 0.00000        0.00000
+pop of  21 Fe 1s          0.99980 | 0.99980        0.00000
+pop of  21 Fe 2s          0.99081 | 0.99072        0.00009
+pop of  21 Fe 3s          0.83635 | 0.83493        0.00141
+pop of  21 Fe 4s          0.12648 | 0.12508        0.00140
+pop of  21 Fe 5s          0.17491 | 0.16854        0.00637
+pop of  21 Fe 6s          0.05860 | 0.05034        0.00826
+pop of  21 Fe 7s          0.00335 | 0.00430       -0.00095
+pop of  21 Fe 8s          0.00118 | 0.00123       -0.00004
+pop of  21 Fe 2px         0.99979 | 0.99979        0.00000
+pop of  21 Fe 2py         0.99983 | 0.99983        0.00000
+pop of  21 Fe 2pz         0.99974 | 0.99974        0.00000
+pop of  21 Fe 3px         0.94935 | 0.94885        0.00050
+pop of  21 Fe 3py         0.95512 | 0.95460        0.00052
+pop of  21 Fe 3pz         0.93882 | 0.93816        0.00066
+pop of  21 Fe 4px         0.08789 | 0.09138       -0.00349
+pop of  21 Fe 4py         0.10281 | 0.10199        0.00083
+pop of  21 Fe 4pz         0.11643 | 0.11972       -0.00330
+pop of  21 Fe 5px         0.15548 | 0.12719        0.02829
+pop of  21 Fe 5py         0.17270 | 0.14785        0.02484
+pop of  21 Fe 5pz         0.19703 | 0.18021        0.01682
+pop of  21 Fe 6px         0.03749 | 0.03020        0.00729
+pop of  21 Fe 6py         0.03843 | 0.03233        0.00610
+pop of  21 Fe 6pz         0.05832 | 0.05179        0.00653
+pop of  21 Fe 7px         0.00235 | 0.00265       -0.00030
+pop of  21 Fe 7py         0.00299 | 0.00331       -0.00032
+pop of  21 Fe 7pz         0.00542 | 0.00664       -0.00122
+pop of  21 Fe 8px         0.00073 | 0.00070        0.00003
+pop of  21 Fe 8py         0.00089 | 0.00085        0.00004
+pop of  21 Fe 8pz         0.00148 | 0.00155       -0.00008
+pop of  21 Fe 3dxy        0.86481 | 0.57931        0.28549
+pop of  21 Fe 3dyz        0.85289 | 0.30119        0.55170
+pop of  21 Fe 3dz^2       0.83535 | 0.30375        0.53160
+pop of  21 Fe 3dxz        0.84408 | 0.31011        0.53398
+pop of  21 Fe 3dx2-y2     0.86669 | 0.13305        0.73364
+pop of  21 Fe 4dxy        0.14118 | 0.10939        0.03179
+pop of  21 Fe 4dyz        0.20032 | 0.15963        0.04069
+pop of  21 Fe 4dz^2       0.16547 | 0.10664        0.05883
+pop of  21 Fe 4dxz        0.16248 | 0.13282        0.02965
+pop of  21 Fe 4dx2-y2     0.16572 | 0.10823        0.05749
+pop of  21 Fe 5dxy        0.05192 | 0.03011        0.02181
+pop of  21 Fe 5dyz        0.12874 | 0.06050        0.06825
+pop of  21 Fe 5dz^2       0.04631 | 0.02351        0.02280
+pop of  21 Fe 5dxz        0.08825 | 0.04335        0.04490
+pop of  21 Fe 5dx2-y2     0.06374 | 0.02969        0.03406
+pop of  21 Fe 6dxy        0.00413 | 0.00336        0.00077
+pop of  21 Fe 6dyz        0.00818 | 0.00726        0.00091
+pop of  21 Fe 6dz^2       0.00564 | 0.00498        0.00067
+pop of  21 Fe 6dxz        0.00582 | 0.00462        0.00119
+pop of  21 Fe 6dx2-y2     0.00464 | 0.00346        0.00118
+pop of  21 Fe 7dxy        0.00111 | 0.00098        0.00012
+pop of  21 Fe 7dyz        0.00268 | 0.00200        0.00068
+pop of  21 Fe 7dz^2       0.00158 | 0.00152        0.00007
+pop of  21 Fe 7dxz        0.00161 | 0.00130        0.00031
+pop of  21 Fe 7dx2-y2     0.00115 | 0.00093        0.00023
+pop of  21 Fe 4f-3        0.00433 | 0.00355        0.00078
+pop of  21 Fe 4f-2        0.00730 | 0.00814       -0.00084
+pop of  21 Fe 4f-1        0.00620 | 0.00610        0.00010
+pop of  21 Fe 4f 0        0.00409 | 0.00461       -0.00052
+pop of  21 Fe 4f 1        0.00606 | 0.00510        0.00096
+pop of  21 Fe 4f 2        0.00831 | 0.00960       -0.00129
+pop of  21 Fe 4f 3        0.00401 | 0.00343        0.00059
+pop of  21 Fe 5f-3        0.00045 | 0.00041        0.00004
+pop of  21 Fe 5f-2        0.00081 | 0.00088       -0.00007
+pop of  21 Fe 5f-1        0.00065 | 0.00067       -0.00002
+pop of  21 Fe 5f 0        0.00042 | 0.00051       -0.00009
+pop of  21 Fe 5f 1        0.00061 | 0.00055        0.00006
+pop of  21 Fe 5f 2        0.00094 | 0.00104       -0.00010
+pop of  21 Fe 5f 3        0.00044 | 0.00039        0.00005
+pop of  21 Fe 6f-3        0.00007 | 0.00007        0.00001
+pop of  21 Fe 6f-2        0.00013 | 0.00014       -0.00001
+pop of  21 Fe 6f-1        0.00010 | 0.00011       -0.00000
+pop of  21 Fe 6f 0        0.00007 | 0.00008       -0.00002
+pop of  21 Fe 6f 1        0.00010 | 0.00009        0.00001
+pop of  21 Fe 6f 2        0.00015 | 0.00016       -0.00001
+pop of  21 Fe 6f 3        0.00007 | 0.00006        0.00001
+pop of  21 Fe 5g-4        0.00005 | 0.00005        0.00000
+pop of  21 Fe 5g-3        0.00012 | 0.00015       -0.00003
+pop of  21 Fe 5g-2        0.00009 | 0.00010       -0.00001
+pop of  21 Fe 5g-1        0.00006 | 0.00006        0.00000
+pop of  21 Fe 5g 0        0.00008 | 0.00011       -0.00003
+pop of  21 Fe 5g 1        0.00006 | 0.00006       -0.00000
+pop of  21 Fe 5g 2        0.00011 | 0.00012       -0.00001
+pop of  21 Fe 5g 3        0.00010 | 0.00011       -0.00001
+pop of  21 Fe 5g 4        0.00004 | 0.00005       -0.00001
+pop of  21 Fe 6g-4        0.00001 | 0.00000        0.00000
+pop of  21 Fe 6g-3        0.00001 | 0.00001        0.00000
+pop of  21 Fe 6g-2        0.00001 | 0.00001        0.00000
+pop of  21 Fe 6g-1        0.00000 | 0.00001       -0.00000
+pop of  21 Fe 6g 0        0.00001 | 0.00001       -0.00000
+pop of  21 Fe 6g 1        0.00001 | 0.00000        0.00000
+pop of  21 Fe 6g 2        0.00001 | 0.00001       -0.00000
+pop of  21 Fe 6g 3        0.00001 | 0.00001       -0.00000
+pop of  21 Fe 6g 4        0.00001 | 0.00000        0.00000
+pop of  21 Fe 6h-5        0.00000 | 0.00000       -0.00000
+pop of  21 Fe 6h-4        0.00000 | 0.00000        0.00000
+pop of  21 Fe 6h-3        0.00000 | 0.00000        0.00000
+pop of  21 Fe 6h-2        0.00000 | 0.00000        0.00000
+pop of  21 Fe 6h-1        0.00000 | 0.00000       -0.00000
+pop of  21 Fe 6h 0        0.00000 | 0.00000       -0.00000
+pop of  21 Fe 6h 1        0.00000 | 0.00000       -0.00000
+pop of  21 Fe 6h 2        0.00000 | 0.00000        0.00000
+pop of  21 Fe 6h 3        0.00000 | 0.00000        0.00000
+pop of  21 Fe 6h 4        0.00000 | 0.00000        0.00000
+pop of  21 Fe 6h 5        0.00000 | 0.00000       -0.00000
+pop of  22 S 1s           0.99930 | 0.99930       -0.00000
+pop of  22 S 2s           0.96201 | 0.96203       -0.00002
+pop of  22 S 3s           0.55869 | 0.55880       -0.00011
+pop of  22 S 4s           0.03350 | 0.03360       -0.00010
+pop of  22 S 5s           0.00452 | 0.00490       -0.00038
+pop of  22 S 6s           0.00097 | 0.00104       -0.00006
+pop of  22 S 2px          0.99627 | 0.99628       -0.00001
+pop of  22 S 2py          0.99880 | 0.99880        0.00000
+pop of  22 S 2pz          0.99691 | 0.99691        0.00000
+pop of  22 S 3px          0.54874 | 0.56157       -0.01283
+pop of  22 S 3py          0.67210 | 0.67631       -0.00421
+pop of  22 S 3pz          0.57393 | 0.57065        0.00329
+pop of  22 S 4px          0.04289 | 0.04312       -0.00022
+pop of  22 S 4py          0.01338 | 0.01387       -0.00049
+pop of  22 S 4pz          0.03133 | 0.03214       -0.00081
+pop of  22 S 5px          0.00819 | 0.00851       -0.00032
+pop of  22 S 5py          0.00238 | 0.00227        0.00011
+pop of  22 S 5pz          0.00609 | 0.00611       -0.00002
+pop of  22 S 6px          0.00177 | 0.00177        0.00000
+pop of  22 S 6py          0.00051 | 0.00050        0.00001
+pop of  22 S 6pz          0.00123 | 0.00123       -0.00000
+pop of  22 S 3dxy         0.01757 | 0.01985       -0.00228
+pop of  22 S 3dyz         0.01703 | 0.01543        0.00161
+pop of  22 S 3dz^2        0.02035 | 0.02099       -0.00064
+pop of  22 S 3dxz         0.03089 | 0.03087        0.00002
+pop of  22 S 3dx2-y2      0.02131 | 0.02226       -0.00094
+pop of  22 S 4dxy         0.00462 | 0.00482       -0.00020
+pop of  22 S 4dyz         0.00343 | 0.00330        0.00013
+pop of  22 S 4dz^2        0.00270 | 0.00267        0.00003
+pop of  22 S 4dxz         0.01272 | 0.01299       -0.00027
+pop of  22 S 4dx2-y2      0.00602 | 0.00593        0.00009
+pop of  22 S 5dxy         0.00101 | 0.00104       -0.00003
+pop of  22 S 5dyz         0.00083 | 0.00080        0.00002
+pop of  22 S 5dz^2        0.00058 | 0.00056        0.00001
+pop of  22 S 5dxz         0.00332 | 0.00345       -0.00013
+pop of  22 S 5dx2-y2      0.00133 | 0.00135       -0.00002
+pop of  22 S 4f-3         0.00613 | 0.00714       -0.00102
+pop of  22 S 4f-2         0.00994 | 0.01017       -0.00023
+pop of  22 S 4f-1         0.00337 | 0.00272        0.00065
+pop of  22 S 4f 0         0.00668 | 0.00621        0.00046
+pop of  22 S 4f 1         0.01165 | 0.01269       -0.00104
+pop of  22 S 4f 2         0.01288 | 0.01244        0.00044
+pop of  22 S 4f 3         0.00605 | 0.00625       -0.00020
+pop of  22 S 5f-3         0.00110 | 0.00122       -0.00012
+pop of  22 S 5f-2         0.00182 | 0.00184       -0.00002
+pop of  22 S 5f-1         0.00054 | 0.00045        0.00009
+pop of  22 S 5f 0         0.00114 | 0.00109        0.00006
+pop of  22 S 5f 1         0.00184 | 0.00196       -0.00012
+pop of  22 S 5f 2         0.00238 | 0.00230        0.00009
+pop of  22 S 5f 3         0.00098 | 0.00098       -0.00000
+pop of  22 S 5g-4         0.00036 | 0.00043       -0.00007
+pop of  22 S 5g-3         0.00086 | 0.00097       -0.00010
+pop of  22 S 5g-2         0.00055 | 0.00047        0.00008
+pop of  22 S 5g-1         0.00012 | 0.00010        0.00002
+pop of  22 S 5g 0         0.00040 | 0.00043       -0.00002
+pop of  22 S 5g 1         0.00058 | 0.00058        0.00000
+pop of  22 S 5g 2         0.00067 | 0.00075       -0.00008
+pop of  22 S 5g 3         0.00081 | 0.00078        0.00003
+pop of  22 S 5g 4         0.00029 | 0.00032       -0.00004
+pop of  23 C 1s           0.90840 | 0.90839        0.00000
+pop of  23 C 2s           0.26532 | 0.26545       -0.00013
+pop of  23 C 3s           0.02581 | 0.02594       -0.00013
+pop of  23 C 4s           0.00674 | 0.00674        0.00000
+pop of  23 C 5s           0.00047 | 0.00047       -0.00000
+pop of  23 C 2px          0.34546 | 0.34716       -0.00171
+pop of  23 C 2py          0.35769 | 0.35772       -0.00002
+pop of  23 C 2pz          0.32329 | 0.32471       -0.00141
+pop of  23 C 3px          0.04466 | 0.04601       -0.00134
+pop of  23 C 3py          0.02785 | 0.02745        0.00040
+pop of  23 C 3pz          0.04724 | 0.04813       -0.00089
+pop of  23 C 4px          0.00786 | 0.00774        0.00012
+pop of  23 C 4py          0.00413 | 0.00421       -0.00008
+pop of  23 C 4pz          0.00798 | 0.00805       -0.00007
+pop of  23 C 5px          0.00222 | 0.00223       -0.00001
+pop of  23 C 5py          0.00161 | 0.00162       -0.00001
+pop of  23 C 5pz          0.00248 | 0.00249       -0.00001
+pop of  23 C 3dxy         0.02397 | 0.02296        0.00101
+pop of  23 C 3dyz         0.03009 | 0.02918        0.00091
+pop of  23 C 3dz^2        0.04421 | 0.04308        0.00113
+pop of  23 C 3dxz         0.06888 | 0.06754        0.00134
+pop of  23 C 3dx2-y2      0.05118 | 0.04773        0.00345
+pop of  23 C 4dxy         0.00482 | 0.00476        0.00006
+pop of  23 C 4dyz         0.00422 | 0.00408        0.00014
+pop of  23 C 4dz^2        0.00338 | 0.00343       -0.00006
+pop of  23 C 4dxz         0.00742 | 0.00745       -0.00004
+pop of  23 C 4dx2-y2      0.00350 | 0.00341        0.00010
+pop of  23 C 5dxy         0.00075 | 0.00074        0.00001
+pop of  23 C 5dyz         0.00076 | 0.00074        0.00002
+pop of  23 C 5dz^2        0.00064 | 0.00066       -0.00002
+pop of  23 C 5dxz         0.00138 | 0.00138       -0.00000
+pop of  23 C 5dx2-y2      0.00067 | 0.00066        0.00001
+pop of  23 C 4f-3         0.00883 | 0.00865        0.00018
+pop of  23 C 4f-2         0.00872 | 0.00855        0.00016
+pop of  23 C 4f-1         0.00846 | 0.00858       -0.00012
+pop of  23 C 4f 0         0.00325 | 0.00316        0.00008
+pop of  23 C 4f 1         0.01229 | 0.01216        0.00012
+pop of  23 C 4f 2         0.00839 | 0.00793        0.00047
+pop of  23 C 4f 3         0.00332 | 0.00307        0.00026
+pop of  23 C 5f-3         0.00042 | 0.00040        0.00002
+pop of  23 C 5f-2         0.00079 | 0.00077        0.00002
+pop of  23 C 5f-1         0.00025 | 0.00026       -0.00001
+pop of  23 C 5f 0         0.00030 | 0.00029        0.00001
+pop of  23 C 5f 1         0.00067 | 0.00063        0.00004
+pop of  23 C 5f 2         0.00053 | 0.00048        0.00005
+pop of  23 C 5f 3         0.00037 | 0.00034        0.00003
+pop of  23 C 5g-4         0.00012 | 0.00011        0.00001
+pop of  23 C 5g-3         0.00064 | 0.00062        0.00001
+pop of  23 C 5g-2         0.00083 | 0.00083       -0.00000
+pop of  23 C 5g-1         0.00021 | 0.00021       -0.00000
+pop of  23 C 5g 0         0.00045 | 0.00045       -0.00000
+pop of  23 C 5g 1         0.00058 | 0.00057        0.00001
+pop of  23 C 5g 2         0.00080 | 0.00078        0.00002
+pop of  23 C 5g 3         0.00014 | 0.00012        0.00002
+pop of  23 C 5g 4         0.00073 | 0.00073        0.00001
+pop of  24 H 1s           0.28143 | 0.28109        0.00034
+pop of  24 H 2s           0.06802 | 0.06756        0.00046
+pop of  24 H 3s           0.00708 | 0.00712       -0.00004
+pop of  24 H 4s           0.00090 | 0.00090        0.00000
+pop of  24 H 2px          0.05595 | 0.05684       -0.00089
+pop of  24 H 2py          0.05698 | 0.05706       -0.00008
+pop of  24 H 2pz          0.04358 | 0.04393       -0.00035
+pop of  24 H 3px          0.00129 | 0.00127        0.00002
+pop of  24 H 3py          0.02069 | 0.02056        0.00013
+pop of  24 H 3pz          0.00135 | 0.00134        0.00001
+pop of  24 H 4px          0.00031 | 0.00030        0.00001
+pop of  24 H 4py          0.00295 | 0.00293        0.00002
+pop of  24 H 4pz          0.00031 | 0.00031        0.00000
+pop of  24 H 3dxy         0.01927 | 0.01961       -0.00034
+pop of  24 H 3dyz         0.01621 | 0.01639       -0.00018
+pop of  24 H 3dz^2        0.00551 | 0.00550        0.00002
+pop of  24 H 3dxz         0.00078 | 0.00070        0.00008
+pop of  24 H 3dx2-y2      0.01479 | 0.01482       -0.00002
+pop of  24 H 4dxy         0.00134 | 0.00135       -0.00002
+pop of  24 H 4dyz         0.00126 | 0.00127       -0.00001
+pop of  24 H 4dz^2        0.00064 | 0.00064        0.00000
+pop of  24 H 4dxz         0.00007 | 0.00006        0.00001
+pop of  24 H 4dx2-y2      0.00197 | 0.00197       -0.00000
+pop of  24 H 4f-3         0.00193 | 0.00193       -0.00000
+pop of  24 H 4f-2         0.00013 | 0.00012        0.00001
+pop of  24 H 4f-1         0.00126 | 0.00125        0.00001
+pop of  24 H 4f 0         0.00069 | 0.00070       -0.00001
+pop of  24 H 4f 1         0.00014 | 0.00015       -0.00000
+pop of  24 H 4f 2         0.00106 | 0.00108       -0.00002
+pop of  24 H 4f 3         0.00203 | 0.00207       -0.00004
+pop of  25 H 1s           0.25735 | 0.25591        0.00144
+pop of  25 H 2s           0.08130 | 0.08155       -0.00025
+pop of  25 H 3s           0.00908 | 0.01042       -0.00134
+pop of  25 H 4s           0.00114 | 0.00143       -0.00029
+pop of  25 H 2px          0.06345 | 0.06473       -0.00128
+pop of  25 H 2py          0.05312 | 0.05297        0.00015
+pop of  25 H 2pz          0.05834 | 0.06090       -0.00256
+pop of  25 H 3px          0.00693 | 0.00803       -0.00110
+pop of  25 H 3py          0.00323 | 0.00318        0.00005
+pop of  25 H 3pz          0.01303 | 0.01318       -0.00015
+pop of  25 H 4px          0.00125 | 0.00138       -0.00012
+pop of  25 H 4py          0.00061 | 0.00060        0.00001
+pop of  25 H 4pz          0.00192 | 0.00194       -0.00001
+pop of  25 H 3dxy         0.00503 | 0.00527       -0.00025
+pop of  25 H 3dyz         0.01261 | 0.01251        0.00010
+pop of  25 H 3dz^2        0.01763 | 0.01732        0.00031
+pop of  25 H 3dxz         0.01649 | 0.01603        0.00046
+pop of  25 H 3dx2-y2      0.00799 | 0.00795        0.00004
+pop of  25 H 4dxy         0.00051 | 0.00055       -0.00004
+pop of  25 H 4dyz         0.00111 | 0.00112       -0.00000
+pop of  25 H 4dz^2        0.00175 | 0.00174        0.00002
+pop of  25 H 4dxz         0.00164 | 0.00163        0.00001
+pop of  25 H 4dx2-y2      0.00060 | 0.00067       -0.00007
+pop of  25 H 4f-3         0.00013 | 0.00015       -0.00001
+pop of  25 H 4f-2         0.00098 | 0.00099       -0.00001
+pop of  25 H 4f-1         0.00093 | 0.00099       -0.00006
+pop of  25 H 4f 0         0.00169 | 0.00161        0.00007
+pop of  25 H 4f 1         0.00171 | 0.00176       -0.00005
+pop of  25 H 4f 2         0.00131 | 0.00122        0.00008
+pop of  25 H 4f 3         0.00029 | 0.00029        0.00000
+pop of  26 H 1s           0.26421 | 0.26448       -0.00027
+pop of  26 H 2s           0.07466 | 0.07364        0.00103
+pop of  26 H 3s           0.00912 | 0.00864        0.00048
+pop of  26 H 4s           0.00127 | 0.00109        0.00018
+pop of  26 H 2px          0.06226 | 0.06279       -0.00053
+pop of  26 H 2py          0.05082 | 0.05098       -0.00017
+pop of  26 H 2pz          0.05648 | 0.05551        0.00097
+pop of  26 H 3px          0.00928 | 0.00815        0.00113
+pop of  26 H 3py          0.00334 | 0.00338       -0.00003
+pop of  26 H 3pz          0.01101 | 0.01092        0.00009
+pop of  26 H 4px          0.00153 | 0.00136        0.00018
+pop of  26 H 4py          0.00057 | 0.00057       -0.00000
+pop of  26 H 4pz          0.00161 | 0.00160        0.00001
+pop of  26 H 3dxy         0.00682 | 0.00683       -0.00000
+pop of  26 H 3dyz         0.01029 | 0.01035       -0.00006
+pop of  26 H 3dz^2        0.01606 | 0.01685       -0.00079
+pop of  26 H 3dxz         0.01431 | 0.01435       -0.00004
+pop of  26 H 3dx2-y2      0.01016 | 0.01082       -0.00066
+pop of  26 H 4dxy         0.00070 | 0.00069        0.00001
+pop of  26 H 4dyz         0.00100 | 0.00100        0.00001
+pop of  26 H 4dz^2        0.00139 | 0.00143       -0.00004
+pop of  26 H 4dxz         0.00160 | 0.00160        0.00000
+pop of  26 H 4dx2-y2      0.00077 | 0.00075        0.00001
+pop of  26 H 4f-3         0.00030 | 0.00032       -0.00002
+pop of  26 H 4f-2         0.00130 | 0.00128        0.00002
+pop of  26 H 4f-1         0.00076 | 0.00073        0.00002
+pop of  26 H 4f 0         0.00127 | 0.00134       -0.00007
+pop of  26 H 4f 1         0.00152 | 0.00152        0.00000
+pop of  26 H 4f 2         0.00142 | 0.00150       -0.00008
+pop of  26 H 4f 3         0.00052 | 0.00053       -0.00002
+In total                 90.00000 | 90.00000      -0.00000
+ ** Mulliken atomic charges    ( Nelec_alpha | Nelec_beta )    magnetism **
+charge of    0 C =      0.20578  (     2.89116      2.90306 )     -0.01190
+charge of    1 H =     -0.30455  (     0.65196      0.65259 )     -0.00063
+charge of    2 H =     -0.25120  (     0.62589      0.62530 )      0.00059
+charge of    3 H =     -0.25898  (     0.62992      0.62907 )      0.00085
+charge of    4 S =      0.73309  (     7.58786      7.67905 )     -0.09119
+charge of    5 C =      0.20812  (     2.88803      2.90385 )     -0.01583
+charge of    6 H =     -0.24694  (     0.62350      0.62344 )      0.00006
+charge of    7 H =     -0.26043  (     0.63044      0.62999 )      0.00046
+charge of    8 H =     -0.30449  (     0.65171      0.65278 )     -0.00108
+charge of    9 S =      0.73148  (     7.58752      7.68100 )     -0.09348
+charge of   10 C =      0.23510  (     2.88980      2.87510 )      0.01470
+charge of   11 H =     -0.25943  (     0.63054      0.62889 )      0.00165
+charge of   12 H =     -0.25045  (     0.62518      0.62527 )     -0.00009
+charge of   13 H =     -0.23153  (     0.61606      0.61548 )      0.00058
+charge of   14 S =      0.70225  (     7.69869      7.59906 )      0.09962
+charge of   15 C =      0.19235  (     2.90926      2.89839 )      0.01086
+charge of   16 H =     -0.26346  (     0.63074      0.63272 )     -0.00198
+charge of   17 H =     -0.25481  (     0.62701      0.62780 )     -0.00079
+charge of   18 H =     -0.31901  (     0.65954      0.65947 )      0.00007
+charge of   19 S =      0.69355  (     7.69697      7.60947 )      0.08750
+charge of   20Fe =     -2.07064  (    12.46908     15.60155 )     -3.13247
+charge of   21Fe =     -1.99765  (    15.57514     12.42251 )      3.15262
+charge of   22 S =      0.64332  (     7.66839      7.68829 )     -0.01989
+charge of   23 C =      0.63177  (     2.68620      2.68203 )      0.00416
+charge of   24 H =     -0.22074  (     0.60991      0.61083 )     -0.00092
+charge of   25 H =     -0.25113  (     0.62314      0.62799 )     -0.00484
+charge of   26 H =     -0.23138  (     0.61637      0.61501 )      0.00136
+FINISH TIME =  04/01/2023 11:10:57
+TOTAL TIME  =           312663.775

@@ -1,0 +1,159 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+Traceback (most recent call last):
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 54, in load_library
+    return numpy.ctypeslib.load_library(libname, _loaderpath)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/numpy/ctypeslib.py", line 150, in load_library
+    return ctypes.cdll[libpath]
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 456, in __getitem__
+    return getattr(self, name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 451, in __getattr__
+    dll = self._dlltype(name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 381, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/hczhai/program/anaconda3/envs/python3.7/lib/libmkl_intel_lp64.so: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py", line 113, in <module>
+    from pyscf import lib
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/__init__.py", line 24, in <module>
+    from pyscf.lib import numpy_helper
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 39, in <module>
+    _np_helper = misc.load_library('libnp_helper')
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 62, in load_library
+    return numpy.ctypeslib.load_library(libname, libpath)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/numpy/ctypeslib.py", line 150, in load_library
+    return ctypes.cdll[libpath]
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 456, in __getitem__
+    return getattr(self, name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 451, in __getattr__
+    dll = self._dlltype(name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 381, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/hczhai/program/anaconda3/envs/python3.7/lib/libmkl_intel_lp64.so: cannot open shared object file: No such file or directory
+Traceback (most recent call last):
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 54, in load_library
+    return numpy.ctypeslib.load_library(libname, _loaderpath)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/numpy/ctypeslib.py", line 150, in load_library
+    return ctypes.cdll[libpath]
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 456, in __getitem__
+    return getattr(self, name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 451, in __getattr__
+    dll = self._dlltype(name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 381, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/hczhai/program/anaconda3/envs/python3.7/lib/libmkl_intel_lp64.so: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py", line 113, in <module>
+    from pyscf import lib
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/__init__.py", line 24, in <module>
+    from pyscf.lib import numpy_helper
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 39, in <module>
+    _np_helper = misc.load_library('libnp_helper')
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 62, in load_library
+    return numpy.ctypeslib.load_library(libname, libpath)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/numpy/ctypeslib.py", line 150, in load_library
+    return ctypes.cdll[libpath]
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 456, in __getitem__
+    return getattr(self, name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 451, in __getattr__
+    dll = self._dlltype(name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 381, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/hczhai/program/anaconda3/envs/python3.7/lib/libmkl_intel_lp64.so: cannot open shared object file: No such file or directory
+Traceback (most recent call last):
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 54, in load_library
+    return numpy.ctypeslib.load_library(libname, _loaderpath)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/numpy/ctypeslib.py", line 150, in load_library
+    return ctypes.cdll[libpath]
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 456, in __getitem__
+    return getattr(self, name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 451, in __getattr__
+    dll = self._dlltype(name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 381, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/hczhai/program/anaconda3/envs/python3.7/lib/libmkl_intel_lp64.so: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py", line 113, in <module>
+    from pyscf import lib
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/__init__.py", line 24, in <module>
+    from pyscf.lib import numpy_helper
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 39, in <module>
+    _np_helper = misc.load_library('libnp_helper')
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 62, in load_library
+    return numpy.ctypeslib.load_library(libname, libpath)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/numpy/ctypeslib.py", line 150, in load_library
+    return ctypes.cdll[libpath]
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 456, in __getitem__
+    return getattr(self, name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 451, in __getattr__
+    dll = self._dlltype(name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 381, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/hczhai/program/anaconda3/envs/python3.7/lib/libmkl_intel_lp64.so: cannot open shared object file: No such file or directory
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=29518591
+SLURM_JOB_NAME=hfe.9.hife
+HOST_NAME = hpc-83-26.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers/x2c-dk/hfe2/runs/mf-9
+SLURM_CPUS_PER_TASK=24
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Traceback (most recent call last):
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 54, in load_library
+    return numpy.ctypeslib.load_library(libname, _loaderpath)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/numpy/ctypeslib.py", line 150, in load_library
+    return ctypes.cdll[libpath]
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 456, in __getitem__
+    return getattr(self, name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 451, in __getattr__
+    dll = self._dlltype(name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 381, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/hczhai/program/anaconda3/envs/python3.7/lib/libmkl_intel_lp64.so: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "hife.py", line 7, in <module>
+    from pyscf import gto, scf
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py", line 113, in <module>
+    from pyscf import lib
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/__init__.py", line 24, in <module>
+    from pyscf.lib import numpy_helper
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 39, in <module>
+    _np_helper = misc.load_library('libnp_helper')
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 62, in load_library
+    return numpy.ctypeslib.load_library(libname, libpath)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/numpy/ctypeslib.py", line 150, in load_library
+    return ctypes.cdll[libpath]
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 456, in __getitem__
+    return getattr(self, name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 451, in __getattr__
+    dll = self._dlltype(name)
+  File "/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/ctypes/__init__.py", line 381, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/hczhai/program/anaconda3/envs/python3.7/lib/libmkl_intel_lp64.so: cannot open shared object file: No such file or directory
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[62520,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+ERROR TERMINATION

@@ -1,0 +1,43 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.1.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hc-def2-SVP-uks.16/runs/mf-22
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/block2.cpython-38-x86_64-linux-gnu.so
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/__init__.py
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=33397783
+SLURM_JOB_NAME=hc.22.hife
+HOST_NAME = hpc-83-13.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/functional/hc/runs/mf-22
+SLURM_CPUS_PER_TASK=24
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Traceback (most recent call last):
+  File "hife.py", line 65, in <module>
+    mf.kernel(dm0=dm)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/soscf/newton_ah.py", line 867, in kernel
+    return _CIAH_SOSCF.kernel(self, mo_coeff, mo_occ, dm0)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/soscf/newton_ah.py", line 723, in kernel
+    kernel(self, mo_coeff, mo_occ, dm0, conv_tol=self.conv_tol,
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/soscf/newton_ah.py", line 508, in kernel
+    e_tot = mf._scf.energy_tot(dm, h1e, vhf)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/scf/hf.py", line 296, in energy_tot
+    nuc = mf.energy_nuc()
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/dftd3/itrf.py", line 172, in energy_nuc
+    enuc += self.with_dftd3.kernel()[0]
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/dftd3/itrf.py", line 259, in kernel
+    assert(self.version in supported_versions)
+AssertionError
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[34176,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+ERROR TERMINATION

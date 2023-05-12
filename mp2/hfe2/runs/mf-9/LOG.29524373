@@ -1,0 +1,14 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.0.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hfe2-def2-SVP-uks.4/runs/mf-9
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=29524373
+SLURM_JOB_NAME=hfe.9.hife
+HOST_NAME = hpc-83-37.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers/x2c-dk/hfe2/runs/mf-9
+SLURM_CPUS_PER_TASK=24
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+SUCCESSFUL TERMINATION

@@ -1,0 +1,58 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.1.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hfe2-def2-SVP-uks.6/runs/casci-25
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/block2.cpython-38-x86_64-linux-gnu.so
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/__init__.py
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=32812817
+SLURM_JOB_NAME=hfe2.25.hife
+HOST_NAME = hpc-93-17.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-dz/hfe2/runs/casci-25
+SLURM_CPUS_PER_TASK=24
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Overwritten attributes  get_ovlp get_hcore  of <class 'pyscf.scf.uhf.UHF'>
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/gto/mole.py:1193: UserWarning: Function mol.dumps drops attribute spin because it is not JSON-serializable
+  warnings.warn(msg)
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/gto/mole.py:1193: UserWarning: Function mol.dumps drops attribute _nelectron because it is not JSON-serializable
+  warnings.warn(msg)
+Traceback (most recent call last):
+  File "hife.py", line 117, in <module>
+    mc.kernel()
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/mcscf/casci.py", line 962, in kernel
+    kernel(self, mo_coeff, ci0=ci0, verbose=log)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/mcscf/casci.py", line 593, in kernel
+    e_tot, fcivec = casci.fcisolver.kernel(h1eff, eri_cas, ncas, nelecas,
+  File "hife.py", line 98, in kernel
+    self.cc.run()
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/misc.py", line 534, in run
+    self.kernel(*args)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd.py", line 599, in kernel
+    return self.ccsd(t1, t2, eris, mbpt2)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd.py", line 615, in ccsd
+    return ccsd.CCSD.ccsd(self, t1, t2, eris)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/ccsd.py", line 1088, in ccsd
+    eris = self.ao2mo(self.mo_coeff)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd.py", line 698, in ao2mo
+    return _make_eris_outcore(self, mo_coeff)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd.py", line 1128, in _make_eris_outcore
+    ao2mo.general(mol, (orboa,moa,moa,moa), tmpf, 'aa')
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/ao2mo/__init__.py", line 303, in general
+    return mod.general(eri_or_mol, mo_coeffs, erifile, dataname, intor,
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/ao2mo/outcore.py", line 218, in general
+    assert (nao == mol.nao_nr('_cart' in intor))
+AssertionError
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[993,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+ERROR TERMINATION

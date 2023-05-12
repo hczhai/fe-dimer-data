@@ -1,0 +1,59 @@
+MPI INIT: rank 0 of 1
+
+********************************** INPUT START **********************************
+nelec                                                           48
+spin                                                             0
+orbitals                                                   FCIDUMP
+maxiter                                                          1
+sweep_tol                                               0.0000e+00
+outputlevel                                                      2
+hf_occ                                                    integral
+prefix                    /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-21
+num_thrds                                                       24
+trans_mps_to_singlet_embedding                                         
+restart_copy_mps                                             SEKET
+restart_sample                                                 0.1
+mem                                                           82 g
+schedule                  Sweep   0-   0 : Mmps =  5000 Noise =         0 DavTol =     5e-06
+irrep                                                            1
+fullrestart                                                       
+********************************** INPUT END   **********************************
+
+SPIN ADAPTED - REAL DOMAIN - DOUBLE PREC
+qc mpo type =  QCTypes.Conventional
+ UseMainStack = 0 MinDiskUsage = 1 MinMemUsage = 0 IBuf = 0 OBuf = 0
+ FPCompression: prec = 1.00e-16 chunk = 1024
+ IMain = 0 B / 5.35 GB DMain = 0 B / 27.5 GB ISeco = 0 B / 2.29 GB DSeco = 0 B / 41.2 GB
+ OpenMP = 1 TBB = 0 MKL = GNU 2021.0.4 SeqType = Tasked MKLIntLen = 4
+ THREADING = 2 layers : Global | Operator BatchedGEMM 
+ NUMBER : Global = 24 Operator = 24 Quanta = 0 MKL = 1
+ COMPLEX = 1 SINGLE-PREC = 1 KSYMM = 0
+loading reorder for restarting =  [ 4 35  9 10  5 12 32 15 25 24 23 20 28 30 19  6 13 17 18  1 31 14 29 21
+ 22 27 26 16 11 33  2  8  7 34  3  0]
+read integral finished 0.1357548115774989
+integral sym error =            0
+MinMPOMemUsage =  False
+full restart
+MPS =  LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLS 34 2 < N=48 S=0 PG=0 >
+GS INIT MPS BOND DIMS =       1     3    10    35   125   406  1219  2876  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  5000  4470  2322  1267   561   242    90    31    11     2
+pre-mpo memory usage =  1.09 GB
+build mpo start ...
+build mpo finished ... Tread = 0.000 Twrite = 0.000 T = 0.258
+simpl mpo start ...
+simpl mpo finished ... Tread = 0.000 Twrite = 0.000 T = 1.842
+GS MPO BOND DIMS =      41    48    59    74    93   116   143   174   209   248   291   338   389   444   503   566   633   704   633   566   503   444   389   338   291   248   209   174   143   116    93    74    59    48    41     1
+build 1pdm mpo 5.972053566947579
+build identity mpo 5.985148590989411
+memory usage =  1.72 GB
+para mpo finished 6.2625830406323075
+Copy-init canonical form =  LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLS 34
+Copy-final canonical form =  KRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR 0
+dtrie finished 1.6805765680037439
+Number of CSF =          3 (cutoff =       0.1, max_rank =  48)
+Sum of weights of sampled CSF =    0.836509982645976
+
+CSF          0 20222202++++00222222020----220222022  =   -0.903211533101556
+CSF          1 02222202++++00222222020----220222022  =    0.102105302610562
+CSF          2 20222202++++00222222020----220222202  =    0.101456474890064
+STATE OCC =   0.01246 0.00000 0.00000 0.98754 0.98754 0.00000 0.00000 0.01246 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 1.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 1.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 1.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 1.00000 1.00000 0.00000 0.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 1.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.00000 0.00000 0.00000 1.00000 0.98769 0.00000 0.00000 0.01231 0.01231 0.00000 0.00000 0.98769 0.00000 0.00000 0.00000 1.00000
+MPI FINALIZE: rank 0 of 1

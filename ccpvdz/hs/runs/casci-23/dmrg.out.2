@@ -1,0 +1,1654 @@
+MPI INIT: rank 0 of 4
+MPI INIT: rank 2 of 4
+MPI INIT: rank 1 of 4
+MPI INIT: rank 3 of 4
+
+********************************** INPUT START **********************************
+nelec                                                           64
+spin                                                             0
+twodot_to_onedot                                                40
+orbitals                                                   FCIDUMP
+maxiter                                                         48
+sweep_tol                                               1.0000e-08
+outputlevel                                                      2
+hf_occ                                                    integral
+prefix                    /central/scratch/hczhai/hife/hs-def2-SVP-uks.7/runs/casci-23
+num_thrds                                                       56
+onepdm                                                            
+mem                                                           82 g
+schedule                  Sweep   0-   3 : Mmps =   400 Noise =    0.0001 DavTol =    0.0001
+                          Sweep   4-   7 : Mmps =   800 Noise =    0.0001 DavTol =    0.0001
+                          Sweep   8-  11 : Mmps =  1200 Noise =    0.0001 DavTol =     1e-05
+                          Sweep  12-  15 : Mmps =  1600 Noise =     5e-05 DavTol =     1e-05
+                          Sweep  16-  19 : Mmps =  2000 Noise =     5e-05 DavTol =     1e-06
+                          Sweep  20-  23 : Mmps =  2500 Noise =     5e-05 DavTol =     1e-06
+                          Sweep  24-  27 : Mmps =  3000 Noise =     5e-05 DavTol =     1e-06
+                          Sweep  28-  31 : Mmps =  4000 Noise =     5e-05 DavTol =     1e-06
+                          Sweep  32-  35 : Mmps =  5000 Noise =     5e-05 DavTol =     1e-06
+                          Sweep  36-  47 : Mmps =  5000 Noise =         0 DavTol =     1e-07
+irrep                                                            1
+********************************** INPUT END   **********************************
+
+SPIN ADAPTED - REAL DOMAIN - DOUBLE PREC
+qc mpo type =  QCTypes.Conventional
+ UseMainStack = 0 MinDiskUsage = 1 MinMemUsage = 0 IBuf = 0 OBuf = 0
+ FPCompression: prec = 1.00e-16 chunk = 1024
+ IMain = 0 B / 5.35 GB DMain = 0 B / 27.5 GB ISeco = 0 B / 2.29 GB DSeco = 0 B / 41.2 GB
+ OpenMP = 1 TBB = 0 MKL = GNU 2021.0.4 SeqType = Tasked MKLIntLen = 4
+ THREADING = 2 layers : Global | Operator BatchedGEMM 
+ NUMBER : Global = 56 Operator = 56 Quanta = 0 MKL = 1
+ COMPLEX = 1 SINGLE-PREC = 1 KSYMM = 0
+using fiedler reorder =  [ 2  4 61 53 56  9 48  3  5 58 60 54 11 15 50 14 23 18 46 37 35 25 34 39
+ 30 43 29 20 26  8 47 41 42 13 36 21 27 51 28 31 49 57  1  7 32 33 40 24
+ 45 12 52 38 19 16 22 17 44 10 59 55 62  6  0]
+read integral finished 1.5802061846479774
+integral sym error =            0
+MinMPOMemUsage =  False
+MPS =  CCRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR 0 2 < N=64 S=0 PG=0 >
+GS INIT MPS BOND DIMS =       1     3    10    35   126   407   414   420   424   434   443   453   463   475   492   501   518   534   549   569   574   593   609   610   628   639   665   669   683   694   717   736   736   717   694   682   669   664   639   629   608   604   586   573   569   549   534   518   501   492   475   463   453   443   434   424   420   414   407   126    35    10     3     1
+pre-mpo memory usage =  299 MB
+build mpo start ...
+build mpo finished ... Tread = 0.000 Twrite = 0.000 T = 2.478
+simpl mpo start ...
+simpl mpo finished ... Tread = 0.000 Twrite = 0.000 T = 12.115
+GS MPO BOND DIMS =      68    75    86   101   120   143   170   201   236   275   318   365   416   471   530   593   660   731   806   885   968  1055  1146  1241  1340  1443  1550  1661  1776  1895  2018  2018  1895  1776  1661  1550  1443  1340  1241  1146  1055   968   885   806   731   660   593   530   471   416   365   318   275   236   201   170   143   120   101    86    75    68     1
+build 1pdm mpo 19.81613516062498
+build identity mpo 21.156533263623714
+memory usage =  6.04 GB
+para mpo finished 25.860551977530122
+Environment initialization | Nsites =    63 | Center =     0
+ INIT-R <-- Site =   60 ..  Bmem =   320 B Rmem = 1.03 KB T = 0.19
+ INIT-R <-- Site =   59 ..  Bmem = 10.5 KB Rmem = 10.5 KB T = 0.05
+ INIT-R <-- Site =   58 ..  Bmem =  110 KB Rmem =  110 KB T = 0.06
+ INIT-R <-- Site =   57 ..  Bmem = 1.25 MB Rmem = 1.25 MB T = 0.06
+ INIT-R <-- Site =   56 ..  Bmem = 16.0 MB Rmem = 12.2 MB T = 0.14
+ INIT-R <-- Site =   55 ..  Bmem =  163 MB Rmem = 12.0 MB T = 0.15
+ INIT-R <-- Site =   54 ..  Bmem =  157 MB Rmem = 11.2 MB T = 0.11
+ INIT-R <-- Site =   53 ..  Bmem =  158 MB Rmem = 11.0 MB T = 0.11
+ INIT-R <-- Site =   52 ..  Bmem =  158 MB Rmem = 11.0 MB T = 0.09
+ INIT-R <-- Site =   51 ..  Bmem =  162 MB Rmem = 11.2 MB T = 0.13
+ INIT-R <-- Site =   50 ..  Bmem =  164 MB Rmem = 11.2 MB T = 0.12
+ INIT-R <-- Site =   49 ..  Bmem =  170 MB Rmem = 11.4 MB T = 0.12
+ INIT-R <-- Site =   48 ..  Bmem =  179 MB Rmem = 12.0 MB T = 0.14
+ INIT-R <-- Site =   47 ..  Bmem =  187 MB Rmem = 12.7 MB T = 0.12
+ INIT-R <-- Site =   46 ..  Bmem =  193 MB Rmem = 12.7 MB T = 0.14
+ INIT-R <-- Site =   45 ..  Bmem =  199 MB Rmem = 13.4 MB T = 0.15
+ INIT-R <-- Site =   44 ..  Bmem =  210 MB Rmem = 13.8 MB T = 0.14
+ INIT-R <-- Site =   43 ..  Bmem =  218 MB Rmem = 14.2 MB T = 0.12
+ INIT-R <-- Site =   42 ..  Bmem =  220 MB Rmem = 12.8 MB T = 0.16
+ INIT-R <-- Site =   41 ..  Bmem =  203 MB Rmem = 10.3 MB T = 0.18
+ INIT-R <-- Site =   40 ..  Bmem =  169 MB Rmem = 8.96 MB T = 0.17
+ INIT-R <-- Site =   39 ..  Bmem =  142 MB Rmem = 9.22 MB T = 0.16
+ INIT-R <-- Site =   38 ..  Bmem =  144 MB Rmem = 7.65 MB T = 0.19
+ INIT-R <-- Site =   37 ..  Bmem =  121 MB Rmem = 7.85 MB T = 0.17
+ INIT-R <-- Site =   36 ..  Bmem =  126 MB Rmem = 7.47 MB T = 0.17
+ INIT-R <-- Site =   35 ..  Bmem =  121 MB Rmem = 7.81 MB T = 0.18
+ INIT-R <-- Site =   34 ..  Bmem =  126 MB Rmem = 7.60 MB T = 0.19
+ INIT-R <-- Site =   33 ..  Bmem =  120 MB Rmem = 7.74 MB T = 0.22
+ INIT-R <-- Site =   32 ..  Bmem =  126 MB Rmem = 7.81 MB T = 0.22
+ INIT-R <-- Site =   31 ..  Bmem =  127 MB Rmem = 8.12 MB T = 0.25
+ INIT-R <-- Site =   30 ..  Bmem =  130 MB Rmem = 8.48 MB T = 4.18
+ INIT-R <-- Site =   29 ..  Bmem =  128 MB Rmem = 8.48 MB T = 0.13
+ INIT-R <-- Site =   28 ..  Bmem =  120 MB Rmem = 8.10 MB T = 0.11
+ INIT-R <-- Site =   27 ..  Bmem =  113 MB Rmem = 7.81 MB T = 0.09
+ INIT-R <-- Site =   26 ..  Bmem =  109 MB Rmem = 7.80 MB T = 0.10
+ INIT-R <-- Site =   25 ..  Bmem =  109 MB Rmem = 7.67 MB T = 0.10
+ INIT-R <-- Site =   24 ..  Bmem =  105 MB Rmem = 7.79 MB T = 0.11
+ INIT-R <-- Site =   23 ..  Bmem =  109 MB Rmem = 7.52 MB T = 0.09
+ INIT-R <-- Site =   22 ..  Bmem =  104 MB Rmem = 7.88 MB T = 0.08
+ INIT-R <-- Site =   21 ..  Bmem =  109 MB Rmem = 7.58 MB T = 0.08
+ INIT-R <-- Site =   20 ..  Bmem =  104 MB Rmem = 8.94 MB T = 0.09
+ INIT-R <-- Site =   19 ..  Bmem =  121 MB Rmem = 8.77 MB T = 0.08
+ INIT-R <-- Site =   18 ..  Bmem =  119 MB Rmem = 10.4 MB T = 0.08
+ INIT-R <-- Site =   17 ..  Bmem =  144 MB Rmem = 13.0 MB T = 0.11
+ INIT-R <-- Site =   16 ..  Bmem =  175 MB Rmem = 14.2 MB T = 0.12
+ INIT-R <-- Site =   15 ..  Bmem =  191 MB Rmem = 14.0 MB T = 0.11
+ INIT-R <-- Site =   14 ..  Bmem =  186 MB Rmem = 13.4 MB T = 0.11
+ INIT-R <-- Site =   13 ..  Bmem =  178 MB Rmem = 12.7 MB T = 0.11
+ INIT-R <-- Site =   12 ..  Bmem =  171 MB Rmem = 12.6 MB T = 0.09
+ INIT-R <-- Site =   11 ..  Bmem =  165 MB Rmem = 12.0 MB T = 0.05
+ INIT-R <-- Site =   10 ..  Bmem =  157 MB Rmem = 11.7 MB T = 0.07
+ INIT-R <-- Site =    9 ..  Bmem =  152 MB Rmem = 11.5 MB T = 0.07
+ INIT-R <-- Site =    8 ..  Bmem =  146 MB Rmem = 11.2 MB T = 0.07
+ INIT-R <-- Site =    7 ..  Bmem =  144 MB Rmem = 11.2 MB T = 0.06
+ INIT-R <-- Site =    6 ..  Bmem =  138 MB Rmem = 11.0 MB T = 0.08
+ INIT-R <-- Site =    5 ..  Bmem =  136 MB Rmem = 11.2 MB T = 0.06
+ INIT-R <-- Site =    4 ..  Bmem =  140 MB Rmem = 11.9 MB T = 0.07
+ INIT-R <-- Site =    3 ..  Bmem =  139 MB Rmem = 12.2 MB T = 0.07
+ INIT-R <-- Site =    2 ..  Bmem =  139 MB Rmem = 1.30 MB T = 0.06
+ INIT-R <-- Site =    1 ..  Bmem = 13.4 MB Rmem =  114 KB T = 0.05
+ INIT-R <-- Site =    0 ..  Bmem =  943 KB Rmem = 10.5 KB T = 0.05
+Time init sweep =       11.138 | MaxBmem =  220 MB | MaxRmem = 12.8 MB
+ | Tread = 0.000 | Twrite = 2.649 | Tfpread = 0.000 | Tfpwrite = 2.526 | data = 862 MB | cpsd = 582 MB | Tasync = 0.000
+
+env init finished 37.40929155051708
+
+Sweep =    0 | Direction =  forward | Bond dimension =  400 | Noise =  1.00e-04 | Dav threshold =  1.00e-04
+ --> Site =    0-   1 .. Mmps =    3 Ndav =  16 E =  -4712.0263260637 Error = 0.00e+00 FLOPS = 2.43e+05 Tdav = 1.03 T = 1.33
+ --> Site =    1-   2 .. Mmps =   10 Ndav =  14 E =  -4712.7402725952 Error = 0.00e+00 FLOPS = 3.02e+07 Tdav = 0.92 T = 1.14
+ --> Site =    2-   3 .. Mmps =   35 Ndav =  10 E =  -4713.2795936432 Error = 0.00e+00 FLOPS = 1.15e+09 Tdav = 0.63 T = 0.85
+ --> Site =    3-   4 .. Mmps =  126 Ndav =  13 E =  -4713.9000886938 Error = 0.00e+00 FLOPS = 3.28e+10 Tdav = 0.87 T = 1.15
+ --> Site =    4-   5 .. Mmps =  400 Ndav =  12 E =  -4714.1548819057 Error = 1.61e-10 FLOPS = 1.21e+11 Tdav = 0.82 T = 1.07
+ --> Site =    5-   6 .. Mmps =  400 Ndav =  11 E =  -4714.3404410640 Error = 4.80e-09 FLOPS = 4.01e+11 Tdav = 0.98 T = 1.44
+ --> Site =    6-   7 .. Mmps =  400 Ndav =  16 E =  -4714.6420170400 Error = 2.47e-09 FLOPS = 3.88e+11 Tdav = 1.46 T = 2.09
+ --> Site =    7-   8 .. Mmps =  400 Ndav =   9 E =  -4714.9979260938 Error = 6.43e-09 FLOPS = 4.53e+11 Tdav = 0.71 T = 1.19
+ --> Site =    8-   9 .. Mmps =  400 Ndav =  14 E =  -4715.5377215090 Error = 8.59e-08 FLOPS = 4.65e+11 Tdav = 0.95 T = 1.39
+ --> Site =    9-  10 .. Mmps =  400 Ndav =  12 E =  -4716.0327441720 Error = 7.60e-08 FLOPS = 3.60e+11 Tdav = 1.01 T = 1.51
+ --> Site =   10-  11 .. Mmps =  400 Ndav =  13 E =  -4716.4583715645 Error = 9.10e-08 FLOPS = 3.85e+11 Tdav = 1.14 T = 1.67
+ --> Site =   11-  12 .. Mmps =  400 Ndav =  11 E =  -4716.7915838535 Error = 8.59e-08 FLOPS = 3.69e+11 Tdav = 1.00 T = 1.52
+ --> Site =   12-  13 .. Mmps =  400 Ndav =  13 E =  -4717.1615562403 Error = 1.12e-07 FLOPS = 4.09e+11 Tdav = 1.11 T = 1.64
+ --> Site =   13-  14 .. Mmps =  400 Ndav =  10 E =  -4717.4704542004 Error = 1.51e-08 FLOPS = 3.89e+11 Tdav = 0.87 T = 1.38
+ --> Site =   14-  15 .. Mmps =  400 Ndav =  11 E =  -4717.7657995535 Error = 2.66e-08 FLOPS = 3.89e+11 Tdav = 0.94 T = 1.38
+ --> Site =   15-  16 .. Mmps =  400 Ndav =  10 E =  -4718.0112146387 Error = 4.14e-08 FLOPS = 3.75e+11 Tdav = 0.87 T = 1.40
+ --> Site =   16-  17 .. Mmps =  400 Ndav =  19 E =  -4718.4349629094 Error = 3.12e-07 FLOPS = 4.00e+11 Tdav = 1.51 T = 2.15
+ --> Site =   17-  18 .. Mmps =  400 Ndav =  18 E =  -4719.0374711762 Error = 5.86e-08 FLOPS = 2.80e+11 Tdav = 1.44 T = 2.01
+ --> Site =   18-  19 .. Mmps =  400 Ndav =  23 E =  -4719.5474581456 Error = 2.30e-08 FLOPS = 1.86e+11 Tdav = 1.72 T = 2.35
+ --> Site =   19-  20 .. Mmps =  400 Ndav =   7 E =  -4719.6673868670 Error = 8.53e-08 FLOPS = 1.59e+11 Tdav = 0.51 T = 1.09
+ --> Site =   20-  21 .. Mmps =  400 Ndav =  11 E =  -4720.2811593687 Error = 1.38e-08 FLOPS = 1.22e+11 Tdav = 0.79 T = 1.30
+ --> Site =   21-  22 .. Mmps =  400 Ndav =  11 E =  -4720.4885457489 Error = 7.65e-09 FLOPS = 8.69e+10 Tdav = 0.79 T = 1.42
+ --> Site =   22-  23 .. Mmps =  400 Ndav =   8 E =  -4720.5579236637 Error = 1.87e-08 FLOPS = 5.08e+10 Tdav = 0.55 T = 1.10
+ --> Site =   23-  24 .. Mmps =  400 Ndav =  16 E =  -4721.3329768250 Error = 5.60e-09 FLOPS = 8.05e+10 Tdav = 0.91 T = 1.43
+ --> Site =   24-  25 .. Mmps =  400 Ndav =   9 E =  -4721.6474246674 Error = 7.99e-09 FLOPS = 2.95e+11 Tdav = 0.15 T = 0.69
+ --> Site =   25-  26 .. Mmps =  400 Ndav =  15 E =  -4722.0823918787 Error = 9.81e-09 FLOPS = 2.46e+11 Tdav = 0.23 T = 0.78
+ --> Site =   26-  27 .. Mmps =  400 Ndav =  14 E =  -4722.7441519508 Error = 8.04e-09 FLOPS = 6.24e+10 Tdav = 0.93 T = 1.56
+ --> Site =   27-  28 .. Mmps =  400 Ndav =   8 E =  -4722.7958157518 Error = 6.00e-09 FLOPS = 1.02e+11 Tdav = 0.30 T = 0.93
+ --> Site =   28-  29 .. Mmps =  400 Ndav =   9 E =  -4723.1683018076 Error = 3.13e-09 FLOPS = 1.80e+11 Tdav = 0.15 T = 0.74
+ --> Site =   29-  30 .. Mmps =  400 Ndav =   4 E =  -4723.2860609168 Error = 2.98e-09 FLOPS = 1.32e+11 Tdav = 0.08 T = 0.71
+ --> Site =   30-  31 .. Mmps =  400 Ndav =  11 E =  -4723.6831356423 Error = 4.09e-09 FLOPS = 2.00e+11 Tdav = 0.17 T = 0.84
+ --> Site =   31-  32 .. Mmps =  400 Ndav =  17 E =  -4724.2674244209 Error = 1.99e-09 FLOPS = 9.09e+10 Tdav = 1.52 T = 5.22
+ --> Site =   32-  33 .. Mmps =  400 Ndav =   5 E =  -4724.5579592612 Error = 3.39e-09 FLOPS = 1.05e+11 Tdav = 0.45 T = 0.97
+ --> Site =   33-  34 .. Mmps =  400 Ndav =  15 E =  -4724.8526907043 Error = 2.91e-09 FLOPS = 1.42e+11 Tdav = 1.31 T = 1.84
+ --> Site =   34-  35 .. Mmps =  400 Ndav =   9 E =  -4725.1587448471 Error = 1.48e-08 FLOPS = 2.33e+11 Tdav = 0.41 T = 0.93
+ --> Site =   35-  36 .. Mmps =  400 Ndav =   7 E =  -4725.3892066049 Error = 6.32e-09 FLOPS = 2.61e+11 Tdav = 0.25 T = 0.80
+ --> Site =   36-  37 .. Mmps =  400 Ndav =  15 E =  -4725.9039865783 Error = 3.37e-08 FLOPS = 1.61e+11 Tdav = 1.07 T = 1.68
+ --> Site =   37-  38 .. Mmps =  400 Ndav =  20 E =  -4726.1686109355 Error = 9.63e-08 FLOPS = 1.26e+11 Tdav = 1.66 T = 2.24
+ --> Site =   38-  39 .. Mmps =  400 Ndav =  11 E =  -4726.9291084121 Error = 1.47e-09 FLOPS = 1.13e+11 Tdav = 0.89 T = 1.33
+ --> Site =   39-  40 .. Mmps =  400 Ndav =   4 E =  -4727.0099266785 Error = 1.46e-09 FLOPS = 1.00e+11 Tdav = 0.35 T = 0.80
+ --> Site =   40-  41 .. Mmps =  400 Ndav =   7 E =  -4727.2886483845 Error = 4.50e-09 FLOPS = 8.07e+10 Tdav = 0.56 T = 0.95
+ --> Site =   41-  42 .. Mmps =  400 Ndav =   7 E =  -4727.5144444360 Error = 2.50e-08 FLOPS = 3.74e+10 Tdav = 0.57 T = 0.95
+ --> Site =   42-  43 .. Mmps =  400 Ndav =   9 E =  -4728.0547945239 Error = 2.16e-09 FLOPS = 3.06e+10 Tdav = 0.63 T = 1.10
+ --> Site =   43-  44 .. Mmps =  400 Ndav =   8 E =  -4728.3034018987 Error = 7.41e-10 FLOPS = 2.65e+10 Tdav = 0.61 T = 1.09
+ --> Site =   44-  45 .. Mmps =  400 Ndav =   7 E =  -4728.4159798495 Error = 8.38e-09 FLOPS = 2.51e+10 Tdav = 0.52 T = 0.90
+ --> Site =   45-  46 .. Mmps =  400 Ndav =  17 E =  -4728.8053543480 Error = 3.08e-09 FLOPS = 2.33e+10 Tdav = 1.18 T = 1.53
+ --> Site =   46-  47 .. Mmps =  400 Ndav =  18 E =  -4729.1220069366 Error = 8.96e-10 FLOPS = 1.84e+10 Tdav = 1.16 T = 1.55
+ --> Site =   47-  48 .. Mmps =  400 Ndav =  12 E =  -4729.3357081908 Error = 8.22e-10 FLOPS = 1.65e+10 Tdav = 0.79 T = 1.10
+ --> Site =   48-  49 .. Mmps =  400 Ndav =   3 E =  -4729.3435069676 Error = 4.50e-10 FLOPS = 6.45e+10 Tdav = 0.03 T = 0.31
+ --> Site =   49-  50 .. Mmps =  400 Ndav =  19 E =  -4729.4908856503 Error = 1.85e-09 FLOPS = 7.14e+10 Tdav = 0.15 T = 0.41
+ --> Site =   50-  51 .. Mmps =  400 Ndav =  20 E =  -4729.9104836198 Error = 8.61e-10 FLOPS = 8.49e+09 Tdav = 1.29 T = 1.70
+ --> Site =   51-  52 .. Mmps =  400 Ndav =  10 E =  -4730.0457175634 Error = 8.34e-10 FLOPS = 8.56e+09 Tdav = 0.63 T = 0.98
+ --> Site =   52-  53 .. Mmps =  400 Ndav =   3 E =  -4730.0675895394 Error = 4.51e-11 FLOPS = 6.39e+09 Tdav = 0.21 T = 0.58
+ --> Site =   53-  54 .. Mmps =  400 Ndav =  13 E =  -4730.3033390015 Error = 2.51e-11 FLOPS = 7.15e+09 Tdav = 0.86 T = 1.20
+ --> Site =   54-  55 .. Mmps =  400 Ndav =   4 E =  -4730.3197029190 Error = 2.42e-11 FLOPS = 9.92e+09 Tdav = 0.27 T = 0.69
+ --> Site =   55-  56 .. Mmps =  400 Ndav =   3 E =  -4730.3235339093 Error = 8.35e-11 FLOPS = 1.90e+10 Tdav = 0.21 T = 0.61
+ --> Site =   56-  57 .. Mmps =  400 Ndav =  29 E =  -4730.3837847563 Error = 1.18e-08 FLOPS = 3.84e+10 Tdav = 1.87 T = 2.22
+ --> Site =   57-  58 .. Mmps =  400 Ndav =  12 E =  -4730.4061085983 Error = 5.51e-09 FLOPS = 1.66e+11 Tdav = 0.12 T = 0.38
+ --> Site =   58-  59 .. Mmps =  400 Ndav =   1 E =  -4730.4061085986 Error = 1.52e-09 FLOPS = 4.71e+10 Tdav = 0.02 T = 0.24
+ --> Site =   59-  60 .. Mmps =  400 Ndav =   1 E =  -4730.4061085987 Error = 9.54e-11 FLOPS = 4.22e+09 Tdav = 0.08 T = 0.38
+ --> Site =   60-  61 .. Mmps =  179 Ndav =   1 E =  -4730.4061085987 Error = 1.94e-14 FLOPS = 1.84e+09 Tdav = 0.08 T = 0.39
+ --> Site =   61-  62 .. Mmps =   32 Ndav =   1 E =  -4730.4061085987 Error = 2.62e-15 FLOPS = 4.72e+07 Tdav = 0.08 T = 0.25
+Time elapsed =     76.616 | E =   -4730.4061085987 | DW = 3.12e-07
+Time sweep =       76.616 | 7.10 TFLOP/SWP
+ | Tcomm = 33.254 | Tidle = 3.537 | Twait = 0.000 | Dmem = 66.5 MB (3%) | Imem = 1.64 MB (92%) | Hmem = 772 MB | Pmem = 12.1 MB
+ | Tread = 3.144 | Twrite = 4.633 | Tfpread = 2.069 | Tfpwrite = 4.484 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 2.14 GB | cpsd = 1.54 GB
+ | Trot = 0.732 | Tctr = 0.463 | Tint = 0.702 | Tmid = 3.059 | Tdctr = 1.546 | Tdiag = 5.023 | Tinfo = 0.906
+ | Teff = 12.758 | Tprt = 2.687 | Teig = 45.399 | Tblk = 62.615 | Tmve = 13.945 | Tdm = 0.817 | Tsplt = 0.325 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    1 | Direction = backward | Bond dimension =  400 | Noise =  1.00e-04 | Dav threshold =  1.00e-04
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4730.4061085987 Error = 0.00e+00 FLOPS = 4.81e+07 Tdav = 0.08 T = 0.19
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4730.4061085987 Error = 0.00e+00 FLOPS = 1.84e+09 Tdav = 0.08 T = 0.28
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4730.4061085987 Error = 0.00e+00 FLOPS = 4.45e+09 Tdav = 0.08 T = 0.36
+ <-- Site =   58-  59 .. Mmps =  124 Ndav =   1 E =  -4730.4061085987 Error = 0.00e+00 FLOPS = 9.90e+09 Tdav = 0.08 T = 0.31
+ <-- Site =   57-  58 .. Mmps =  320 Ndav =   1 E =  -4730.4061085987 Error = 0.00e+00 FLOPS = 2.14e+10 Tdav = 0.08 T = 0.33
+ <-- Site =   56-  57 .. Mmps =  400 Ndav =   2 E =  -4730.4062736382 Error = 2.33e-09 FLOPS = 3.91e+10 Tdav = 0.15 T = 0.47
+ <-- Site =   55-  56 .. Mmps =  400 Ndav =   7 E =  -4730.4352419883 Error = 1.64e-08 FLOPS = 9.64e+10 Tdav = 0.46 T = 0.89
+ <-- Site =   54-  55 .. Mmps =  400 Ndav =   7 E =  -4730.4577015634 Error = 2.66e-08 FLOPS = 1.61e+11 Tdav = 0.38 T = 0.78
+ <-- Site =   53-  54 .. Mmps =  400 Ndav =   8 E =  -4730.4852217006 Error = 1.84e-08 FLOPS = 1.51e+11 Tdav = 0.55 T = 1.05
+ <-- Site =   52-  53 .. Mmps =  400 Ndav =   3 E =  -4730.4917716768 Error = 2.00e-08 FLOPS = 1.72e+11 Tdav = 0.23 T = 0.64
+ <-- Site =   51-  52 .. Mmps =  400 Ndav =   3 E =  -4730.4947579150 Error = 2.76e-08 FLOPS = 2.33e+11 Tdav = 0.21 T = 0.65
+ <-- Site =   50-  51 .. Mmps =  400 Ndav =   2 E =  -4730.4956681243 Error = 1.26e-08 FLOPS = 6.04e+11 Tdav = 0.05 T = 0.46
+ <-- Site =   49-  50 .. Mmps =  400 Ndav =   3 E =  -4730.5002717210 Error = 7.72e-09 FLOPS = 5.98e+11 Tdav = 0.06 T = 0.48
+ <-- Site =   48-  49 .. Mmps =  400 Ndav =  13 E =  -4730.9097654927 Error = 3.80e-09 FLOPS = 3.67e+11 Tdav = 0.72 T = 1.17
+ <-- Site =   47-  48 .. Mmps =  400 Ndav =   6 E =  -4731.0224452049 Error = 5.39e-08 FLOPS = 3.47e+11 Tdav = 0.43 T = 0.85
+ <-- Site =   46-  47 .. Mmps =  400 Ndav =   4 E =  -4731.0544210734 Error = 4.51e-08 FLOPS = 3.63e+11 Tdav = 0.16 T = 0.77
+ <-- Site =   45-  46 .. Mmps =  400 Ndav =  11 E =  -4731.1192102858 Error = 1.39e-07 FLOPS = 4.00e+11 Tdav = 0.91 T = 1.40
+ <-- Site =   44-  45 .. Mmps =  400 Ndav =   3 E =  -4731.1223606951 Error = 1.21e-07 FLOPS = 3.99e+11 Tdav = 0.26 T = 0.83
+ <-- Site =   43-  44 .. Mmps =  400 Ndav =   2 E =  -4731.1229996987 Error = 6.16e-08 FLOPS = 3.64e+11 Tdav = 0.19 T = 0.72
+ <-- Site =   42-  43 .. Mmps =  400 Ndav =   3 E =  -4731.1283424858 Error = 2.67e-07 FLOPS = 4.24e+11 Tdav = 0.28 T = 0.82
+ <-- Site =   41-  42 .. Mmps =  400 Ndav =   5 E =  -4731.1562425953 Error = 1.39e-06 FLOPS = 5.53e+11 Tdav = 0.47 T = 1.10
+ <-- Site =   40-  41 .. Mmps =  400 Ndav =   5 E =  -4731.1678521747 Error = 7.19e-07 FLOPS = 6.72e+11 Tdav = 0.54 T = 1.19
+ <-- Site =   39-  40 .. Mmps =  400 Ndav =   5 E =  -4731.1807495007 Error = 7.23e-07 FLOPS = 7.74e+11 Tdav = 0.58 T = 1.16
+ <-- Site =   38-  39 .. Mmps =  400 Ndav =   5 E =  -4731.2031946223 Error = 1.07e-05 FLOPS = 8.85e+11 Tdav = 0.56 T = 1.23
+ <-- Site =   37-  38 .. Mmps =  400 Ndav =   5 E =  -4731.2085826907 Error = 5.36e-06 FLOPS = 9.36e+11 Tdav = 0.57 T = 1.23
+ <-- Site =   36-  37 .. Mmps =  400 Ndav =   6 E =  -4731.2172164378 Error = 1.42e-06 FLOPS = 1.44e+12 Tdav = 0.51 T = 1.18
+ <-- Site =   35-  36 .. Mmps =  400 Ndav =  15 E =  -4731.4823876736 Error = 9.76e-07 FLOPS = 1.43e+12 Tdav = 1.43 T = 2.26
+ <-- Site =   34-  35 .. Mmps =  400 Ndav =   4 E =  -4731.4950777154 Error = 1.41e-06 FLOPS = 1.35e+12 Tdav = 0.47 T = 1.31
+ <-- Site =   33-  34 .. Mmps =  400 Ndav =   3 E =  -4731.4990009262 Error = 1.55e-06 FLOPS = 1.08e+12 Tdav = 0.44 T = 1.46
+ <-- Site =   32-  33 .. Mmps =  400 Ndav =   3 E =  -4731.5004935061 Error = 2.96e-06 FLOPS = 1.06e+12 Tdav = 0.45 T = 1.27
+ <-- Site =   31-  32 .. Mmps =  400 Ndav =   2 E =  -4731.5010770696 Error = 6.40e-07 FLOPS = 8.30e+11 Tdav = 0.27 T = 1.07
+ <-- Site =   30-  31 .. Mmps =  400 Ndav =   6 E =  -4731.5495772745 Error = 9.49e-07 FLOPS = 1.10e+12 Tdav = 0.85 T = 4.99
+ <-- Site =   29-  30 .. Mmps =  400 Ndav =   4 E =  -4731.5647316106 Error = 5.50e-06 FLOPS = 1.45e+12 Tdav = 0.51 T = 1.18
+ <-- Site =   28-  29 .. Mmps =  400 Ndav =   6 E =  -4731.5794087354 Error = 2.48e-06 FLOPS = 1.19e+12 Tdav = 0.87 T = 1.60
+ <-- Site =   27-  28 .. Mmps =  400 Ndav =   5 E =  -4731.5898779275 Error = 7.53e-06 FLOPS = 1.27e+12 Tdav = 0.66 T = 1.36
+ <-- Site =   26-  27 .. Mmps =  400 Ndav =   7 E =  -4731.6113843576 Error = 9.08e-06 FLOPS = 1.50e+12 Tdav = 0.63 T = 1.32
+ <-- Site =   25-  26 .. Mmps =  400 Ndav =   5 E =  -4731.6253836281 Error = 1.15e-05 FLOPS = 1.47e+12 Tdav = 0.46 T = 1.06
+ <-- Site =   24-  25 .. Mmps =  400 Ndav =   3 E =  -4731.6279883863 Error = 8.39e-06 FLOPS = 8.28e+11 Tdav = 0.46 T = 1.14
+ <-- Site =   23-  24 .. Mmps =  400 Ndav =   5 E =  -4731.6371139614 Error = 5.39e-06 FLOPS = 8.32e+11 Tdav = 0.58 T = 1.18
+ <-- Site =   22-  23 .. Mmps =  400 Ndav =   3 E =  -4731.6398467782 Error = 3.00e-06 FLOPS = 6.16e+11 Tdav = 0.39 T = 1.07
+ <-- Site =   21-  22 .. Mmps =  400 Ndav =   4 E =  -4731.6440389980 Error = 2.38e-06 FLOPS = 6.10e+11 Tdav = 0.39 T = 1.01
+ <-- Site =   20-  21 .. Mmps =  400 Ndav =   4 E =  -4731.6471466654 Error = 4.08e-06 FLOPS = 6.88e+11 Tdav = 0.42 T = 0.95
+ <-- Site =   19-  20 .. Mmps =  400 Ndav =   3 E =  -4731.6486844450 Error = 2.39e-06 FLOPS = 7.65e+11 Tdav = 0.35 T = 0.89
+ <-- Site =   18-  19 .. Mmps =  400 Ndav =   2 E =  -4731.6492496082 Error = 1.85e-06 FLOPS = 6.60e+11 Tdav = 0.25 T = 0.77
+ <-- Site =   17-  18 .. Mmps =  400 Ndav =   7 E =  -4731.6728002427 Error = 3.62e-06 FLOPS = 9.51e+11 Tdav = 0.79 T = 1.32
+ <-- Site =   16-  17 .. Mmps =  400 Ndav =   3 E =  -4731.6753486717 Error = 2.30e-06 FLOPS = 7.91e+11 Tdav = 0.35 T = 0.92
+ <-- Site =   15-  16 .. Mmps =  400 Ndav =   3 E =  -4731.6785064735 Error = 2.42e-06 FLOPS = 7.93e+11 Tdav = 0.35 T = 0.94
+ <-- Site =   14-  15 .. Mmps =  400 Ndav =   4 E =  -4731.6853218012 Error = 4.93e-06 FLOPS = 7.79e+11 Tdav = 0.48 T = 1.02
+ <-- Site =   13-  14 .. Mmps =  400 Ndav =   4 E =  -4731.6966527997 Error = 1.38e-05 FLOPS = 6.84e+11 Tdav = 0.53 T = 1.17
+ <-- Site =   12-  13 .. Mmps =  400 Ndav =   3 E =  -4731.6999875632 Error = 7.03e-06 FLOPS = 6.75e+11 Tdav = 0.37 T = 0.91
+ <-- Site =   11-  12 .. Mmps =  400 Ndav =   2 E =  -4731.7003848262 Error = 2.86e-06 FLOPS = 6.69e+11 Tdav = 0.22 T = 0.80
+ <-- Site =   10-  11 .. Mmps =  400 Ndav =   2 E =  -4731.7011415675 Error = 5.08e-06 FLOPS = 5.60e+11 Tdav = 0.22 T = 0.75
+ <-- Site =    9-  10 .. Mmps =  400 Ndav =   3 E =  -4731.7020494804 Error = 5.45e-06 FLOPS = 4.79e+11 Tdav = 0.32 T = 0.83
+ <-- Site =    8-   9 .. Mmps =  400 Ndav =   3 E =  -4731.7032366246 Error = 2.44e-06 FLOPS = 4.92e+11 Tdav = 0.33 T = 0.74
+ <-- Site =    7-   8 .. Mmps =  400 Ndav =   2 E =  -4731.7037445169 Error = 2.66e-07 FLOPS = 4.85e+11 Tdav = 0.23 T = 0.66
+ <-- Site =    6-   7 .. Mmps =  400 Ndav =   2 E =  -4731.7039623265 Error = 2.81e-08 FLOPS = 4.58e+11 Tdav = 0.23 T = 0.67
+ <-- Site =    5-   6 .. Mmps =  400 Ndav =   2 E =  -4731.7040307841 Error = 1.08e-07 FLOPS = 7.04e+11 Tdav = 0.14 T = 0.57
+ <-- Site =    4-   5 .. Mmps =  400 Ndav =   1 E =  -4731.7040306742 Error = 7.10e-08 FLOPS = 2.30e+11 Tdav = 0.04 T = 0.48
+ <-- Site =    3-   4 .. Mmps =  400 Ndav =   1 E =  -4731.7040306520 Error = 7.59e-09 FLOPS = 6.39e+10 Tdav = 0.03 T = 0.32
+ <-- Site =    2-   3 .. Mmps =  400 Ndav =   1 E =  -4731.7040306526 Error = 8.96e-10 FLOPS = 3.70e+10 Tdav = 0.01 T = 0.21
+ <-- Site =    1-   2 .. Mmps =  180 Ndav =   1 E =  -4731.7040306527 Error = 1.39e-14 FLOPS = 2.14e+10 Tdav = 0.01 T = 0.26
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4731.7040306527 Error = 7.93e-15 FLOPS = 7.97e+08 Tdav = 0.00 T = 0.06
+Time elapsed =    135.732 | E =   -4731.7040307841 | DE = -1.30e+00 | DW = 1.38e-05
+Time sweep =       59.116 | 16.9 TFLOP/SWP
+ | Tcomm = 16.978 | Tidle = 3.688 | Twait = 0.000 | Dmem = 84.1 MB (3%) | Imem = 169 KB (96%) | Hmem = 987 MB | Pmem = 14.4 MB
+ | Tread = 4.272 | Twrite = 4.951 | Tfpread = 2.902 | Tfpwrite = 4.837 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 2.47 GB | cpsd = 1.78 GB
+ | Trot = 0.771 | Tctr = 0.442 | Tint = 0.763 | Tmid = 3.443 | Tdctr = 1.653 | Tdiag = 4.293 | Tinfo = 1.307
+ | Teff = 12.575 | Tprt = 4.092 | Teig = 23.226 | Tblk = 42.827 | Tmve = 16.257 | Tdm = 1.561 | Tsplt = 0.340 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    2 | Direction =  forward | Bond dimension =  400 | Noise =  1.00e-04 | Dav threshold =  1.00e-04
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4731.7040306527 Error = 0.00e+00 FLOPS = 6.68e+08 Tdav = 0.01 T = 0.03
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4731.7040306527 Error = 0.00e+00 FLOPS = 7.30e+09 Tdav = 0.02 T = 0.17
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4731.7040306527 Error = 0.00e+00 FLOPS = 5.55e+10 Tdav = 0.01 T = 0.07
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   1 E =  -4731.7040306527 Error = 0.00e+00 FLOPS = 4.73e+10 Tdav = 0.05 T = 0.21
+ --> Site =    4-   5 .. Mmps =  400 Ndav =   1 E =  -4731.7040306527 Error = 7.05e-10 FLOPS = 4.41e+11 Tdav = 0.02 T = 0.12
+ --> Site =    5-   6 .. Mmps =  400 Ndav =   1 E =  -4731.7040306539 Error = 9.02e-08 FLOPS = 4.51e+11 Tdav = 0.11 T = 0.51
+ --> Site =    6-   7 .. Mmps =  400 Ndav =   1 E =  -4731.7040306266 Error = 1.60e-07 FLOPS = 3.24e+11 Tdav = 0.16 T = 0.57
+ --> Site =    7-   8 .. Mmps =  400 Ndav =   1 E =  -4731.7040305850 Error = 6.89e-07 FLOPS = 3.45e+11 Tdav = 0.14 T = 0.72
+ --> Site =    8-   9 .. Mmps =  400 Ndav =   1 E =  -4731.7040301244 Error = 2.36e-06 FLOPS = 5.95e+11 Tdav = 0.10 T = 0.57
+ --> Site =    9-  10 .. Mmps =  400 Ndav =   2 E =  -4731.7040930310 Error = 1.04e-05 FLOPS = 7.44e+11 Tdav = 0.15 T = 0.68
+ --> Site =   10-  11 .. Mmps =  400 Ndav =   2 E =  -4731.7041240833 Error = 9.02e-06 FLOPS = 4.92e+11 Tdav = 0.26 T = 0.80
+ --> Site =   11-  12 .. Mmps =  400 Ndav =   1 E =  -4731.7041054874 Error = 1.40e-06 FLOPS = 5.66e+11 Tdav = 0.14 T = 0.77
+ --> Site =   12-  13 .. Mmps =  400 Ndav =   2 E =  -4731.7042272385 Error = 1.80e-05 FLOPS = 6.38e+11 Tdav = 0.26 T = 0.96
+ --> Site =   13-  14 .. Mmps =  400 Ndav =   2 E =  -4731.7043197413 Error = 2.94e-05 FLOPS = 7.54e+11 Tdav = 0.24 T = 0.84
+ --> Site =   14-  15 .. Mmps =  400 Ndav =   2 E =  -4731.7044897000 Error = 1.31e-05 FLOPS = 7.73e+11 Tdav = 0.25 T = 0.95
+ --> Site =   15-  16 .. Mmps =  400 Ndav =   2 E =  -4731.7046295858 Error = 8.46e-06 FLOPS = 7.05e+11 Tdav = 0.26 T = 0.87
+ --> Site =   16-  17 .. Mmps =  400 Ndav =   2 E =  -4731.7048055929 Error = 1.55e-05 FLOPS = 8.51e+11 Tdav = 0.24 T = 0.84
+ --> Site =   17-  18 .. Mmps =  400 Ndav =   2 E =  -4731.7049973981 Error = 2.04e-05 FLOPS = 8.51e+11 Tdav = 0.27 T = 0.92
+ --> Site =   18-  19 .. Mmps =  400 Ndav =   2 E =  -4731.7053087183 Error = 2.20e-05 FLOPS = 7.80e+11 Tdav = 0.28 T = 0.98
+ --> Site =   19-  20 .. Mmps =  400 Ndav =   2 E =  -4731.7055117281 Error = 2.24e-05 FLOPS = 8.46e+11 Tdav = 0.25 T = 0.94
+ --> Site =   20-  21 .. Mmps =  400 Ndav =   2 E =  -4731.7058543409 Error = 2.74e-05 FLOPS = 8.42e+11 Tdav = 0.25 T = 0.89
+ --> Site =   21-  22 .. Mmps =  400 Ndav =   2 E =  -4731.7061770377 Error = 2.00e-05 FLOPS = 8.37e+11 Tdav = 0.26 T = 0.86
+ --> Site =   22-  23 .. Mmps =  400 Ndav =   2 E =  -4731.7064639244 Error = 1.83e-05 FLOPS = 8.03e+11 Tdav = 0.30 T = 0.95
+ --> Site =   23-  24 .. Mmps =  400 Ndav =   2 E =  -4731.7066546673 Error = 3.69e-05 FLOPS = 9.56e+11 Tdav = 0.27 T = 1.04
+ --> Site =   24-  25 .. Mmps =  400 Ndav =   3 E =  -4731.7071673665 Error = 5.58e-05 FLOPS = 1.37e+12 Tdav = 0.32 T = 1.03
+ --> Site =   25-  26 .. Mmps =  400 Ndav =   2 E =  -4731.7074401054 Error = 5.04e-05 FLOPS = 1.51e+12 Tdav = 0.21 T = 1.03
+ --> Site =   26-  27 .. Mmps =  400 Ndav =   2 E =  -4731.7077647775 Error = 5.17e-05 FLOPS = 1.45e+12 Tdav = 0.21 T = 1.14
+ --> Site =   27-  28 .. Mmps =  400 Ndav =   3 E =  -4731.7091966076 Error = 3.71e-05 FLOPS = 1.15e+12 Tdav = 0.45 T = 1.32
+ --> Site =   28-  29 .. Mmps =  400 Ndav =   2 E =  -4731.7095644912 Error = 1.74e-05 FLOPS = 1.10e+12 Tdav = 0.35 T = 1.36
+ --> Site =   29-  30 .. Mmps =  400 Ndav =   5 E =  -4731.7129233724 Error = 4.48e-05 FLOPS = 1.43e+12 Tdav = 0.79 T = 1.67
+ --> Site =   30-  31 .. Mmps =  400 Ndav =   6 E =  -4731.7163447695 Error = 4.55e-06 FLOPS = 1.75e+12 Tdav = 0.75 T = 1.82
+ --> Site =   31-  32 .. Mmps =  400 Ndav =   6 E =  -4731.7249222026 Error = 1.24e-05 FLOPS = 1.56e+12 Tdav = 0.84 T = 5.20
+ --> Site =   32-  33 .. Mmps =  400 Ndav =   6 E =  -4731.7386918542 Error = 1.94e-05 FLOPS = 1.29e+12 Tdav = 1.02 T = 1.82
+ --> Site =   33-  34 .. Mmps =  400 Ndav =   6 E =  -4731.7543887906 Error = 5.47e-06 FLOPS = 1.24e+12 Tdav = 1.02 T = 1.80
+ --> Site =   34-  35 .. Mmps =  400 Ndav =   3 E =  -4731.7578390964 Error = 7.76e-06 FLOPS = 1.18e+12 Tdav = 0.46 T = 1.25
+ --> Site =   35-  36 .. Mmps =  400 Ndav =   3 E =  -4731.7603795444 Error = 2.13e-06 FLOPS = 1.47e+12 Tdav = 0.22 T = 0.85
+ --> Site =   36-  37 .. Mmps =  400 Ndav =   3 E =  -4731.7633881532 Error = 9.87e-07 FLOPS = 1.32e+12 Tdav = 0.30 T = 0.95
+ --> Site =   37-  38 .. Mmps =  400 Ndav =   8 E =  -4731.8815128342 Error = 1.04e-06 FLOPS = 9.41e+11 Tdav = 1.07 T = 1.77
+ --> Site =   38-  39 .. Mmps =  400 Ndav =   4 E =  -4731.8928830251 Error = 1.84e-06 FLOPS = 1.52e+12 Tdav = 0.30 T = 0.96
+ --> Site =   39-  40 .. Mmps =  400 Ndav =   2 E =  -4731.8930162313 Error = 2.18e-07 FLOPS = 1.29e+12 Tdav = 0.17 T = 0.78
+ --> Site =   40-  41 .. Mmps =  400 Ndav =   2 E =  -4731.8940861242 Error = 5.70e-07 FLOPS = 1.22e+12 Tdav = 0.17 T = 0.67
+ --> Site =   41-  42 .. Mmps =  400 Ndav =   5 E =  -4731.9098703990 Error = 3.42e-06 FLOPS = 8.69e+11 Tdav = 0.59 T = 1.14
+ --> Site =   42-  43 .. Mmps =  400 Ndav =   4 E =  -4731.9169328673 Error = 5.43e-07 FLOPS = 7.12e+11 Tdav = 0.47 T = 0.96
+ --> Site =   43-  44 .. Mmps =  400 Ndav =   4 E =  -4731.9282134522 Error = 5.39e-07 FLOPS = 8.15e+11 Tdav = 0.49 T = 1.02
+ --> Site =   44-  45 .. Mmps =  400 Ndav =   3 E =  -4731.9297620351 Error = 3.01e-06 FLOPS = 8.45e+11 Tdav = 0.35 T = 0.84
+ --> Site =   45-  46 .. Mmps =  400 Ndav =   2 E =  -4731.9299220218 Error = 8.40e-07 FLOPS = 6.76e+11 Tdav = 0.24 T = 0.74
+ --> Site =   46-  47 .. Mmps =  400 Ndav =   4 E =  -4731.9361854906 Error = 1.30e-06 FLOPS = 6.94e+11 Tdav = 0.52 T = 1.13
+ --> Site =   47-  48 .. Mmps =  400 Ndav =   2 E =  -4731.9366212963 Error = 1.30e-06 FLOPS = 6.95e+11 Tdav = 0.24 T = 0.75
+ --> Site =   48-  49 .. Mmps =  400 Ndav =   2 E =  -4731.9373205202 Error = 5.50e-07 FLOPS = 6.66e+11 Tdav = 0.23 T = 0.67
+ --> Site =   49-  50 .. Mmps =  400 Ndav =   5 E =  -4731.9614026143 Error = 1.71e-06 FLOPS = 1.33e+12 Tdav = 0.30 T = 0.71
+ --> Site =   50-  51 .. Mmps =  400 Ndav =   7 E =  -4732.0079141369 Error = 1.31e-06 FLOPS = 1.34e+12 Tdav = 0.38 T = 0.73
+ --> Site =   51-  52 .. Mmps =  400 Ndav =   6 E =  -4732.0205240745 Error = 2.83e-06 FLOPS = 6.78e+11 Tdav = 0.61 T = 1.20
+ --> Site =   52-  53 .. Mmps =  400 Ndav =   3 E =  -4732.0222505279 Error = 1.21e-06 FLOPS = 4.60e+11 Tdav = 0.37 T = 0.81
+ --> Site =   53-  54 .. Mmps =  400 Ndav =   5 E =  -4732.0265769838 Error = 1.47e-06 FLOPS = 4.64e+11 Tdav = 0.48 T = 0.94
+ --> Site =   54-  55 .. Mmps =  400 Ndav =   5 E =  -4732.0293334932 Error = 4.14e-06 FLOPS = 3.93e+11 Tdav = 0.47 T = 0.90
+ --> Site =   55-  56 .. Mmps =  400 Ndav =   4 E =  -4732.0310620486 Error = 2.62e-06 FLOPS = 3.00e+11 Tdav = 0.34 T = 0.76
+ --> Site =   56-  57 .. Mmps =  400 Ndav =   6 E =  -4732.0332287464 Error = 1.48e-06 FLOPS = 1.73e+11 Tdav = 0.43 T = 0.82
+ --> Site =   57-  58 .. Mmps =  400 Ndav =   2 E =  -4732.0335197616 Error = 2.88e-07 FLOPS = 5.58e+10 Tdav = 0.15 T = 0.46
+ --> Site =   58-  59 .. Mmps =  400 Ndav =   1 E =  -4732.0335196512 Error = 3.84e-08 FLOPS = 1.55e+10 Tdav = 0.08 T = 0.35
+ --> Site =   59-  60 .. Mmps =  400 Ndav =   1 E =  -4732.0335196486 Error = 1.11e-09 FLOPS = 4.64e+09 Tdav = 0.09 T = 0.36
+ --> Site =   60-  61 .. Mmps =  181 Ndav =   1 E =  -4732.0335196486 Error = 1.62e-14 FLOPS = 1.91e+09 Tdav = 0.08 T = 0.38
+ --> Site =   61-  62 .. Mmps =   32 Ndav =   1 E =  -4732.0335196486 Error = 4.33e-15 FLOPS = 4.56e+07 Tdav = 0.08 T = 0.25
+Time elapsed =    193.373 | E =   -4732.0335197616 | DE = -3.29e-01 | DW = 5.58e-05
+Time sweep =       57.641 | 17.3 TFLOP/SWP
+ | Tcomm = 15.217 | Tidle = 3.456 | Twait = 0.000 | Dmem = 88.8 MB (3%) | Imem = 133 KB (96%) | Hmem = 1.04 GB | Pmem = 14.8 MB
+ | Tread = 4.544 | Twrite = 4.980 | Tfpread = 3.294 | Tfpwrite = 4.813 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 2.57 GB | cpsd = 1.86 GB
+ | Trot = 0.742 | Tctr = 0.390 | Tint = 0.731 | Tmid = 3.545 | Tdctr = 1.488 | Tdiag = 5.282 | Tinfo = 1.047
+ | Teff = 13.913 | Tprt = 4.302 | Teig = 19.936 | Tblk = 41.705 | Tmve = 15.903 | Tdm = 1.815 | Tsplt = 0.306 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    3 | Direction = backward | Bond dimension =  400 | Noise =  1.00e-04 | Dav threshold =  1.00e-04
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4732.0335196486 Error = 0.00e+00 FLOPS = 4.59e+07 Tdav = 0.08 T = 0.19
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4732.0335196486 Error = 0.00e+00 FLOPS = 1.89e+09 Tdav = 0.08 T = 0.29
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4732.0335196486 Error = 0.00e+00 FLOPS = 4.94e+09 Tdav = 0.08 T = 0.32
+ <-- Site =   58-  59 .. Mmps =  124 Ndav =   1 E =  -4732.0335196486 Error = 0.00e+00 FLOPS = 1.56e+10 Tdav = 0.08 T = 0.27
+ <-- Site =   57-  58 .. Mmps =  400 Ndav =   1 E =  -4732.0335196486 Error = 5.44e-11 FLOPS = 4.99e+10 Tdav = 0.08 T = 0.31
+ <-- Site =   56-  57 .. Mmps =  400 Ndav =   1 E =  -4732.0335196487 Error = 3.07e-07 FLOPS = 1.29e+11 Tdav = 0.10 T = 0.44
+ <-- Site =   55-  56 .. Mmps =  400 Ndav =   2 E =  -4732.0336447824 Error = 2.67e-06 FLOPS = 2.16e+11 Tdav = 0.19 T = 0.69
+ <-- Site =   54-  55 .. Mmps =  400 Ndav =   1 E =  -4732.0336426633 Error = 2.78e-06 FLOPS = 4.68e+11 Tdav = 0.06 T = 0.51
+ <-- Site =   53-  54 .. Mmps =  400 Ndav =   2 E =  -4732.0338016075 Error = 3.67e-06 FLOPS = 6.14e+11 Tdav = 0.11 T = 0.52
+ <-- Site =   52-  53 .. Mmps =  400 Ndav =   2 E =  -4732.0341850063 Error = 5.04e-06 FLOPS = 5.96e+11 Tdav = 0.14 T = 0.65
+ <-- Site =   51-  52 .. Mmps =  400 Ndav =   2 E =  -4732.0346446886 Error = 7.88e-06 FLOPS = 6.80e+11 Tdav = 0.16 T = 0.73
+ <-- Site =   50-  51 .. Mmps =  400 Ndav =   2 E =  -4732.0349805127 Error = 6.07e-06 FLOPS = 6.76e+11 Tdav = 0.13 T = 0.72
+ <-- Site =   49-  50 .. Mmps =  400 Ndav =  12 E =  -4732.0437619115 Error = 5.16e-06 FLOPS = 1.02e+12 Tdav = 0.58 T = 1.09
+ <-- Site =   48-  49 .. Mmps =  400 Ndav =  16 E =  -4732.1590587274 Error = 4.37e-07 FLOPS = 1.07e+12 Tdav = 1.22 T = 1.80
+ <-- Site =   47-  48 .. Mmps =  400 Ndav =  12 E =  -4732.2298230170 Error = 3.96e-07 FLOPS = 7.88e+11 Tdav = 1.34 T = 1.93
+ <-- Site =   46-  47 .. Mmps =  400 Ndav =   4 E =  -4732.2387329136 Error = 3.66e-07 FLOPS = 7.78e+11 Tdav = 0.44 T = 1.18
+ <-- Site =   45-  46 .. Mmps =  400 Ndav =   6 E =  -4732.2619574882 Error = 1.51e-06 FLOPS = 8.47e+11 Tdav = 0.67 T = 1.32
+ <-- Site =   44-  45 .. Mmps =  400 Ndav =   3 E =  -4732.2664275853 Error = 2.93e-06 FLOPS = 8.03e+11 Tdav = 0.36 T = 1.04
+ <-- Site =   43-  44 .. Mmps =  400 Ndav =   2 E =  -4732.2664992525 Error = 9.35e-07 FLOPS = 7.28e+11 Tdav = 0.26 T = 0.96
+ <-- Site =   42-  43 .. Mmps =  400 Ndav =   2 E =  -4732.2667163120 Error = 2.46e-06 FLOPS = 7.74e+11 Tdav = 0.24 T = 1.08
+ <-- Site =   41-  42 .. Mmps =  400 Ndav =   3 E =  -4732.2682752596 Error = 8.14e-06 FLOPS = 9.34e+11 Tdav = 0.37 T = 1.04
+ <-- Site =   40-  41 .. Mmps =  400 Ndav =   4 E =  -4732.2748139796 Error = 2.31e-06 FLOPS = 8.99e+11 Tdav = 0.51 T = 1.14
+ <-- Site =   39-  40 .. Mmps =  400 Ndav =   6 E =  -4732.2847756052 Error = 2.17e-06 FLOPS = 1.45e+12 Tdav = 0.65 T = 1.35
+ <-- Site =   38-  39 .. Mmps =  400 Ndav =   6 E =  -4732.2976448457 Error = 1.90e-05 FLOPS = 1.12e+12 Tdav = 0.89 T = 1.69
+ <-- Site =   37-  38 .. Mmps =  400 Ndav =   3 E =  -4732.2986013517 Error = 1.09e-05 FLOPS = 9.52e+11 Tdav = 0.48 T = 1.23
+ <-- Site =   36-  37 .. Mmps =  400 Ndav =   4 E =  -4732.3140288252 Error = 1.80e-06 FLOPS = 1.48e+12 Tdav = 0.52 T = 1.34
+ <-- Site =   35-  36 .. Mmps =  400 Ndav =   5 E =  -4732.3257513221 Error = 9.05e-06 FLOPS = 1.22e+12 Tdav = 0.81 T = 1.86
+ <-- Site =   34-  35 .. Mmps =  400 Ndav =   4 E =  -4732.3339836672 Error = 1.31e-05 FLOPS = 1.30e+12 Tdav = 0.71 T = 1.56
+ <-- Site =   33-  34 .. Mmps =  400 Ndav =   3 E =  -4732.3350269859 Error = 6.59e-06 FLOPS = 1.29e+12 Tdav = 0.55 T = 1.45
+ <-- Site =   32-  33 .. Mmps =  400 Ndav =   3 E =  -4732.3374297431 Error = 1.82e-05 FLOPS = 1.22e+12 Tdav = 0.59 T = 1.64
+ <-- Site =   31-  32 .. Mmps =  400 Ndav =   3 E =  -4732.3394738086 Error = 5.02e-06 FLOPS = 1.05e+12 Tdav = 0.57 T = 1.64
+ <-- Site =   30-  31 .. Mmps =  400 Ndav =   3 E =  -4732.3405217888 Error = 1.45e-06 FLOPS = 1.42e+12 Tdav = 0.48 T = 4.96
+ <-- Site =   29-  30 .. Mmps =  400 Ndav =   3 E =  -4732.3440063765 Error = 1.37e-05 FLOPS = 1.33e+12 Tdav = 0.58 T = 1.35
+ <-- Site =   28-  29 .. Mmps =  400 Ndav =   5 E =  -4732.3591912097 Error = 5.40e-06 FLOPS = 1.83e+12 Tdav = 0.63 T = 1.38
+ <-- Site =   27-  28 .. Mmps =  400 Ndav =   3 E =  -4732.3622772625 Error = 1.31e-05 FLOPS = 1.14e+12 Tdav = 0.57 T = 1.41
+ <-- Site =   26-  27 .. Mmps =  400 Ndav =   4 E =  -4732.3698116658 Error = 2.74e-05 FLOPS = 1.28e+12 Tdav = 0.66 T = 1.49
+ <-- Site =   25-  26 .. Mmps =  400 Ndav =   7 E =  -4732.3722184808 Error = 2.23e-05 FLOPS = 1.29e+12 Tdav = 1.06 T = 1.76
+ <-- Site =   24-  25 .. Mmps =  400 Ndav =   4 E =  -4732.3746374663 Error = 2.11e-05 FLOPS = 1.40e+12 Tdav = 0.50 T = 1.19
+ <-- Site =   23-  24 .. Mmps =  400 Ndav =   7 E =  -4732.3776394083 Error = 1.38e-05 FLOPS = 1.90e+12 Tdav = 0.58 T = 1.17
+ <-- Site =   22-  23 .. Mmps =  400 Ndav =   3 E =  -4732.3793440181 Error = 9.30e-06 FLOPS = 1.65e+12 Tdav = 0.27 T = 0.85
+ <-- Site =   21-  22 .. Mmps =  400 Ndav =   7 E =  -4732.3850259621 Error = 1.30e-05 FLOPS = 1.69e+12 Tdav = 0.54 T = 1.16
+ <-- Site =   20-  21 .. Mmps =  400 Ndav =   2 E =  -4732.3855243919 Error = 1.19e-05 FLOPS = 1.15e+12 Tdav = 0.22 T = 0.77
+ <-- Site =   19-  20 .. Mmps =  400 Ndav =   2 E =  -4732.3861266863 Error = 1.00e-05 FLOPS = 1.07e+12 Tdav = 0.22 T = 0.89
+ <-- Site =   18-  19 .. Mmps =  400 Ndav =   2 E =  -4732.3863094107 Error = 6.05e-06 FLOPS = 1.35e+12 Tdav = 0.17 T = 0.65
+ <-- Site =   17-  18 .. Mmps =  400 Ndav =   2 E =  -4732.3864717095 Error = 1.22e-05 FLOPS = 1.34e+12 Tdav = 0.18 T = 0.66
+ <-- Site =   16-  17 .. Mmps =  400 Ndav =   2 E =  -4732.3865642647 Error = 8.39e-06 FLOPS = 1.16e+12 Tdav = 0.17 T = 0.66
+ <-- Site =   15-  16 .. Mmps =  400 Ndav =   2 E =  -4732.3866091549 Error = 6.62e-06 FLOPS = 1.09e+12 Tdav = 0.17 T = 0.68
+ <-- Site =   14-  15 .. Mmps =  400 Ndav =   2 E =  -4732.3866673032 Error = 1.06e-05 FLOPS = 7.80e+11 Tdav = 0.24 T = 0.71
+ <-- Site =   13-  14 .. Mmps =  400 Ndav =   2 E =  -4732.3867593257 Error = 2.36e-05 FLOPS = 1.13e+12 Tdav = 0.16 T = 0.72
+ <-- Site =   12-  13 .. Mmps =  400 Ndav =   2 E =  -4732.3868047786 Error = 1.46e-05 FLOPS = 6.58e+11 Tdav = 0.25 T = 0.73
+ <-- Site =   11-  12 .. Mmps =  400 Ndav =   1 E =  -4732.3867770751 Error = 9.45e-07 FLOPS = 5.42e+11 Tdav = 0.14 T = 0.59
+ <-- Site =   10-  11 .. Mmps =  400 Ndav =   1 E =  -4732.3867761807 Error = 1.89e-06 FLOPS = 4.71e+11 Tdav = 0.13 T = 0.53
+ <-- Site =    9-  10 .. Mmps =  400 Ndav =   2 E =  -4732.3868282301 Error = 8.54e-06 FLOPS = 5.03e+11 Tdav = 0.22 T = 0.70
+ <-- Site =    8-   9 .. Mmps =  400 Ndav =   1 E =  -4732.3868098538 Error = 6.78e-07 FLOPS = 4.48e+11 Tdav = 0.13 T = 0.57
+ <-- Site =    7-   8 .. Mmps =  400 Ndav =   1 E =  -4732.3868094208 Error = 9.43e-08 FLOPS = 3.75e+11 Tdav = 0.13 T = 0.58
+ <-- Site =    6-   7 .. Mmps =  400 Ndav =   1 E =  -4732.3868094536 Error = 7.45e-09 FLOPS = 3.86e+11 Tdav = 0.13 T = 0.59
+ <-- Site =    5-   6 .. Mmps =  400 Ndav =   1 E =  -4732.3868094601 Error = 5.87e-08 FLOPS = 3.66e+11 Tdav = 0.13 T = 0.54
+ <-- Site =    4-   5 .. Mmps =  400 Ndav =   1 E =  -4732.3868094451 Error = 4.94e-08 FLOPS = 1.04e+11 Tdav = 0.10 T = 0.44
+ <-- Site =    3-   4 .. Mmps =  400 Ndav =   1 E =  -4732.3868094304 Error = 8.11e-09 FLOPS = 2.55e+10 Tdav = 0.08 T = 0.42
+ <-- Site =    2-   3 .. Mmps =  400 Ndav =   1 E =  -4732.3868094312 Error = 8.67e-10 FLOPS = 6.45e+09 Tdav = 0.08 T = 0.40
+ <-- Site =    1-   2 .. Mmps =  180 Ndav =   1 E =  -4732.3868094313 Error = 1.33e-14 FLOPS = 3.17e+09 Tdav = 0.05 T = 0.38
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4732.3868094313 Error = 8.86e-15 FLOPS = 4.57e+07 Tdav = 0.08 T = 0.24
+Time elapsed =    254.548 | E =   -4732.3868282301 | DE = -3.53e-01 | DW = 2.74e-05
+Time sweep =       61.175 | 21.7 TFLOP/SWP
+ | Tcomm = 15.830 | Tidle = 3.869 | Twait = 0.000 | Dmem = 90.6 MB (3%) | Imem = 122 KB (96%) | Hmem = 1.06 GB | Pmem = 14.5 MB
+ | Tread = 4.976 | Twrite = 5.052 | Tfpread = 3.670 | Tfpwrite = 4.951 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 2.63 GB | cpsd = 1.89 GB
+ | Trot = 0.792 | Tctr = 0.397 | Tint = 0.796 | Tmid = 3.644 | Tdctr = 1.668 | Tdiag = 5.444 | Tinfo = 1.012
+ | Teff = 14.734 | Tprt = 4.759 | Teig = 22.130 | Tblk = 44.603 | Tmve = 16.538 | Tdm = 1.942 | Tsplt = 0.339 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    4 | Direction =  forward | Bond dimension =  800 | Noise =  1.00e-04 | Dav threshold =  1.00e-04
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4732.3868094313 Error = 0.00e+00 FLOPS = 4.56e+07 Tdav = 0.08 T = 0.19
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4732.3868094313 Error = 0.00e+00 FLOPS = 2.03e+09 Tdav = 0.08 T = 0.30
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4732.3868094313 Error = 0.00e+00 FLOPS = 6.42e+09 Tdav = 0.08 T = 0.30
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   1 E =  -4732.3868094313 Error = 0.00e+00 FLOPS = 2.59e+10 Tdav = 0.08 T = 0.31
+ --> Site =    4-   5 .. Mmps =  460 Ndav =   1 E =  -4732.3868094313 Error = 0.00e+00 FLOPS = 1.06e+11 Tdav = 0.09 T = 0.34
+ --> Site =    5-   6 .. Mmps =  800 Ndav =   1 E =  -4732.3868094313 Error = 2.65e-09 FLOPS = 5.82e+11 Tdav = 0.09 T = 0.58
+ --> Site =    6-   7 .. Mmps =  800 Ndav =   1 E =  -4732.3868094340 Error = 1.93e-08 FLOPS = 6.14e+11 Tdav = 0.21 T = 1.28
+ --> Site =    7-   8 .. Mmps =  800 Ndav =   1 E =  -4732.3868094404 Error = 6.03e-08 FLOPS = 5.95e+11 Tdav = 0.22 T = 1.44
+ --> Site =    8-   9 .. Mmps =  800 Ndav =   1 E =  -4732.3868094425 Error = 1.53e-07 FLOPS = 6.61e+11 Tdav = 0.21 T = 1.35
+ --> Site =    9-  10 .. Mmps =  800 Ndav =   2 E =  -4732.3868521894 Error = 1.08e-06 FLOPS = 7.73e+11 Tdav = 0.34 T = 1.53
+ --> Site =   10-  11 .. Mmps =  800 Ndav =   2 E =  -4732.3868913445 Error = 8.77e-07 FLOPS = 8.06e+11 Tdav = 0.40 T = 1.73
+ --> Site =   11-  12 .. Mmps =  800 Ndav =   1 E =  -4732.3868899214 Error = 8.97e-08 FLOPS = 8.15e+11 Tdav = 0.24 T = 1.56
+ --> Site =   12-  13 .. Mmps =  800 Ndav =   2 E =  -4732.3869517408 Error = 2.05e-06 FLOPS = 9.14e+11 Tdav = 0.42 T = 1.71
+ --> Site =   13-  14 .. Mmps =  800 Ndav =   2 E =  -4732.3870332585 Error = 3.68e-06 FLOPS = 1.06e+12 Tdav = 0.42 T = 1.86
+ --> Site =   14-  15 .. Mmps =  800 Ndav =   1 E =  -4732.3870259775 Error = 9.50e-08 FLOPS = 9.61e+11 Tdav = 0.25 T = 1.57
+ --> Site =   15-  16 .. Mmps =  800 Ndav =   2 E =  -4732.3870779200 Error = 7.59e-07 FLOPS = 1.15e+12 Tdav = 0.39 T = 1.77
+ --> Site =   16-  17 .. Mmps =  800 Ndav =   1 E =  -4732.3870768577 Error = 1.06e-07 FLOPS = 9.95e+11 Tdav = 0.25 T = 1.72
+ --> Site =   17-  18 .. Mmps =  800 Ndav =   2 E =  -4732.3871419742 Error = 1.97e-06 FLOPS = 1.34e+12 Tdav = 0.41 T = 2.01
+ --> Site =   18-  19 .. Mmps =  800 Ndav =   1 E =  -4732.3871386609 Error = 7.11e-08 FLOPS = 1.15e+12 Tdav = 0.24 T = 1.66
+ --> Site =   19-  20 .. Mmps =  800 Ndav =   2 E =  -4732.3872177406 Error = 1.76e-06 FLOPS = 1.30e+12 Tdav = 0.41 T = 1.98
+ --> Site =   20-  21 .. Mmps =  800 Ndav =   2 E =  -4732.3873174460 Error = 2.54e-06 FLOPS = 1.38e+12 Tdav = 0.44 T = 2.11
+ --> Site =   21-  22 .. Mmps =  800 Ndav =   2 E =  -4732.3873707889 Error = 1.52e-06 FLOPS = 1.43e+12 Tdav = 0.42 T = 2.19
+ --> Site =   22-  23 .. Mmps =  800 Ndav =   2 E =  -4732.3877200274 Error = 9.52e-07 FLOPS = 1.84e+12 Tdav = 0.37 T = 2.16
+ --> Site =   23-  24 .. Mmps =  800 Ndav =   2 E =  -4732.3882150053 Error = 1.94e-06 FLOPS = 1.39e+12 Tdav = 0.50 T = 2.37
+ --> Site =   24-  25 .. Mmps =  800 Ndav =   3 E =  -4732.3890095038 Error = 1.97e-06 FLOPS = 1.56e+12 Tdav = 0.76 T = 2.96
+ --> Site =   25-  26 .. Mmps =  800 Ndav =   3 E =  -4732.3908607371 Error = 2.53e-06 FLOPS = 1.70e+12 Tdav = 0.76 T = 2.76
+ --> Site =   26-  27 .. Mmps =  800 Ndav =   2 E =  -4732.3913454188 Error = 2.24e-06 FLOPS = 1.65e+12 Tdav = 0.55 T = 2.89
+ --> Site =   27-  28 .. Mmps =  800 Ndav =   3 E =  -4732.3923160030 Error = 1.79e-06 FLOPS = 1.89e+12 Tdav = 0.78 T = 3.25
+ --> Site =   28-  29 .. Mmps =  800 Ndav =   2 E =  -4732.3924867460 Error = 8.48e-07 FLOPS = 1.41e+12 Tdav = 0.75 T = 3.23
+ --> Site =   29-  30 .. Mmps =  800 Ndav =   3 E =  -4732.3940838741 Error = 2.96e-06 FLOPS = 1.78e+12 Tdav = 1.02 T = 3.56
+ --> Site =   30-  31 .. Mmps =  800 Ndav =   2 E =  -4732.3946016413 Error = 2.25e-07 FLOPS = 1.69e+12 Tdav = 0.69 T = 3.35
+ --> Site =   31-  32 .. Mmps =  800 Ndav =   2 E =  -4732.3953463769 Error = 7.16e-07 FLOPS = 2.06e+12 Tdav = 0.74 T = 13.15
+ --> Site =   32-  33 .. Mmps =  800 Ndav =   3 E =  -4732.3971109599 Error = 2.61e-06 FLOPS = 1.96e+12 Tdav = 1.27 T = 3.39
+ --> Site =   33-  34 .. Mmps =  800 Ndav =   3 E =  -4732.3987115465 Error = 8.72e-07 FLOPS = 1.62e+12 Tdav = 1.42 T = 3.52
+ --> Site =   34-  35 .. Mmps =  800 Ndav =   2 E =  -4732.3991957137 Error = 1.32e-06 FLOPS = 1.66e+12 Tdav = 0.87 T = 2.73
+ --> Site =   35-  36 .. Mmps =  800 Ndav =   3 E =  -4732.4004847975 Error = 1.12e-06 FLOPS = 1.58e+12 Tdav = 1.15 T = 3.15
+ --> Site =   36-  37 .. Mmps =  800 Ndav =   2 E =  -4732.4008159007 Error = 3.27e-07 FLOPS = 1.58e+12 Tdav = 0.76 T = 2.64
+ --> Site =   37-  38 .. Mmps =  800 Ndav =   6 E =  -4732.4129117333 Error = 2.52e-06 FLOPS = 1.90e+12 Tdav = 1.79 T = 3.43
+ --> Site =   38-  39 .. Mmps =  800 Ndav =   3 E =  -4732.4146647194 Error = 2.27e-06 FLOPS = 1.68e+12 Tdav = 0.92 T = 2.53
+ --> Site =   39-  40 .. Mmps =  800 Ndav =   2 E =  -4732.4147501184 Error = 2.83e-07 FLOPS = 1.80e+12 Tdav = 0.50 T = 1.97
+ --> Site =   40-  41 .. Mmps =  800 Ndav =   2 E =  -4732.4160407874 Error = 7.18e-07 FLOPS = 1.76e+12 Tdav = 0.45 T = 1.87
+ --> Site =   41-  42 .. Mmps =  800 Ndav =   5 E =  -4732.4331552662 Error = 2.86e-06 FLOPS = 1.83e+12 Tdav = 1.09 T = 2.56
+ --> Site =   42-  43 .. Mmps =  800 Ndav =   3 E =  -4732.4367856868 Error = 4.11e-07 FLOPS = 1.46e+12 Tdav = 0.65 T = 1.94
+ --> Site =   43-  44 .. Mmps =  800 Ndav =   4 E =  -4732.4479189069 Error = 2.05e-07 FLOPS = 1.51e+12 Tdav = 0.95 T = 2.21
+ --> Site =   44-  45 .. Mmps =  800 Ndav =   2 E =  -4732.4484781689 Error = 7.59e-07 FLOPS = 1.18e+12 Tdav = 0.61 T = 1.81
+ --> Site =   45-  46 .. Mmps =  800 Ndav =   2 E =  -4732.4485617613 Error = 2.50e-07 FLOPS = 1.33e+12 Tdav = 0.50 T = 1.63
+ --> Site =   46-  47 .. Mmps =  800 Ndav =   2 E =  -4732.4495699615 Error = 1.74e-07 FLOPS = 1.33e+12 Tdav = 0.53 T = 1.71
+ --> Site =   47-  48 .. Mmps =  800 Ndav =   2 E =  -4732.4496848797 Error = 1.33e-07 FLOPS = 1.50e+12 Tdav = 0.42 T = 1.72
+ --> Site =   48-  49 .. Mmps =  800 Ndav =   2 E =  -4732.4498013032 Error = 7.62e-08 FLOPS = 1.06e+12 Tdav = 0.53 T = 1.60
+ --> Site =   49-  50 .. Mmps =  800 Ndav =   6 E =  -4732.5489187314 Error = 2.27e-07 FLOPS = 1.29e+12 Tdav = 1.23 T = 2.42
+ --> Site =   50-  51 .. Mmps =  800 Ndav =   9 E =  -4732.6546868137 Error = 1.63e-07 FLOPS = 1.33e+12 Tdav = 1.63 T = 2.70
+ --> Site =   51-  52 .. Mmps =  800 Ndav =   6 E =  -4732.6907655941 Error = 1.60e-07 FLOPS = 1.44e+12 Tdav = 0.93 T = 1.97
+ --> Site =   52-  53 .. Mmps =  800 Ndav =   4 E =  -4732.6960400441 Error = 7.93e-08 FLOPS = 1.06e+12 Tdav = 0.69 T = 1.74
+ --> Site =   53-  54 .. Mmps =  800 Ndav =   5 E =  -4732.7047877959 Error = 1.30e-07 FLOPS = 9.72e+11 Tdav = 0.85 T = 1.83
+ --> Site =   54-  55 .. Mmps =  800 Ndav =   7 E =  -4732.7144371308 Error = 4.96e-07 FLOPS = 1.30e+12 Tdav = 0.78 T = 1.75
+ --> Site =   55-  56 .. Mmps =  800 Ndav =   6 E =  -4732.7185464101 Error = 4.23e-07 FLOPS = 1.16e+12 Tdav = 0.62 T = 1.56
+ --> Site =   56-  57 .. Mmps =  800 Ndav =  18 E =  -4732.7524545514 Error = 3.08e-07 FLOPS = 8.81e+11 Tdav = 1.88 T = 2.93
+ --> Site =   57-  58 .. Mmps =  800 Ndav =   2 E =  -4732.7525475014 Error = 2.51e-08 FLOPS = 3.07e+11 Tdav = 0.18 T = 0.79
+ --> Site =   58-  59 .. Mmps =  800 Ndav =   1 E =  -4732.7525475029 Error = 2.05e-09 FLOPS = 7.01e+10 Tdav = 0.09 T = 0.70
+ --> Site =   59-  60 .. Mmps =  800 Ndav =   1 E =  -4732.7525475030 Error = 1.50e-12 FLOPS = 2.10e+10 Tdav = 0.09 T = 0.57
+ --> Site =   60-  61 .. Mmps =  183 Ndav =   1 E =  -4732.7525475030 Error = 1.36e-14 FLOPS = 2.91e+10 Tdav = 0.02 T = 0.40
+ --> Site =   61-  62 .. Mmps =   32 Ndav =   1 E =  -4732.7525475030 Error = 3.61e-15 FLOPS = 4.83e+07 Tdav = 0.08 T = 0.34
+Time elapsed =    383.828 | E =   -4732.7525475030 | DE = -3.66e-01 | DW = 3.68e-06
+Time sweep =      129.280 | 46.4 TFLOP/SWP
+ | Tcomm = 26.563 | Tidle = 10.538 | Twait = 0.000 | Dmem = 343 MB (1%) | Imem = 141 KB (97%) | Hmem = 3.93 GB | Pmem = 29.7 MB
+ | Tread = 7.742 | Twrite = 10.315 | Tfpread = 6.131 | Tfpwrite = 10.255 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 9.50 GB | cpsd = 6.83 GB
+ | Trot = 2.895 | Tctr = 1.436 | Tint = 2.474 | Tmid = 10.211 | Tdctr = 4.105 | Tdiag = 9.667 | Tinfo = 1.648
+ | Teff = 26.189 | Tprt = 10.659 | Teig = 36.181 | Tblk = 83.858 | Tmve = 45.396 | Tdm = 7.463 | Tsplt = 1.047 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    5 | Direction = backward | Bond dimension =  800 | Noise =  1.00e-04 | Dav threshold =  1.00e-04
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4732.7525475030 Error = 0.00e+00 FLOPS = 9.49e+07 Tdav = 0.04 T = 0.13
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4732.7525475030 Error = 0.00e+00 FLOPS = 8.46e+09 Tdav = 0.08 T = 0.32
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4732.7525475030 Error = 0.00e+00 FLOPS = 2.12e+10 Tdav = 0.09 T = 0.41
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4732.7525475030 Error = 0.00e+00 FLOPS = 7.31e+10 Tdav = 0.09 T = 0.33
+ <-- Site =   57-  58 .. Mmps =  460 Ndav =   1 E =  -4732.7525475030 Error = 0.00e+00 FLOPS = 3.65e+11 Tdav = 0.08 T = 0.36
+ <-- Site =   56-  57 .. Mmps =  800 Ndav =   1 E =  -4732.7525475030 Error = 1.49e-08 FLOPS = 5.21e+11 Tdav = 0.18 T = 0.83
+ <-- Site =   55-  56 .. Mmps =  800 Ndav =   7 E =  -4732.7634681114 Error = 1.68e-07 FLOPS = 1.11e+12 Tdav = 1.22 T = 2.40
+ <-- Site =   54-  55 .. Mmps =  800 Ndav =   6 E =  -4732.7751958797 Error = 2.30e-07 FLOPS = 1.16e+12 Tdav = 1.01 T = 2.30
+ <-- Site =   53-  54 .. Mmps =  800 Ndav =   7 E =  -4732.7844937696 Error = 1.59e-07 FLOPS = 1.12e+12 Tdav = 1.28 T = 2.46
+ <-- Site =   52-  53 .. Mmps =  800 Ndav =   9 E =  -4732.7940255042 Error = 1.56e-07 FLOPS = 1.15e+12 Tdav = 1.77 T = 3.13
+ <-- Site =   51-  52 .. Mmps =  800 Ndav =   3 E =  -4732.7996607364 Error = 2.44e-07 FLOPS = 1.22e+12 Tdav = 0.75 T = 2.23
+ <-- Site =   50-  51 .. Mmps =  800 Ndav =   3 E =  -4732.8038985400 Error = 2.10e-07 FLOPS = 1.19e+12 Tdav = 0.73 T = 2.21
+ <-- Site =   49-  50 .. Mmps =  800 Ndav =   4 E =  -4732.8114296004 Error = 3.12e-07 FLOPS = 1.27e+12 Tdav = 0.88 T = 2.37
+ <-- Site =   48-  49 .. Mmps =  800 Ndav =  13 E =  -4733.0809922553 Error = 7.17e-08 FLOPS = 1.62e+12 Tdav = 4.00 T = 5.70
+ <-- Site =   47-  48 .. Mmps =  800 Ndav =   9 E =  -4733.1448487565 Error = 1.35e-07 FLOPS = 1.73e+12 Tdav = 2.92 T = 4.80
+ <-- Site =   46-  47 .. Mmps =  800 Ndav =   4 E =  -4733.1552148118 Error = 1.65e-07 FLOPS = 1.74e+12 Tdav = 1.31 T = 3.09
+ <-- Site =   45-  46 .. Mmps =  800 Ndav =   7 E =  -4733.1828670869 Error = 8.18e-07 FLOPS = 1.74e+12 Tdav = 2.45 T = 4.23
+ <-- Site =   44-  45 .. Mmps =  800 Ndav =   3 E =  -4733.1855365257 Error = 9.72e-07 FLOPS = 1.93e+12 Tdav = 0.86 T = 2.81
+ <-- Site =   43-  44 .. Mmps =  800 Ndav =   1 E =  -4733.1855353431 Error = 1.99e-07 FLOPS = 1.51e+12 Tdav = 0.39 T = 2.19
+ <-- Site =   42-  43 .. Mmps =  800 Ndav =   2 E =  -4733.1857325260 Error = 9.95e-07 FLOPS = 1.74e+12 Tdav = 0.76 T = 2.52
+ <-- Site =   41-  42 .. Mmps =  800 Ndav =   3 E =  -4733.1878862611 Error = 3.60e-06 FLOPS = 1.84e+12 Tdav = 1.29 T = 3.15
+ <-- Site =   40-  41 .. Mmps =  800 Ndav =   4 E =  -4733.1923231884 Error = 1.16e-06 FLOPS = 1.91e+12 Tdav = 1.75 T = 3.73
+ <-- Site =   39-  40 .. Mmps =  800 Ndav =   5 E =  -4733.2068184152 Error = 1.01e-06 FLOPS = 2.00e+12 Tdav = 2.66 T = 4.95
+ <-- Site =   38-  39 .. Mmps =  800 Ndav =   4 E =  -4733.2125810596 Error = 9.43e-06 FLOPS = 1.82e+12 Tdav = 2.45 T = 4.85
+ <-- Site =   37-  38 .. Mmps =  800 Ndav =   2 E =  -4733.2128707680 Error = 4.77e-06 FLOPS = 1.94e+12 Tdav = 1.15 T = 3.54
+ <-- Site =   36-  37 .. Mmps =  800 Ndav =   3 E =  -4733.2137980155 Error = 1.17e-06 FLOPS = 2.10e+12 Tdav = 1.93 T = 4.64
+ <-- Site =   35-  36 .. Mmps =  800 Ndav =   2 E =  -4733.2142759684 Error = 4.64e-06 FLOPS = 1.99e+12 Tdav = 1.36 T = 4.17
+ <-- Site =   34-  35 .. Mmps =  800 Ndav =   2 E =  -4733.2149555942 Error = 5.76e-06 FLOPS = 2.10e+12 Tdav = 1.56 T = 4.36
+ <-- Site =   33-  34 .. Mmps =  800 Ndav =   2 E =  -4733.2152128380 Error = 4.66e-06 FLOPS = 2.00e+12 Tdav = 1.78 T = 4.90
+ <-- Site =   32-  33 .. Mmps =  800 Ndav =   2 E =  -4733.2158617191 Error = 1.16e-05 FLOPS = 2.10e+12 Tdav = 1.79 T = 5.03
+ <-- Site =   31-  32 .. Mmps =  800 Ndav =   2 E =  -4733.2162692922 Error = 3.94e-06 FLOPS = 2.09e+12 Tdav = 1.72 T = 5.13
+ <-- Site =   30-  31 .. Mmps =  800 Ndav =   2 E =  -4733.2165041168 Error = 1.29e-06 FLOPS = 2.14e+12 Tdav = 1.79 T = 14.58
+ <-- Site =   29-  30 .. Mmps =  800 Ndav =   3 E =  -4733.2174642057 Error = 1.22e-05 FLOPS = 2.22e+12 Tdav = 2.57 T = 5.62
+ <-- Site =   28-  29 .. Mmps =  800 Ndav =   4 E =  -4733.2195962851 Error = 3.95e-06 FLOPS = 2.17e+12 Tdav = 3.21 T = 6.18
+ <-- Site =   27-  28 .. Mmps =  800 Ndav =   3 E =  -4733.2202241373 Error = 9.08e-06 FLOPS = 2.16e+12 Tdav = 2.24 T = 4.92
+ <-- Site =   26-  27 .. Mmps =  800 Ndav =   5 E =  -4733.2221527341 Error = 1.00e-05 FLOPS = 2.14e+12 Tdav = 3.59 T = 6.11
+ <-- Site =   25-  26 .. Mmps =  800 Ndav =   2 E =  -4733.2224793076 Error = 6.95e-06 FLOPS = 2.05e+12 Tdav = 1.43 T = 3.85
+ <-- Site =   24-  25 .. Mmps =  800 Ndav =   3 E =  -4733.2231395008 Error = 7.58e-06 FLOPS = 1.89e+12 Tdav = 2.19 T = 4.48
+ <-- Site =   23-  24 .. Mmps =  800 Ndav =   2 E =  -4733.2234348118 Error = 6.53e-06 FLOPS = 1.96e+12 Tdav = 1.26 T = 3.40
+ <-- Site =   22-  23 .. Mmps =  800 Ndav =   2 E =  -4733.2236262475 Error = 3.83e-06 FLOPS = 1.87e+12 Tdav = 1.24 T = 3.37
+ <-- Site =   21-  22 .. Mmps =  800 Ndav =   2 E =  -4733.2238863309 Error = 5.78e-06 FLOPS = 1.87e+12 Tdav = 1.09 T = 3.05
+ <-- Site =   20-  21 .. Mmps =  800 Ndav =   2 E =  -4733.2240163710 Error = 8.92e-06 FLOPS = 1.75e+12 Tdav = 1.10 T = 3.06
+ <-- Site =   19-  20 .. Mmps =  800 Ndav =   2 E =  -4733.2241237594 Error = 4.80e-06 FLOPS = 1.76e+12 Tdav = 0.94 T = 2.74
+ <-- Site =   18-  19 .. Mmps =  800 Ndav =   2 E =  -4733.2242274399 Error = 3.29e-06 FLOPS = 2.00e+12 Tdav = 0.84 T = 2.51
+ <-- Site =   17-  18 .. Mmps =  800 Ndav =   1 E =  -4733.2242199487 Error = 7.79e-07 FLOPS = 1.57e+12 Tdav = 0.51 T = 2.17
+ <-- Site =   16-  17 .. Mmps =  800 Ndav =   2 E =  -4733.2243507291 Error = 4.54e-06 FLOPS = 1.67e+12 Tdav = 0.87 T = 2.55
+ <-- Site =   15-  16 .. Mmps =  800 Ndav =   1 E =  -4733.2243417153 Error = 6.92e-07 FLOPS = 1.45e+12 Tdav = 0.46 T = 2.00
+ <-- Site =   14-  15 .. Mmps =  800 Ndav =   2 E =  -4733.2244265016 Error = 4.27e-06 FLOPS = 1.69e+12 Tdav = 0.82 T = 2.30
+ <-- Site =   13-  14 .. Mmps =  800 Ndav =   2 E =  -4733.2244776355 Error = 1.03e-05 FLOPS = 1.54e+12 Tdav = 0.84 T = 2.31
+ <-- Site =   12-  13 .. Mmps =  800 Ndav =   1 E =  -4733.2244581470 Error = 7.55e-07 FLOPS = 1.28e+12 Tdav = 0.43 T = 1.94
+ <-- Site =   11-  12 .. Mmps =  800 Ndav =   2 E =  -4733.2245067428 Error = 1.78e-06 FLOPS = 1.44e+12 Tdav = 0.76 T = 2.23
+ <-- Site =   10-  11 .. Mmps =  800 Ndav =   1 E =  -4733.2245027176 Error = 5.92e-07 FLOPS = 1.18e+12 Tdav = 0.39 T = 1.81
+ <-- Site =    9-  10 .. Mmps =  800 Ndav =   1 E =  -4733.2245020195 Error = 6.73e-07 FLOPS = 9.60e+11 Tdav = 0.37 T = 1.60
+ <-- Site =    8-   9 .. Mmps =  800 Ndav =   2 E =  -4733.2245624018 Error = 9.10e-07 FLOPS = 1.26e+12 Tdav = 0.61 T = 1.95
+ <-- Site =    7-   8 .. Mmps =  800 Ndav =   1 E =  -4733.2245604711 Error = 3.16e-08 FLOPS = 8.34e+11 Tdav = 0.44 T = 1.65
+ <-- Site =    6-   7 .. Mmps =  800 Ndav =   1 E =  -4733.2245604623 Error = 3.56e-09 FLOPS = 8.65e+11 Tdav = 0.39 T = 1.63
+ <-- Site =    5-   6 .. Mmps =  800 Ndav =   1 E =  -4733.2245604679 Error = 1.17e-08 FLOPS = 6.32e+11 Tdav = 0.25 T = 1.10
+ <-- Site =    4-   5 .. Mmps =  800 Ndav =   1 E =  -4733.2245604781 Error = 5.16e-09 FLOPS = 2.89e+11 Tdav = 0.11 T = 0.66
+ <-- Site =    3-   4 .. Mmps =  800 Ndav =   1 E =  -4733.2245604810 Error = 8.58e-10 FLOPS = 7.76e+10 Tdav = 0.09 T = 0.52
+ <-- Site =    2-   3 .. Mmps =  800 Ndav =   1 E =  -4733.2245604811 Error = 5.57e-13 FLOPS = 1.75e+10 Tdav = 0.11 T = 0.55
+ <-- Site =    1-   2 .. Mmps =  181 Ndav =   1 E =  -4733.2245604811 Error = 1.56e-14 FLOPS = 7.64e+09 Tdav = 0.09 T = 0.58
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4733.2245604811 Error = 9.23e-15 FLOPS = 4.60e+07 Tdav = 0.08 T = 0.26
+Time elapsed =    568.808 | E =   -4733.2245624018 | DE = -4.72e-01 | DW = 1.22e-05
+Time sweep =      184.980 | 116 TFLOP/SWP
+ | Tcomm = 33.736 | Tidle = 9.457 | Twait = 0.000 | Dmem = 354 MB (2%) | Imem = 158 KB (97%) | Hmem = 4.13 GB | Pmem = 55.4 MB
+ | Tread = 15.345 | Twrite = 10.460 | Tfpread = 14.129 | Tfpwrite = 10.305 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 9.80 GB | cpsd = 7.02 GB
+ | Trot = 3.151 | Tctr = 1.586 | Tint = 2.637 | Tmid = 9.823 | Tdctr = 4.227 | Tdiag = 14.258 | Tinfo = 2.142
+ | Teff = 43.395 | Tprt = 17.584 | Teig = 71.437 | Tblk = 141.898 | Tmve = 43.049 | Tdm = 6.856 | Tsplt = 1.121 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    6 | Direction =  forward | Bond dimension =  800 | Noise =  1.00e-04 | Dav threshold =  1.00e-04
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4733.2245604811 Error = 0.00e+00 FLOPS = 4.98e+07 Tdav = 0.08 T = 0.19
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4733.2245604811 Error = 0.00e+00 FLOPS = 7.69e+09 Tdav = 0.09 T = 0.35
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4733.2245604811 Error = 0.00e+00 FLOPS = 2.20e+10 Tdav = 0.09 T = 0.36
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   1 E =  -4733.2245604811 Error = 0.00e+00 FLOPS = 7.97e+10 Tdav = 0.09 T = 0.37
+ --> Site =    4-   5 .. Mmps =  461 Ndav =   1 E =  -4733.2245604811 Error = 0.00e+00 FLOPS = 2.71e+11 Tdav = 0.12 T = 0.44
+ --> Site =    5-   6 .. Mmps =  800 Ndav =   1 E =  -4733.2245604811 Error = 2.99e-09 FLOPS = 6.33e+11 Tdav = 0.25 T = 0.95
+ --> Site =    6-   7 .. Mmps =  800 Ndav =   1 E =  -4733.2245604840 Error = 2.13e-08 FLOPS = 8.51e+11 Tdav = 0.39 T = 1.77
+ --> Site =    7-   8 .. Mmps =  800 Ndav =   1 E =  -4733.2245604912 Error = 6.31e-08 FLOPS = 8.45e+11 Tdav = 0.43 T = 1.75
+ --> Site =    8-   9 .. Mmps =  800 Ndav =   1 E =  -4733.2245604891 Error = 6.34e-07 FLOPS = 1.00e+12 Tdav = 0.39 T = 1.70
+ --> Site =    9-  10 .. Mmps =  800 Ndav =   1 E =  -4733.2245600772 Error = 8.35e-07 FLOPS = 1.05e+12 Tdav = 0.38 T = 1.85
+ --> Site =   10-  11 .. Mmps =  800 Ndav =   1 E =  -4733.2245594231 Error = 6.09e-07 FLOPS = 1.15e+12 Tdav = 0.41 T = 1.86
+ --> Site =   11-  12 .. Mmps =  800 Ndav =   1 E =  -4733.2245590915 Error = 6.16e-07 FLOPS = 1.30e+12 Tdav = 0.42 T = 1.93
+ --> Site =   12-  13 .. Mmps =  800 Ndav =   1 E =  -4733.2245585649 Error = 1.49e-06 FLOPS = 1.30e+12 Tdav = 0.45 T = 2.05
+ --> Site =   13-  14 .. Mmps =  800 Ndav =   1 E =  -4733.2245573897 Error = 3.67e-06 FLOPS = 1.42e+12 Tdav = 0.46 T = 2.12
+ --> Site =   14-  15 .. Mmps =  800 Ndav =   1 E =  -4733.2245535436 Error = 1.29e-06 FLOPS = 1.53e+12 Tdav = 0.45 T = 2.10
+ --> Site =   15-  16 .. Mmps =  800 Ndav =   1 E =  -4733.2245520723 Error = 9.86e-07 FLOPS = 1.46e+12 Tdav = 0.48 T = 2.05
+ --> Site =   16-  17 .. Mmps =  800 Ndav =   1 E =  -4733.2245510655 Error = 2.40e-06 FLOPS = 1.45e+12 Tdav = 0.50 T = 2.33
+ --> Site =   17-  18 .. Mmps =  800 Ndav =   2 E =  -4733.2246041510 Error = 9.81e-06 FLOPS = 1.58e+12 Tdav = 1.08 T = 3.01
+ --> Site =   18-  19 .. Mmps =  800 Ndav =   1 E =  -4733.2245840116 Error = 1.24e-06 FLOPS = 1.34e+12 Tdav = 0.61 T = 2.68
+ --> Site =   19-  20 .. Mmps =  800 Ndav =   1 E =  -4733.2245819726 Error = 2.85e-06 FLOPS = 1.61e+12 Tdav = 0.54 T = 2.58
+ --> Site =   20-  21 .. Mmps =  800 Ndav =   2 E =  -4733.2246493180 Error = 1.26e-05 FLOPS = 1.35e+12 Tdav = 1.36 T = 3.44
+ --> Site =   21-  22 .. Mmps =  800 Ndav =   1 E =  -4733.2246226092 Error = 2.09e-06 FLOPS = 1.83e+12 Tdav = 0.54 T = 2.75
+ --> Site =   22-  23 .. Mmps =  800 Ndav =   2 E =  -4733.2246742024 Error = 5.18e-06 FLOPS = 2.12e+12 Tdav = 1.03 T = 3.57
+ --> Site =   23-  24 .. Mmps =  800 Ndav =   2 E =  -4733.2247202553 Error = 8.64e-06 FLOPS = 2.04e+12 Tdav = 1.15 T = 3.65
+ --> Site =   24-  25 .. Mmps =  800 Ndav =   2 E =  -4733.2247616897 Error = 9.66e-06 FLOPS = 1.98e+12 Tdav = 1.29 T = 4.05
+ --> Site =   25-  26 .. Mmps =  800 Ndav =   2 E =  -4733.2248518905 Error = 1.16e-05 FLOPS = 1.98e+12 Tdav = 1.42 T = 4.15
+ --> Site =   26-  27 .. Mmps =  800 Ndav =   2 E =  -4733.2249034867 Error = 1.48e-05 FLOPS = 2.46e+12 Tdav = 1.18 T = 4.12
+ --> Site =   27-  28 .. Mmps =  800 Ndav =   2 E =  -4733.2249912588 Error = 1.17e-05 FLOPS = 2.52e+12 Tdav = 1.25 T = 4.43
+ --> Site =   28-  29 .. Mmps =  800 Ndav =   2 E =  -4733.2250109614 Error = 6.45e-06 FLOPS = 2.17e+12 Tdav = 1.61 T = 4.90
+ --> Site =   29-  30 .. Mmps =  800 Ndav =   2 E =  -4733.2252247784 Error = 2.33e-05 FLOPS = 2.43e+12 Tdav = 1.64 T = 4.94
+ --> Site =   30-  31 .. Mmps =  800 Ndav =   2 E =  -4733.2252827518 Error = 1.60e-06 FLOPS = 2.22e+12 Tdav = 1.64 T = 5.34
+ --> Site =   31-  32 .. Mmps =  800 Ndav =   2 E =  -4733.2254944851 Error = 8.03e-06 FLOPS = 2.13e+12 Tdav = 1.68 T = 14.71
+ --> Site =   32-  33 .. Mmps =  800 Ndav =   2 E =  -4733.2258534840 Error = 2.08e-05 FLOPS = 2.07e+12 Tdav = 1.86 T = 4.86
+ --> Site =   33-  34 .. Mmps =  800 Ndav =   2 E =  -4733.2261534276 Error = 6.62e-06 FLOPS = 2.11e+12 Tdav = 1.75 T = 4.54
+ --> Site =   34-  35 .. Mmps =  800 Ndav =   2 E =  -4733.2263170822 Error = 1.21e-05 FLOPS = 2.17e+12 Tdav = 1.57 T = 4.24
+ --> Site =   35-  36 .. Mmps =  800 Ndav =   2 E =  -4733.2265129453 Error = 7.43e-06 FLOPS = 2.06e+12 Tdav = 1.41 T = 3.94
+ --> Site =   36-  37 .. Mmps =  800 Ndav =   1 E =  -4733.2264981537 Error = 1.04e-06 FLOPS = 1.96e+12 Tdav = 0.73 T = 3.03
+ --> Site =   37-  38 .. Mmps =  800 Ndav =   2 E =  -4733.2270495071 Error = 1.30e-05 FLOPS = 1.92e+12 Tdav = 1.31 T = 3.62
+ --> Site =   38-  39 .. Mmps =  800 Ndav =   2 E =  -4733.2271544884 Error = 1.34e-05 FLOPS = 1.94e+12 Tdav = 1.29 T = 3.47
+ --> Site =   39-  40 .. Mmps =  800 Ndav =   1 E =  -4733.2271290817 Error = 5.99e-07 FLOPS = 1.83e+12 Tdav = 0.59 T = 2.82
+ --> Site =   40-  41 .. Mmps =  800 Ndav =   2 E =  -4733.2280785220 Error = 4.26e-06 FLOPS = 1.84e+12 Tdav = 1.03 T = 2.95
+ --> Site =   41-  42 .. Mmps =  800 Ndav =   3 E =  -4733.2313049323 Error = 1.39e-05 FLOPS = 1.91e+12 Tdav = 1.46 T = 3.39
+ --> Site =   42-  43 .. Mmps =  800 Ndav =   2 E =  -4733.2318307420 Error = 1.27e-06 FLOPS = 1.70e+12 Tdav = 0.87 T = 2.57
+ --> Site =   43-  44 .. Mmps =  800 Ndav =   3 E =  -4733.2336174105 Error = 8.64e-07 FLOPS = 1.78e+12 Tdav = 1.45 T = 3.13
+ --> Site =   44-  45 .. Mmps =  800 Ndav =   2 E =  -4733.2339868040 Error = 3.21e-06 FLOPS = 1.78e+12 Tdav = 0.95 T = 2.76
+ --> Site =   45-  46 .. Mmps =  800 Ndav =   2 E =  -4733.2340322089 Error = 1.34e-06 FLOPS = 1.79e+12 Tdav = 0.87 T = 2.52
+ --> Site =   46-  47 .. Mmps =  800 Ndav =   3 E =  -4733.2353542065 Error = 8.87e-07 FLOPS = 1.64e+12 Tdav = 1.43 T = 3.17
+ --> Site =   47-  48 .. Mmps =  800 Ndav =   2 E =  -4733.2355523865 Error = 8.50e-07 FLOPS = 1.60e+12 Tdav = 0.94 T = 2.63
+ --> Site =   48-  49 .. Mmps =  800 Ndav =   2 E =  -4733.2356660312 Error = 3.15e-07 FLOPS = 1.58e+12 Tdav = 0.83 T = 2.33
+ --> Site =   49-  50 .. Mmps =  800 Ndav =   7 E =  -4733.2666423376 Error = 8.32e-07 FLOPS = 1.72e+12 Tdav = 2.64 T = 4.27
+ --> Site =   50-  51 .. Mmps =  800 Ndav =   6 E =  -4733.2919554733 Error = 5.30e-07 FLOPS = 1.59e+12 Tdav = 2.09 T = 3.58
+ --> Site =   51-  52 .. Mmps =  800 Ndav =   4 E =  -4733.2983190593 Error = 7.31e-07 FLOPS = 1.74e+12 Tdav = 1.18 T = 2.60
+ --> Site =   52-  53 .. Mmps =  800 Ndav =   2 E =  -4733.2989666257 Error = 2.02e-07 FLOPS = 1.49e+12 Tdav = 0.60 T = 2.03
+ --> Site =   53-  54 .. Mmps =  800 Ndav =   3 E =  -4733.3009107514 Error = 2.69e-07 FLOPS = 1.26e+12 Tdav = 0.97 T = 2.42
+ --> Site =   54-  55 .. Mmps =  800 Ndav =   3 E =  -4733.3019207271 Error = 5.94e-07 FLOPS = 1.18e+12 Tdav = 0.92 T = 2.27
+ --> Site =   55-  56 .. Mmps =  800 Ndav =   2 E =  -4733.3020071689 Error = 2.02e-07 FLOPS = 1.06e+12 Tdav = 0.63 T = 1.89
+ --> Site =   56-  57 .. Mmps =  800 Ndav =   1 E =  -4733.3020068822 Error = 6.09e-08 FLOPS = 8.52e+11 Tdav = 0.17 T = 1.12
+ --> Site =   57-  58 .. Mmps =  800 Ndav =   1 E =  -4733.3020068393 Error = 9.18e-09 FLOPS = 2.85e+11 Tdav = 0.11 T = 0.73
+ --> Site =   58-  59 .. Mmps =  800 Ndav =   1 E =  -4733.3020068415 Error = 7.85e-10 FLOPS = 7.72e+10 Tdav = 0.09 T = 0.62
+ --> Site =   59-  60 .. Mmps =  800 Ndav =   1 E =  -4733.3020068415 Error = 4.57e-13 FLOPS = 2.22e+10 Tdav = 0.09 T = 0.54
+ --> Site =   60-  61 .. Mmps =  182 Ndav =   1 E =  -4733.3020068415 Error = 1.27e-14 FLOPS = 7.94e+09 Tdav = 0.09 T = 0.55
+ --> Site =   61-  62 .. Mmps =   32 Ndav =   1 E =  -4733.3020068415 Error = 4.04e-15 FLOPS = 4.61e+07 Tdav = 0.08 T = 0.31
+Time elapsed =    740.194 | E =   -4733.3020071689 | DE = -7.74e-02 | DW = 2.33e-05
+Time sweep =      171.386 | 86.8 TFLOP/SWP
+ | Tcomm = 28.843 | Tidle = 10.514 | Twait = 0.000 | Dmem = 358 MB (2%) | Imem = 152 KB (97%) | Hmem = 4.20 GB | Pmem = 59.0 MB
+ | Tread = 14.784 | Twrite = 10.376 | Tfpread = 13.600 | Tfpwrite = 10.291 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 9.78 GB | cpsd = 7.04 GB
+ | Trot = 3.289 | Tctr = 1.669 | Tint = 2.513 | Tmid = 9.823 | Tdctr = 4.096 | Tdiag = 14.240 | Tinfo = 2.300
+ | Teff = 43.213 | Tprt = 18.718 | Teig = 53.489 | Tblk = 126.934 | Tmve = 44.425 | Tdm = 7.134 | Tsplt = 1.161 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    7 | Direction = backward | Bond dimension =  800 | Noise =  1.00e-04 | Dav threshold =  1.00e-04
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4733.3020068415 Error = 0.00e+00 FLOPS = 4.62e+07 Tdav = 0.08 T = 0.20
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4733.3020068415 Error = 0.00e+00 FLOPS = 7.89e+09 Tdav = 0.09 T = 0.34
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4733.3020068415 Error = 0.00e+00 FLOPS = 2.21e+10 Tdav = 0.09 T = 0.36
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4733.3020068415 Error = 0.00e+00 FLOPS = 7.69e+10 Tdav = 0.09 T = 0.37
+ <-- Site =   57-  58 .. Mmps =  460 Ndav =   1 E =  -4733.3020068415 Error = 0.00e+00 FLOPS = 2.63e+11 Tdav = 0.12 T = 0.43
+ <-- Site =   56-  57 .. Mmps =  800 Ndav =   1 E =  -4733.3020068415 Error = 5.70e-09 FLOPS = 6.11e+11 Tdav = 0.24 T = 0.92
+ <-- Site =   55-  56 .. Mmps =  800 Ndav =   1 E =  -4733.3020068472 Error = 6.51e-08 FLOPS = 8.27e+11 Tdav = 0.39 T = 1.74
+ <-- Site =   54-  55 .. Mmps =  800 Ndav =   1 E =  -4733.3020068194 Error = 2.80e-07 FLOPS = 8.60e+11 Tdav = 0.39 T = 1.77
+ <-- Site =   53-  54 .. Mmps =  800 Ndav =   1 E =  -4733.3020066483 Error = 3.13e-07 FLOPS = 9.17e+11 Tdav = 0.38 T = 2.00
+ <-- Site =   52-  53 .. Mmps =  800 Ndav =   1 E =  -4733.3020064905 Error = 4.73e-07 FLOPS = 8.17e+11 Tdav = 0.44 T = 1.93
+ <-- Site =   51-  52 .. Mmps =  800 Ndav =   2 E =  -4733.3021416344 Error = 2.40e-06 FLOPS = 1.36e+12 Tdav = 0.64 T = 2.00
+ <-- Site =   50-  51 .. Mmps =  800 Ndav =   1 E =  -4733.3021375085 Error = 9.56e-07 FLOPS = 1.22e+12 Tdav = 0.33 T = 1.94
+ <-- Site =   49-  50 .. Mmps =  800 Ndav =   2 E =  -4733.3025987311 Error = 3.83e-06 FLOPS = 1.31e+12 Tdav = 0.66 T = 2.20
+ <-- Site =   48-  49 .. Mmps =  800 Ndav =   5 E =  -4733.3075180134 Error = 4.49e-06 FLOPS = 1.64e+12 Tdav = 1.87 T = 3.65
+ <-- Site =   47-  48 .. Mmps =  800 Ndav =  11 E =  -4733.4669083988 Error = 3.12e-07 FLOPS = 1.66e+12 Tdav = 4.59 T = 6.25
+ <-- Site =   46-  47 .. Mmps =  800 Ndav =   3 E =  -4733.4733210266 Error = 1.94e-07 FLOPS = 1.75e+12 Tdav = 1.20 T = 3.00
+ <-- Site =   45-  46 .. Mmps =  800 Ndav =   5 E =  -4733.5072055859 Error = 7.25e-07 FLOPS = 2.05e+12 Tdav = 1.63 T = 3.52
+ <-- Site =   44-  45 .. Mmps =  800 Ndav =   2 E =  -4733.5076789515 Error = 7.84e-07 FLOPS = 1.59e+12 Tdav = 0.68 T = 2.57
+ <-- Site =   43-  44 .. Mmps =  800 Ndav =   2 E =  -4733.5078291232 Error = 4.20e-07 FLOPS = 1.81e+12 Tdav = 0.73 T = 2.41
+ <-- Site =   42-  43 .. Mmps =  800 Ndav =   2 E =  -4733.5081352261 Error = 9.54e-07 FLOPS = 2.03e+12 Tdav = 0.73 T = 2.59
+ <-- Site =   41-  42 .. Mmps =  800 Ndav =   2 E =  -4733.5087789710 Error = 2.05e-06 FLOPS = 1.91e+12 Tdav = 0.93 T = 2.89
+ <-- Site =   40-  41 .. Mmps =  800 Ndav =   2 E =  -4733.5093962454 Error = 9.44e-07 FLOPS = 1.94e+12 Tdav = 0.86 T = 3.01
+ <-- Site =   39-  40 .. Mmps =  800 Ndav =   4 E =  -4733.5129086657 Error = 5.78e-07 FLOPS = 1.99e+12 Tdav = 2.02 T = 4.39
+ <-- Site =   38-  39 .. Mmps =  800 Ndav =   2 E =  -4733.5132163913 Error = 4.38e-06 FLOPS = 1.91e+12 Tdav = 1.10 T = 3.50
+ <-- Site =   37-  38 .. Mmps =  800 Ndav =   2 E =  -4733.5133197031 Error = 8.84e-06 FLOPS = 1.89e+12 Tdav = 1.18 T = 3.72
+ <-- Site =   36-  37 .. Mmps =  800 Ndav =   2 E =  -4733.5135076813 Error = 1.80e-06 FLOPS = 2.12e+12 Tdav = 1.37 T = 4.07
+ <-- Site =   35-  36 .. Mmps =  800 Ndav =   2 E =  -4733.5136035693 Error = 8.96e-06 FLOPS = 2.18e+12 Tdav = 1.36 T = 4.37
+ <-- Site =   34-  35 .. Mmps =  800 Ndav =   2 E =  -4733.5137405329 Error = 1.24e-05 FLOPS = 2.11e+12 Tdav = 1.64 T = 4.62
+ <-- Site =   33-  34 .. Mmps =  800 Ndav =   2 E =  -4733.5137855921 Error = 9.08e-06 FLOPS = 2.22e+12 Tdav = 1.67 T = 4.94
+ <-- Site =   32-  33 .. Mmps =  800 Ndav =   2 E =  -4733.5139321585 Error = 2.92e-05 FLOPS = 2.25e+12 Tdav = 1.73 T = 5.04
+ <-- Site =   31-  32 .. Mmps =  800 Ndav =   2 E =  -4733.5139768258 Error = 1.07e-05 FLOPS = 2.25e+12 Tdav = 1.62 T = 5.13
+ <-- Site =   30-  31 .. Mmps =  800 Ndav =   2 E =  -4733.5140028369 Error = 2.54e-06 FLOPS = 2.38e+12 Tdav = 1.57 T = 14.32
+ <-- Site =   29-  30 .. Mmps =  800 Ndav =   2 E =  -4733.5142092899 Error = 3.02e-05 FLOPS = 2.81e+12 Tdav = 1.45 T = 4.43
+ <-- Site =   28-  29 .. Mmps =  800 Ndav =   2 E =  -4733.5143740829 Error = 7.16e-06 FLOPS = 2.46e+12 Tdav = 1.43 T = 4.26
+ <-- Site =   27-  28 .. Mmps =  800 Ndav =   2 E =  -4733.5145064363 Error = 1.85e-05 FLOPS = 2.25e+12 Tdav = 1.45 T = 4.09
+ <-- Site =   26-  27 .. Mmps =  800 Ndav =   2 E =  -4733.5146843396 Error = 2.64e-05 FLOPS = 2.19e+12 Tdav = 1.40 T = 3.97
+ <-- Site =   25-  26 .. Mmps =  800 Ndav =   2 E =  -4733.5147422652 Error = 1.57e-05 FLOPS = 2.16e+12 Tdav = 1.36 T = 3.68
+ <-- Site =   24-  25 .. Mmps =  800 Ndav =   2 E =  -4733.5148586005 Error = 1.47e-05 FLOPS = 2.05e+12 Tdav = 1.32 T = 3.57
+ <-- Site =   23-  24 .. Mmps =  800 Ndav =  12 E =  -4733.5354178285 Error = 2.25e-06 FLOPS = 2.26e+12 Tdav = 6.55 T = 8.68
+ <-- Site =   22-  23 .. Mmps =  800 Ndav =   5 E =  -4733.5452708892 Error = 7.89e-07 FLOPS = 2.20e+12 Tdav = 2.72 T = 4.89
+ <-- Site =   21-  22 .. Mmps =  800 Ndav =  12 E =  -4733.5742581377 Error = 7.41e-07 FLOPS = 2.15e+12 Tdav = 6.01 T = 7.95
+ <-- Site =   20-  21 .. Mmps =  800 Ndav =   5 E =  -4733.5810303073 Error = 1.00e-06 FLOPS = 2.05e+12 Tdav = 2.48 T = 4.34
+ <-- Site =   19-  20 .. Mmps =  800 Ndav =   5 E =  -4733.5901412056 Error = 6.32e-07 FLOPS = 2.12e+12 Tdav = 2.30 T = 4.07
+ <-- Site =   18-  19 .. Mmps =  800 Ndav =   3 E =  -4733.5918658352 Error = 3.27e-07 FLOPS = 2.06e+12 Tdav = 1.22 T = 2.95
+ <-- Site =   17-  18 .. Mmps =  800 Ndav =   3 E =  -4733.5936110345 Error = 8.63e-07 FLOPS = 2.15e+12 Tdav = 1.26 T = 3.08
+ <-- Site =   16-  17 .. Mmps =  800 Ndav =   3 E =  -4733.5964223176 Error = 6.81e-07 FLOPS = 1.96e+12 Tdav = 1.20 T = 2.84
+ <-- Site =   15-  16 .. Mmps =  800 Ndav =   3 E =  -4733.5970512533 Error = 4.34e-07 FLOPS = 1.82e+12 Tdav = 1.25 T = 2.93
+ <-- Site =   14-  15 .. Mmps =  800 Ndav =   2 E =  -4733.5976658834 Error = 4.24e-07 FLOPS = 1.72e+12 Tdav = 0.86 T = 2.45
+ <-- Site =   13-  14 .. Mmps =  800 Ndav =   3 E =  -4733.5989527410 Error = 1.31e-06 FLOPS = 1.79e+12 Tdav = 1.16 T = 2.71
+ <-- Site =   12-  13 .. Mmps =  800 Ndav =   2 E =  -4733.5993325805 Error = 6.98e-07 FLOPS = 1.63e+12 Tdav = 0.78 T = 2.31
+ <-- Site =   11-  12 .. Mmps =  800 Ndav =   2 E =  -4733.5994466920 Error = 3.51e-07 FLOPS = 1.56e+12 Tdav = 0.75 T = 2.21
+ <-- Site =   10-  11 .. Mmps =  800 Ndav =   2 E =  -4733.5997116968 Error = 5.50e-07 FLOPS = 1.35e+12 Tdav = 0.68 T = 2.01
+ <-- Site =    9-  10 .. Mmps =  800 Ndav =   2 E =  -4733.5998966123 Error = 6.18e-07 FLOPS = 1.49e+12 Tdav = 0.55 T = 1.88
+ <-- Site =    8-   9 .. Mmps =  800 Ndav =   2 E =  -4733.6000365006 Error = 2.35e-07 FLOPS = 1.35e+12 Tdav = 0.58 T = 1.79
+ <-- Site =    7-   8 .. Mmps =  800 Ndav =   2 E =  -4733.6001710546 Error = 2.72e-08 FLOPS = 1.17e+12 Tdav = 0.63 T = 1.89
+ <-- Site =    6-   7 .. Mmps =  800 Ndav =   2 E =  -4733.6002262767 Error = 2.39e-09 FLOPS = 1.18e+12 Tdav = 0.62 T = 1.92
+ <-- Site =    5-   6 .. Mmps =  800 Ndav =   1 E =  -4733.6002262764 Error = 8.65e-09 FLOPS = 6.72e+11 Tdav = 0.26 T = 1.21
+ <-- Site =    4-   5 .. Mmps =  800 Ndav =   1 E =  -4733.6002262739 Error = 2.76e-09 FLOPS = 3.29e+11 Tdav = 0.11 T = 0.73
+ <-- Site =    3-   4 .. Mmps =  800 Ndav =   1 E =  -4733.6002262752 Error = 3.76e-10 FLOPS = 9.01e+10 Tdav = 0.08 T = 0.54
+ <-- Site =    2-   3 .. Mmps =  800 Ndav =   1 E =  -4733.6002262752 Error = 4.35e-13 FLOPS = 2.19e+10 Tdav = 0.09 T = 0.54
+ <-- Site =    1-   2 .. Mmps =  180 Ndav =   1 E =  -4733.6002262752 Error = 1.01e-14 FLOPS = 8.06e+09 Tdav = 0.08 T = 0.53
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4733.6002262752 Error = 2.74e-15 FLOPS = 4.40e+07 Tdav = 0.09 T = 0.32
+Time elapsed =    929.178 | E =   -4733.6002262767 | DE = -2.98e-01 | DW = 3.02e-05
+Time sweep =      188.984 | 130 TFLOP/SWP
+ | Tcomm = 31.724 | Tidle = 10.942 | Twait = 0.000 | Dmem = 358 MB (3%) | Imem = 147 KB (96%) | Hmem = 4.20 GB | Pmem = 57.2 MB
+ | Tread = 15.289 | Twrite = 10.646 | Tfpread = 13.992 | Tfpwrite = 10.561 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 9.93 GB | cpsd = 7.11 GB
+ | Trot = 3.056 | Tctr = 1.551 | Tint = 2.423 | Tmid = 9.916 | Tdctr = 4.147 | Tdiag = 14.565 | Tinfo = 1.987
+ | Teff = 43.447 | Tprt = 17.245 | Teig = 73.152 | Tblk = 144.079 | Tmve = 44.877 | Tdm = 7.812 | Tsplt = 1.253 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    8 | Direction =  forward | Bond dimension = 1200 | Noise =  1.00e-04 | Dav threshold =  1.00e-05
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4733.6002262752 Error = 0.00e+00 FLOPS = 4.85e+07 Tdav = 0.08 T = 0.20
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4733.6002262752 Error = 0.00e+00 FLOPS = 8.20e+09 Tdav = 0.08 T = 0.36
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4733.6002262752 Error = 0.00e+00 FLOPS = 2.30e+10 Tdav = 0.09 T = 0.37
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   2 E =  -4733.6002303146 Error = 0.00e+00 FLOPS = 8.44e+10 Tdav = 0.18 T = 0.44
+ --> Site =    4-   5 .. Mmps =  462 Ndav =   1 E =  -4733.6002303146 Error = 0.00e+00 FLOPS = 2.88e+11 Tdav = 0.12 T = 0.43
+ --> Site =    5-   6 .. Mmps = 1200 Ndav =   1 E =  -4733.6002303146 Error = 2.03e-10 FLOPS = 6.31e+11 Tdav = 0.28 T = 0.98
+ --> Site =    6-   7 .. Mmps = 1200 Ndav =   1 E =  -4733.6002303148 Error = 3.20e-09 FLOPS = 1.10e+12 Tdav = 0.59 T = 2.81
+ --> Site =    7-   8 .. Mmps = 1200 Ndav =   1 E =  -4733.6002303167 Error = 1.80e-08 FLOPS = 1.05e+12 Tdav = 0.64 T = 2.97
+ --> Site =    8-   9 .. Mmps = 1200 Ndav =   2 E =  -4733.6002341344 Error = 1.48e-07 FLOPS = 1.31e+12 Tdav = 1.17 T = 3.47
+ --> Site =    9-  10 .. Mmps = 1200 Ndav =   2 E =  -4733.6002479235 Error = 5.17e-07 FLOPS = 1.29e+12 Tdav = 1.21 T = 3.87
+ --> Site =   10-  11 .. Mmps = 1200 Ndav =   2 E =  -4733.6002591030 Error = 4.13e-07 FLOPS = 1.34e+12 Tdav = 1.29 T = 3.90
+ --> Site =   11-  12 .. Mmps = 1200 Ndav =   2 E =  -4733.6002708689 Error = 3.55e-07 FLOPS = 1.42e+12 Tdav = 1.48 T = 4.44
+ --> Site =   12-  13 .. Mmps = 1200 Ndav =   2 E =  -4733.6002893161 Error = 8.27e-07 FLOPS = 1.67e+12 Tdav = 1.29 T = 4.51
+ --> Site =   13-  14 .. Mmps = 1200 Ndav =   2 E =  -4733.6003313200 Error = 1.15e-06 FLOPS = 1.60e+12 Tdav = 1.56 T = 4.75
+ --> Site =   14-  15 .. Mmps = 1200 Ndav =   2 E =  -4733.6003591386 Error = 4.91e-07 FLOPS = 1.59e+12 Tdav = 1.71 T = 5.07
+ --> Site =   15-  16 .. Mmps = 1200 Ndav =   2 E =  -4733.6003847422 Error = 4.07e-07 FLOPS = 1.76e+12 Tdav = 1.55 T = 5.16
+ --> Site =   16-  17 .. Mmps = 1200 Ndav =   2 E =  -4733.6004217040 Error = 8.35e-07 FLOPS = 1.93e+12 Tdav = 1.45 T = 5.33
+ --> Site =   17-  18 .. Mmps = 1200 Ndav =   3 E =  -4733.6004727601 Error = 1.29e-06 FLOPS = 1.96e+12 Tdav = 2.48 T = 6.32
+ --> Site =   18-  19 .. Mmps = 1200 Ndav =   2 E =  -4733.6004987682 Error = 4.61e-07 FLOPS = 1.92e+12 Tdav = 1.62 T = 5.57
+ --> Site =   19-  20 .. Mmps = 1200 Ndav =   3 E =  -4733.6005735151 Error = 1.24e-06 FLOPS = 2.21e+12 Tdav = 2.22 T = 6.50
+ --> Site =   20-  21 .. Mmps = 1200 Ndav =   3 E =  -4733.6006797881 Error = 2.09e-06 FLOPS = 2.12e+12 Tdav = 2.19 T = 6.50
+ --> Site =   21-  22 .. Mmps = 1200 Ndav =   3 E =  -4733.6007492903 Error = 1.24e-06 FLOPS = 2.25e+12 Tdav = 1.96 T = 6.51
+ --> Site =   22-  23 .. Mmps = 1200 Ndav =   4 E =  -4733.6011326929 Error = 9.01e-07 FLOPS = 2.34e+12 Tdav = 3.02 T = 7.74
+ --> Site =   23-  24 .. Mmps = 1200 Ndav =   4 E =  -4733.6014943701 Error = 1.14e-06 FLOPS = 2.09e+12 Tdav = 3.24 T = 8.07
+ --> Site =   24-  25 .. Mmps = 1200 Ndav =   8 E =  -4733.6055868423 Error = 1.76e-06 FLOPS = 2.27e+12 Tdav = 7.22 T = 12.55
+ --> Site =   25-  26 .. Mmps = 1200 Ndav =  13 E =  -4733.6172197003 Error = 2.09e-06 FLOPS = 2.35e+12 Tdav = 11.71 T = 16.74
+ --> Site =   26-  27 .. Mmps = 1200 Ndav =   5 E =  -4733.6194720993 Error = 2.40e-06 FLOPS = 2.31e+12 Tdav = 4.70 T = 10.39
+ --> Site =   27-  28 .. Mmps = 1200 Ndav =   6 E =  -4733.6239096765 Error = 1.77e-06 FLOPS = 2.12e+12 Tdav = 6.87 T = 12.91
+ --> Site =   28-  29 .. Mmps = 1200 Ndav =   4 E =  -4733.6247404358 Error = 1.06e-06 FLOPS = 2.43e+12 Tdav = 4.36 T = 10.51
+ --> Site =   29-  30 .. Mmps = 1200 Ndav =   5 E =  -4733.6299931305 Error = 3.20e-06 FLOPS = 2.20e+12 Tdav = 7.18 T = 13.23
+ --> Site =   30-  31 .. Mmps = 1200 Ndav =   5 E =  -4733.6325910559 Error = 3.53e-07 FLOPS = 2.18e+12 Tdav = 6.91 T = 13.38
+ --> Site =   31-  32 .. Mmps = 1200 Ndav =   5 E =  -4733.6367062883 Error = 1.13e-06 FLOPS = 2.17e+12 Tdav = 8.32 T = 29.53
+ --> Site =   32-  33 .. Mmps = 1200 Ndav =   7 E =  -4733.6426376128 Error = 3.08e-06 FLOPS = 2.13e+12 Tdav = 12.45 T = 17.62
+ --> Site =   33-  34 .. Mmps = 1200 Ndav =   7 E =  -4733.6525320953 Error = 1.35e-06 FLOPS = 2.22e+12 Tdav = 11.59 T = 16.69
+ --> Site =   34-  35 .. Mmps = 1200 Ndav =   8 E =  -4733.6559894478 Error = 2.32e-06 FLOPS = 2.25e+12 Tdav = 12.01 T = 16.64
+ --> Site =   35-  36 .. Mmps = 1200 Ndav =   8 E =  -4733.6610716377 Error = 1.74e-06 FLOPS = 2.21e+12 Tdav = 10.38 T = 14.76
+ --> Site =   36-  37 .. Mmps = 1200 Ndav =   3 E =  -4733.6615303757 Error = 6.30e-07 FLOPS = 2.21e+12 Tdav = 3.80 T = 7.90
+ --> Site =   37-  38 .. Mmps = 1200 Ndav =   8 E =  -4733.6713514820 Error = 5.72e-06 FLOPS = 2.37e+12 Tdav = 8.82 T = 12.64
+ --> Site =   38-  39 .. Mmps = 1200 Ndav =   7 E =  -4733.6736545173 Error = 7.89e-06 FLOPS = 2.38e+12 Tdav = 7.57 T = 11.38
+ --> Site =   39-  40 .. Mmps = 1200 Ndav =   3 E =  -4733.6737798339 Error = 5.77e-07 FLOPS = 2.17e+12 Tdav = 3.15 T = 6.69
+ --> Site =   40-  41 .. Mmps = 1200 Ndav =   4 E =  -4733.6748959733 Error = 1.33e-06 FLOPS = 1.98e+12 Tdav = 3.86 T = 7.17
+ --> Site =   41-  42 .. Mmps = 1200 Ndav =   9 E =  -4733.6817359035 Error = 2.74e-06 FLOPS = 2.24e+12 Tdav = 7.70 T = 10.79
+ --> Site =   42-  43 .. Mmps = 1200 Ndav =   9 E =  -4733.6913324369 Error = 6.95e-07 FLOPS = 2.15e+12 Tdav = 6.68 T = 9.59
+ --> Site =   43-  44 .. Mmps = 1200 Ndav =   9 E =  -4733.7040577134 Error = 2.82e-07 FLOPS = 2.24e+12 Tdav = 7.05 T = 10.17
+ --> Site =   44-  45 .. Mmps = 1200 Ndav =   7 E =  -4733.7092440366 Error = 9.11e-07 FLOPS = 2.06e+12 Tdav = 5.63 T = 8.54
+ --> Site =   45-  46 .. Mmps = 1200 Ndav =   3 E =  -4733.7093216726 Error = 3.79e-07 FLOPS = 2.01e+12 Tdav = 2.40 T = 5.20
+ --> Site =   46-  47 .. Mmps = 1200 Ndav =   4 E =  -4733.7104594599 Error = 2.02e-07 FLOPS = 2.02e+12 Tdav = 3.16 T = 6.03
+ --> Site =   47-  48 .. Mmps = 1200 Ndav =   2 E =  -4733.7105488470 Error = 1.53e-07 FLOPS = 1.78e+12 Tdav = 1.42 T = 4.13
+ --> Site =   48-  49 .. Mmps = 1200 Ndav =   6 E =  -4733.7242671788 Error = 1.69e-07 FLOPS = 1.85e+12 Tdav = 3.91 T = 6.49
+ --> Site =   49-  50 .. Mmps = 1200 Ndav =   8 E =  -4733.7995421649 Error = 7.43e-07 FLOPS = 1.72e+12 Tdav = 5.47 T = 7.99
+ --> Site =   50-  51 .. Mmps = 1200 Ndav =   7 E =  -4733.8072117091 Error = 1.79e-07 FLOPS = 1.70e+12 Tdav = 4.11 T = 6.29
+ --> Site =   51-  52 .. Mmps = 1200 Ndav =   5 E =  -4733.8098197420 Error = 2.95e-07 FLOPS = 1.67e+12 Tdav = 2.64 T = 4.78
+ --> Site =   52-  53 .. Mmps = 1200 Ndav =   4 E =  -4733.8110287834 Error = 1.52e-07 FLOPS = 1.56e+12 Tdav = 1.97 T = 3.99
+ --> Site =   53-  54 .. Mmps = 1200 Ndav =   2 E =  -4733.8110478294 Error = 6.76e-08 FLOPS = 1.33e+12 Tdav = 1.07 T = 3.08
+ --> Site =   54-  55 .. Mmps = 1200 Ndav =   2 E =  -4733.8110602373 Error = 1.52e-07 FLOPS = 1.28e+12 Tdav = 1.04 T = 2.89
+ --> Site =   55-  56 .. Mmps = 1200 Ndav =   2 E =  -4733.8110662307 Error = 5.46e-08 FLOPS = 1.29e+12 Tdav = 0.98 T = 2.86
+ --> Site =   56-  57 .. Mmps = 1200 Ndav =   1 E =  -4733.8110661424 Error = 1.12e-08 FLOPS = 8.49e+11 Tdav = 0.34 T = 1.69
+ --> Site =   57-  58 .. Mmps = 1200 Ndav =   1 E =  -4733.8110661376 Error = 1.80e-09 FLOPS = 4.25e+11 Tdav = 0.15 T = 1.13
+ --> Site =   58-  59 .. Mmps = 1200 Ndav =   1 E =  -4733.8110661378 Error = 1.60e-10 FLOPS = 1.44e+11 Tdav = 0.10 T = 0.94
+ --> Site =   59-  60 .. Mmps =  820 Ndav =   1 E =  -4733.8110661378 Error = 4.09e-13 FLOPS = 4.36e+10 Tdav = 0.10 T = 0.71
+ --> Site =   60-  61 .. Mmps =  182 Ndav =   1 E =  -4733.8110661378 Error = 1.37e-14 FLOPS = 1.37e+10 Tdav = 0.05 T = 0.54
+ --> Site =   61-  62 .. Mmps =   32 Ndav =   1 E =  -4733.8110661378 Error = 3.33e-15 FLOPS = 8.36e+08 Tdav = 0.00 T = 0.09
+Time elapsed =   1354.133 | E =   -4733.8110662307 | DE = -2.11e-01 | DW = 7.89e-06
+Time sweep =      424.955 | 417 TFLOP/SWP
+ | Tcomm = 63.567 | Tidle = 22.830 | Twait = 0.000 | Dmem = 761 MB (2%) | Imem = 163 KB (96%) | Hmem = 8.85 GB | Pmem = 86.5 MB
+ | Tread = 20.272 | Twrite = 19.999 | Tfpread = 18.913 | Tfpwrite = 19.869 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 21.5 GB | cpsd = 15.4 GB
+ | Trot = 8.829 | Tctr = 4.520 | Tint = 8.637 | Tmid = 15.776 | Tdctr = 8.514 | Tdiag = 18.796 | Tinfo = 2.026
+ | Teff = 62.670 | Tprt = 33.737 | Teig = 218.372 | Tblk = 333.773 | Tmve = 91.153 | Tdm = 12.007 | Tsplt = 3.262 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =    9 | Direction = backward | Bond dimension = 1200 | Noise =  1.00e-04 | Dav threshold =  1.00e-05
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4733.8110661378 Error = 0.00e+00 FLOPS = 4.59e+07 Tdav = 0.08 T = 0.21
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4733.8110661378 Error = 0.00e+00 FLOPS = 7.89e+09 Tdav = 0.09 T = 0.35
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4733.8110661378 Error = 0.00e+00 FLOPS = 4.17e+10 Tdav = 0.10 T = 0.38
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4733.8110661378 Error = 0.00e+00 FLOPS = 1.94e+11 Tdav = 0.08 T = 0.39
+ <-- Site =   57-  58 .. Mmps =  462 Ndav =   1 E =  -4733.8110661378 Error = 0.00e+00 FLOPS = 4.95e+11 Tdav = 0.13 T = 0.66
+ <-- Site =   56-  57 .. Mmps = 1200 Ndav =   1 E =  -4733.8110661378 Error = 2.70e-10 FLOPS = 9.18e+11 Tdav = 0.32 T = 1.27
+ <-- Site =   55-  56 .. Mmps = 1200 Ndav =   1 E =  -4733.8110661382 Error = 1.60e-08 FLOPS = 1.26e+12 Tdav = 0.83 T = 3.46
+ <-- Site =   54-  55 .. Mmps = 1200 Ndav =   1 E =  -4733.8110661298 Error = 9.31e-08 FLOPS = 1.28e+12 Tdav = 0.88 T = 3.72
+ <-- Site =   53-  54 .. Mmps = 1200 Ndav =   1 E =  -4733.8110660601 Error = 1.28e-07 FLOPS = 1.34e+12 Tdav = 0.90 T = 4.01
+ <-- Site =   52-  53 .. Mmps = 1200 Ndav =   1 E =  -4733.8110659532 Error = 2.76e-07 FLOPS = 1.41e+12 Tdav = 0.91 T = 3.97
+ <-- Site =   51-  52 .. Mmps = 1200 Ndav =   2 E =  -4733.8110811684 Error = 1.48e-06 FLOPS = 1.68e+12 Tdav = 1.74 T = 5.00
+ <-- Site =   50-  51 .. Mmps = 1200 Ndav =   2 E =  -4733.8110912807 Error = 1.29e-06 FLOPS = 1.73e+12 Tdav = 1.73 T = 5.09
+ <-- Site =   49-  50 .. Mmps = 1200 Ndav =   3 E =  -4733.8112058351 Error = 5.38e-06 FLOPS = 1.62e+12 Tdav = 3.20 T = 6.75
+ <-- Site =   48-  49 .. Mmps = 1200 Ndav =  18 E =  -4733.8886897818 Error = 7.13e-08 FLOPS = 1.86e+12 Tdav = 18.06 T = 21.76
+ <-- Site =   47-  48 .. Mmps = 1200 Ndav =  13 E =  -4733.9466284882 Error = 1.52e-07 FLOPS = 1.85e+12 Tdav = 14.07 T = 18.22
+ <-- Site =   46-  47 .. Mmps = 1200 Ndav =   5 E =  -4733.9521312657 Error = 2.16e-07 FLOPS = 1.85e+12 Tdav = 5.62 T = 10.09
+ <-- Site =   45-  46 .. Mmps = 1200 Ndav =   6 E =  -4733.9698445186 Error = 4.66e-07 FLOPS = 1.91e+12 Tdav = 6.52 T = 11.10
+ <-- Site =   44-  45 .. Mmps = 1200 Ndav =   3 E =  -4733.9699825623 Error = 4.02e-07 FLOPS = 1.80e+12 Tdav = 2.76 T = 7.16
+ <-- Site =   43-  44 .. Mmps = 1200 Ndav =   2 E =  -4733.9699955859 Error = 1.54e-07 FLOPS = 2.02e+12 Tdav = 1.90 T = 6.29
+ <-- Site =   42-  43 .. Mmps = 1200 Ndav =   3 E =  -4733.9702963132 Error = 3.88e-07 FLOPS = 2.01e+12 Tdav = 3.41 T = 7.81
+ <-- Site =   41-  42 .. Mmps = 1200 Ndav =   5 E =  -4733.9753078230 Error = 8.71e-07 FLOPS = 1.99e+12 Tdav = 6.62 T = 11.33
+ <-- Site =   40-  41 .. Mmps = 1200 Ndav =   5 E =  -4733.9780664621 Error = 4.66e-07 FLOPS = 2.09e+12 Tdav = 5.82 T = 10.45
+ <-- Site =   39-  40 .. Mmps = 1200 Ndav =   5 E =  -4733.9817110069 Error = 3.62e-07 FLOPS = 2.18e+12 Tdav = 6.58 T = 11.69
+ <-- Site =   38-  39 .. Mmps = 1200 Ndav =   4 E =  -4733.9825127928 Error = 1.30e-06 FLOPS = 2.20e+12 Tdav = 5.17 T = 10.83
+ <-- Site =   37-  38 .. Mmps = 1200 Ndav =   3 E =  -4733.9826563976 Error = 1.17e-06 FLOPS = 2.20e+12 Tdav = 4.31 T = 10.26
+ <-- Site =   36-  37 .. Mmps = 1200 Ndav =   4 E =  -4733.9839178648 Error = 3.67e-07 FLOPS = 2.35e+12 Tdav = 7.14 T = 13.40
+ <-- Site =   35-  36 .. Mmps = 1200 Ndav =   4 E =  -4733.9844822382 Error = 1.44e-06 FLOPS = 2.25e+12 Tdav = 7.60 T = 14.35
+ <-- Site =   34-  35 .. Mmps = 1200 Ndav =   6 E =  -4733.9856692276 Error = 2.05e-06 FLOPS = 2.37e+12 Tdav = 13.21 T = 20.30
+ <-- Site =   33-  34 .. Mmps = 1200 Ndav =   3 E =  -4733.9860337179 Error = 2.04e-06 FLOPS = 2.49e+12 Tdav = 6.67 T = 13.71
+ <-- Site =   32-  33 .. Mmps = 1200 Ndav =   8 E =  -4733.9877790190 Error = 3.96e-06 FLOPS = 2.68e+12 Tdav = 17.73 T = 25.06
+ <-- Site =   31-  32 .. Mmps = 1200 Ndav =   6 E =  -4733.9888545852 Error = 1.37e-06 FLOPS = 2.68e+12 Tdav = 12.53 T = 20.52
+ <-- Site =   30-  31 .. Mmps = 1200 Ndav =   3 E =  -4733.9893002752 Error = 5.56e-07 FLOPS = 2.74e+12 Tdav = 6.61 T = 27.48
+ <-- Site =   29-  30 .. Mmps = 1200 Ndav =  10 E =  -4733.9948745230 Error = 2.68e-06 FLOPS = 2.65e+12 Tdav = 23.87 T = 30.44
+ <-- Site =   28-  29 .. Mmps = 1200 Ndav =  10 E =  -4734.0033304174 Error = 7.37e-07 FLOPS = 2.49e+12 Tdav = 23.01 T = 29.42
+ <-- Site =   27-  28 .. Mmps = 1200 Ndav =   9 E =  -4734.0093600299 Error = 1.37e-06 FLOPS = 2.66e+12 Tdav = 18.34 T = 24.20
+ <-- Site =   26-  27 .. Mmps = 1200 Ndav =  10 E =  -4734.0169571849 Error = 1.54e-06 FLOPS = 2.76e+12 Tdav = 19.73 T = 25.33
+ <-- Site =   25-  26 .. Mmps = 1200 Ndav =   9 E =  -4734.0215264639 Error = 1.24e-06 FLOPS = 2.43e+12 Tdav = 18.48 T = 23.79
+ <-- Site =   24-  25 .. Mmps = 1200 Ndav =   6 E =  -4734.0258108748 Error = 1.10e-06 FLOPS = 2.40e+12 Tdav = 11.88 T = 16.82
+ <-- Site =   23-  24 .. Mmps = 1200 Ndav =   6 E =  -4734.0311198428 Error = 1.23e-06 FLOPS = 2.42e+12 Tdav = 10.33 T = 15.13
+ <-- Site =   22-  23 .. Mmps = 1200 Ndav =   6 E =  -4734.0341454846 Error = 1.14e-06 FLOPS = 2.72e+12 Tdav = 8.71 T = 13.27
+ <-- Site =   21-  22 .. Mmps = 1200 Ndav =   5 E =  -4734.0384098002 Error = 3.13e-06 FLOPS = 2.33e+12 Tdav = 7.89 T = 12.32
+ <-- Site =   20-  21 .. Mmps = 1200 Ndav =   4 E =  -4734.0388910776 Error = 5.05e-06 FLOPS = 2.37e+12 Tdav = 6.28 T = 10.75
+ <-- Site =   19-  20 .. Mmps = 1200 Ndav =   3 E =  -4734.0390509118 Error = 2.04e-06 FLOPS = 2.60e+12 Tdav = 4.00 T = 8.09
+ <-- Site =   18-  19 .. Mmps = 1200 Ndav =   2 E =  -4734.0390874612 Error = 7.84e-07 FLOPS = 2.07e+12 Tdav = 3.13 T = 7.29
+ <-- Site =   17-  18 .. Mmps = 1200 Ndav =   2 E =  -4734.0391224058 Error = 1.84e-06 FLOPS = 2.24e+12 Tdav = 2.95 T = 7.07
+ <-- Site =   16-  17 .. Mmps = 1200 Ndav =   2 E =  -4734.0391469928 Error = 1.24e-06 FLOPS = 2.15e+12 Tdav = 2.60 T = 6.17
+ <-- Site =   15-  16 .. Mmps = 1200 Ndav =   2 E =  -4734.0391617733 Error = 7.42e-07 FLOPS = 1.72e+12 Tdav = 3.09 T = 6.86
+ <-- Site =   14-  15 .. Mmps = 1200 Ndav =   2 E =  -4734.0391740440 Error = 7.93e-07 FLOPS = 2.18e+12 Tdav = 2.43 T = 6.00
+ <-- Site =   13-  14 .. Mmps = 1200 Ndav =   2 E =  -4734.0391881684 Error = 1.73e-06 FLOPS = 1.85e+12 Tdav = 2.65 T = 6.41
+ <-- Site =   12-  13 .. Mmps = 1200 Ndav =   2 E =  -4734.0392014357 Error = 1.12e-06 FLOPS = 1.73e+12 Tdav = 2.38 T = 5.60
+ <-- Site =   11-  12 .. Mmps = 1200 Ndav =   2 E =  -4734.0392038017 Error = 4.63e-07 FLOPS = 1.77e+12 Tdav = 2.26 T = 5.46
+ <-- Site =   10-  11 .. Mmps = 1200 Ndav =   2 E =  -4734.0392088695 Error = 5.81e-07 FLOPS = 1.53e+12 Tdav = 2.14 T = 5.11
+ <-- Site =    9-  10 .. Mmps = 1200 Ndav =   2 E =  -4734.0392131371 Error = 6.66e-07 FLOPS = 1.47e+12 Tdav = 1.99 T = 4.70
+ <-- Site =    8-   9 .. Mmps = 1200 Ndav =   1 E =  -4734.0392114270 Error = 6.79e-08 FLOPS = 1.24e+12 Tdav = 1.13 T = 3.84
+ <-- Site =    7-   8 .. Mmps = 1200 Ndav =   2 E =  -4734.0392148586 Error = 9.66e-09 FLOPS = 1.45e+12 Tdav = 1.71 T = 4.19
+ <-- Site =    6-   7 .. Mmps = 1200 Ndav =   1 E =  -4734.0392148454 Error = 4.49e-10 FLOPS = 1.36e+12 Tdav = 0.87 T = 3.23
+ <-- Site =    5-   6 .. Mmps = 1200 Ndav =   1 E =  -4734.0392148454 Error = 2.56e-09 FLOPS = 1.06e+12 Tdav = 0.31 T = 1.70
+ <-- Site =    4-   5 .. Mmps = 1200 Ndav =   1 E =  -4734.0392148448 Error = 5.93e-10 FLOPS = 5.21e+11 Tdav = 0.14 T = 1.11
+ <-- Site =    3-   4 .. Mmps = 1200 Ndav =   1 E =  -4734.0392148449 Error = 8.65e-11 FLOPS = 1.34e+11 Tdav = 0.12 T = 0.92
+ <-- Site =    2-   3 .. Mmps =  814 Ndav =   1 E =  -4734.0392148449 Error = 3.63e-13 FLOPS = 4.36e+10 Tdav = 0.10 T = 0.83
+ <-- Site =    1-   2 .. Mmps =  179 Ndav =   1 E =  -4734.0392148449 Error = 2.06e-14 FLOPS = 8.56e+09 Tdav = 0.08 T = 0.63
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4734.0392148449 Error = 2.50e-15 FLOPS = 4.53e+07 Tdav = 0.08 T = 0.30
+Time elapsed =   1948.200 | E =   -4734.0392148586 | DE = -2.28e-01 | DW = 5.38e-06
+Time sweep =      594.067 | 727 TFLOP/SWP
+ | Tcomm = 82.905 | Tidle = 22.733 | Twait = 0.000 | Dmem = 789 MB (3%) | Imem = 167 KB (97%) | Hmem = 9.25 GB | Pmem = 127 MB
+ | Tread = 26.821 | Twrite = 20.372 | Tfpread = 25.021 | Tfpwrite = 20.232 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 21.7 GB | cpsd = 15.5 GB
+ | Trot = 8.402 | Tctr = 4.145 | Tint = 9.729 | Tmid = 14.634 | Tdctr = 7.923 | Tdiag = 30.253 | Tinfo = 2.383
+ | Teff = 90.109 | Tprt = 45.133 | Teig = 345.986 | Tblk = 504.200 | Tmve = 89.836 | Tdm = 15.939 | Tsplt = 3.490 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   10 | Direction =  forward | Bond dimension = 1200 | Noise =  1.00e-04 | Dav threshold =  1.00e-05
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4734.0392148449 Error = 0.00e+00 FLOPS = 4.57e+07 Tdav = 0.08 T = 0.19
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4734.0392148449 Error = 0.00e+00 FLOPS = 7.87e+09 Tdav = 0.09 T = 0.43
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4734.0392148449 Error = 0.00e+00 FLOPS = 1.36e+11 Tdav = 0.03 T = 0.34
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   1 E =  -4734.0392148449 Error = 0.00e+00 FLOPS = 1.24e+11 Tdav = 0.13 T = 0.51
+ --> Site =    4-   5 .. Mmps =  462 Ndav =   1 E =  -4734.0392148449 Error = 0.00e+00 FLOPS = 8.08e+11 Tdav = 0.09 T = 0.59
+ --> Site =    5-   6 .. Mmps = 1200 Ndav =   1 E =  -4734.0392148449 Error = 1.98e-10 FLOPS = 1.10e+12 Tdav = 0.30 T = 1.34
+ --> Site =    6-   7 .. Mmps = 1200 Ndav =   1 E =  -4734.0392148451 Error = 2.68e-09 FLOPS = 1.34e+12 Tdav = 0.88 T = 3.61
+ --> Site =    7-   8 .. Mmps = 1200 Ndav =   1 E =  -4734.0392148469 Error = 2.72e-08 FLOPS = 1.36e+12 Tdav = 0.90 T = 3.75
+ --> Site =    8-   9 .. Mmps = 1200 Ndav =   1 E =  -4734.0392148257 Error = 1.23e-07 FLOPS = 1.35e+12 Tdav = 1.06 T = 4.17
+ --> Site =    9-  10 .. Mmps = 1200 Ndav =   1 E =  -4734.0392147213 Error = 3.77e-07 FLOPS = 1.36e+12 Tdav = 1.08 T = 4.30
+ --> Site =   10-  11 .. Mmps = 1200 Ndav =   1 E =  -4734.0392144413 Error = 3.07e-07 FLOPS = 1.39e+12 Tdav = 1.19 T = 4.69
+ --> Site =   11-  12 .. Mmps = 1200 Ndav =   1 E =  -4734.0392142048 Error = 2.65e-07 FLOPS = 1.53e+12 Tdav = 1.33 T = 5.03
+ --> Site =   12-  13 .. Mmps = 1200 Ndav =   2 E =  -4734.0392183657 Error = 1.58e-06 FLOPS = 1.87e+12 Tdav = 2.25 T = 6.15
+ --> Site =   13-  14 .. Mmps = 1200 Ndav =   2 E =  -4734.0392212877 Error = 1.86e-06 FLOPS = 1.74e+12 Tdav = 2.89 T = 7.19
+ --> Site =   14-  15 .. Mmps = 1200 Ndav =   1 E =  -4734.0392166450 Error = 2.95e-07 FLOPS = 1.61e+12 Tdav = 1.69 T = 6.35
+ --> Site =   15-  16 .. Mmps = 1200 Ndav =   2 E =  -4734.0392200761 Error = 8.98e-07 FLOPS = 1.62e+12 Tdav = 3.35 T = 8.05
+ --> Site =   16-  17 .. Mmps = 1200 Ndav =   2 E =  -4734.0392231845 Error = 1.62e-06 FLOPS = 1.86e+12 Tdav = 3.08 T = 7.92
+ --> Site =   17-  18 .. Mmps = 1200 Ndav =   2 E =  -4734.0392269205 Error = 2.26e-06 FLOPS = 1.95e+12 Tdav = 3.46 T = 8.51
+ --> Site =   18-  19 .. Mmps = 1200 Ndav =   2 E =  -4734.0392252848 Error = 1.00e-06 FLOPS = 1.97e+12 Tdav = 3.35 T = 8.41
+ --> Site =   19-  20 .. Mmps = 1200 Ndav =   2 E =  -4734.0392308614 Error = 2.70e-06 FLOPS = 2.17e+12 Tdav = 3.26 T = 8.50
+ --> Site =   20-  21 .. Mmps = 1200 Ndav =   2 E =  -4734.0392504901 Error = 7.04e-06 FLOPS = 2.06e+12 Tdav = 3.66 T = 9.03
+ --> Site =   21-  22 .. Mmps = 1200 Ndav =   2 E =  -4734.0392459114 Error = 3.46e-06 FLOPS = 2.14e+12 Tdav = 3.38 T = 8.73
+ --> Site =   22-  23 .. Mmps = 1200 Ndav =   2 E =  -4734.0392701796 Error = 3.12e-06 FLOPS = 2.27e+12 Tdav = 3.32 T = 8.87
+ --> Site =   23-  24 .. Mmps = 1200 Ndav =   2 E =  -4734.0393256468 Error = 4.96e-06 FLOPS = 2.31e+12 Tdav = 3.43 T = 9.06
+ --> Site =   24-  25 .. Mmps = 1200 Ndav =   2 E =  -4734.0393921198 Error = 5.93e-06 FLOPS = 2.52e+12 Tdav = 3.36 T = 9.57
+ --> Site =   25-  26 .. Mmps = 1200 Ndav =   3 E =  -4734.0395655597 Error = 6.12e-06 FLOPS = 2.71e+12 Tdav = 5.15 T = 11.20
+ --> Site =   26-  27 .. Mmps = 1200 Ndav =   3 E =  -4734.0396632990 Error = 9.55e-06 FLOPS = 2.62e+12 Tdav = 5.67 T = 12.66
+ --> Site =   27-  28 .. Mmps = 1200 Ndav =   3 E =  -4734.0398362218 Error = 6.52e-06 FLOPS = 2.63e+12 Tdav = 6.10 T = 13.10
+ --> Site =   28-  29 .. Mmps = 1200 Ndav =   2 E =  -4734.0398908229 Error = 3.85e-06 FLOPS = 2.75e+12 Tdav = 4.17 T = 12.08
+ --> Site =   29-  30 .. Mmps = 1200 Ndav =   3 E =  -4734.0403806816 Error = 1.21e-05 FLOPS = 2.67e+12 Tdav = 7.48 T = 15.41
+ --> Site =   30-  31 .. Mmps = 1200 Ndav =   3 E =  -4734.0406934503 Error = 1.15e-06 FLOPS = 2.73e+12 Tdav = 6.78 T = 14.42
+ --> Site =   31-  32 .. Mmps = 1200 Ndav =   3 E =  -4734.0411970136 Error = 5.33e-06 FLOPS = 2.48e+12 Tdav = 7.45 T = 29.81
+ --> Site =   32-  33 .. Mmps = 1200 Ndav =   5 E =  -4734.0421697154 Error = 1.23e-05 FLOPS = 2.47e+12 Tdav = 13.13 T = 19.69
+ --> Site =   33-  34 .. Mmps = 1200 Ndav =   4 E =  -4734.0429748171 Error = 4.32e-06 FLOPS = 2.38e+12 Tdav = 10.46 T = 16.91
+ --> Site =   34-  35 .. Mmps = 1200 Ndav =   3 E =  -4734.0432013492 Error = 7.21e-06 FLOPS = 2.32e+12 Tdav = 7.45 T = 13.74
+ --> Site =   35-  36 .. Mmps = 1200 Ndav =   4 E =  -4734.0437247982 Error = 4.83e-06 FLOPS = 2.17e+12 Tdav = 9.19 T = 15.12
+ --> Site =   36-  37 .. Mmps = 1200 Ndav =   2 E =  -4734.0437596246 Error = 1.66e-06 FLOPS = 2.39e+12 Tdav = 3.95 T = 9.30
+ --> Site =   37-  38 .. Mmps = 1200 Ndav =   5 E =  -4734.0445812102 Error = 7.41e-06 FLOPS = 2.35e+12 Tdav = 9.20 T = 14.41
+ --> Site =   38-  39 .. Mmps = 1200 Ndav =   3 E =  -4734.0446861992 Error = 4.41e-06 FLOPS = 2.30e+12 Tdav = 5.18 T = 9.94
+ --> Site =   39-  40 .. Mmps = 1200 Ndav =   2 E =  -4734.0446899509 Error = 6.92e-07 FLOPS = 2.38e+12 Tdav = 3.08 T = 7.46
+ --> Site =   40-  41 .. Mmps = 1200 Ndav =   3 E =  -4734.0447916954 Error = 2.33e-06 FLOPS = 2.17e+12 Tdav = 4.25 T = 8.39
+ --> Site =   41-  42 .. Mmps = 1200 Ndav =   3 E =  -4734.0450078788 Error = 4.71e-06 FLOPS = 2.18e+12 Tdav = 4.29 T = 8.19
+ --> Site =   42-  43 .. Mmps = 1200 Ndav =   3 E =  -4734.0453830426 Error = 1.22e-06 FLOPS = 2.18e+12 Tdav = 3.58 T = 7.30
+ --> Site =   43-  44 .. Mmps = 1200 Ndav =   4 E =  -4734.0457573615 Error = 4.67e-07 FLOPS = 2.09e+12 Tdav = 5.58 T = 9.41
+ --> Site =   44-  45 .. Mmps = 1200 Ndav =   3 E =  -4734.0461627098 Error = 1.90e-06 FLOPS = 1.84e+12 Tdav = 4.54 T = 8.49
+ --> Site =   45-  46 .. Mmps = 1200 Ndav =   2 E =  -4734.0461915266 Error = 1.20e-06 FLOPS = 2.01e+12 Tdav = 2.80 T = 6.75
+ --> Site =   46-  47 .. Mmps = 1200 Ndav =   3 E =  -4734.0468015691 Error = 8.73e-07 FLOPS = 1.89e+12 Tdav = 4.41 T = 8.37
+ --> Site =   47-  48 .. Mmps = 1200 Ndav =   2 E =  -4734.0468487422 Error = 8.50e-07 FLOPS = 1.83e+12 Tdav = 2.79 T = 6.59
+ --> Site =   48-  49 .. Mmps = 1200 Ndav =   2 E =  -4734.0468838189 Error = 3.26e-07 FLOPS = 1.68e+12 Tdav = 2.42 T = 5.74
+ --> Site =   49-  50 .. Mmps = 1200 Ndav =   7 E =  -4734.1470365944 Error = 6.49e-07 FLOPS = 1.83e+12 Tdav = 7.34 T = 10.58
+ --> Site =   50-  51 .. Mmps = 1200 Ndav =   6 E =  -4734.1655140063 Error = 1.24e-07 FLOPS = 1.80e+12 Tdav = 5.49 T = 8.47
+ --> Site =   51-  52 .. Mmps = 1200 Ndav =   4 E =  -4734.1685433435 Error = 1.60e-07 FLOPS = 1.66e+12 Tdav = 3.90 T = 6.81
+ --> Site =   52-  53 .. Mmps = 1200 Ndav =   4 E =  -4734.1695179777 Error = 3.91e-08 FLOPS = 1.57e+12 Tdav = 3.41 T = 6.20
+ --> Site =   53-  54 .. Mmps = 1200 Ndav =   3 E =  -4734.1699669788 Error = 2.85e-08 FLOPS = 1.56e+12 Tdav = 2.54 T = 5.15
+ --> Site =   54-  55 .. Mmps = 1200 Ndav =   2 E =  -4734.1700511693 Error = 4.42e-08 FLOPS = 1.42e+12 Tdav = 1.78 T = 4.55
+ --> Site =   55-  56 .. Mmps = 1200 Ndav =   2 E =  -4734.1700701141 Error = 2.39e-08 FLOPS = 1.33e+12 Tdav = 1.72 T = 4.39
+ --> Site =   56-  57 .. Mmps = 1200 Ndav =   1 E =  -4734.1700700776 Error = 1.20e-08 FLOPS = 9.23e+11 Tdav = 0.35 T = 1.91
+ --> Site =   57-  58 .. Mmps = 1200 Ndav =   1 E =  -4734.1700700671 Error = 8.14e-10 FLOPS = 4.94e+11 Tdav = 0.14 T = 1.16
+ --> Site =   58-  59 .. Mmps = 1200 Ndav =   1 E =  -4734.1700700672 Error = 7.34e-11 FLOPS = 1.48e+11 Tdav = 0.10 T = 0.86
+ --> Site =   59-  60 .. Mmps =  800 Ndav =   1 E =  -4734.1700700672 Error = 3.90e-13 FLOPS = 4.43e+10 Tdav = 0.10 T = 0.77
+ --> Site =   60-  61 .. Mmps =  179 Ndav =   1 E =  -4734.1700700672 Error = 2.00e-14 FLOPS = 1.29e+10 Tdav = 0.05 T = 0.63
+ --> Site =   61-  62 .. Mmps =   31 Ndav =   1 E =  -4734.1700700672 Error = 4.54e-15 FLOPS = 1.03e+08 Tdav = 0.04 T = 0.17
+Time elapsed =   2419.645 | E =   -4734.1700701141 | DE = -1.31e-01 | DW = 1.23e-05
+Time sweep =      471.445 | 422 TFLOP/SWP
+ | Tcomm = 64.632 | Tidle = 23.141 | Twait = 0.000 | Dmem = 796 MB (3%) | Imem = 164 KB (97%) | Hmem = 9.45 GB | Pmem = 129 MB
+ | Tread = 28.063 | Twrite = 20.791 | Tfpread = 26.258 | Tfpwrite = 20.659 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 22.1 GB | cpsd = 15.8 GB
+ | Trot = 8.166 | Tctr = 3.290 | Tint = 10.286 | Tmid = 15.403 | Tdctr = 8.258 | Tdiag = 29.278 | Tinfo = 2.092
+ | Teff = 91.109 | Tprt = 50.256 | Teig = 213.687 | Tblk = 380.541 | Tmve = 90.876 | Tdm = 16.745 | Tsplt = 3.743 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   11 | Direction = backward | Bond dimension = 1200 | Noise =  1.00e-04 | Dav threshold =  1.00e-05
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4734.1700700672 Error = 0.00e+00 FLOPS = 2.92e+07 Tdav = 0.13 T = 0.25
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4734.1700700672 Error = 0.00e+00 FLOPS = 1.79e+10 Tdav = 0.04 T = 0.21
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4734.1700700672 Error = 0.00e+00 FLOPS = 9.42e+10 Tdav = 0.05 T = 0.34
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4734.1700700672 Error = 0.00e+00 FLOPS = 1.53e+11 Tdav = 0.10 T = 0.41
+ <-- Site =   57-  58 .. Mmps =  462 Ndav =   1 E =  -4734.1700700672 Error = 0.00e+00 FLOPS = 7.57e+11 Tdav = 0.09 T = 0.49
+ <-- Site =   56-  57 .. Mmps = 1200 Ndav =   1 E =  -4734.1700700672 Error = 3.10e-10 FLOPS = 1.03e+12 Tdav = 0.31 T = 1.27
+ <-- Site =   55-  56 .. Mmps = 1200 Ndav =   1 E =  -4734.1700700678 Error = 6.84e-09 FLOPS = 1.19e+12 Tdav = 0.99 T = 3.77
+ <-- Site =   54-  55 .. Mmps = 1200 Ndav =   1 E =  -4734.1700700654 Error = 3.13e-08 FLOPS = 1.31e+12 Tdav = 0.97 T = 3.95
+ <-- Site =   53-  54 .. Mmps = 1200 Ndav =   1 E =  -4734.1700700386 Error = 6.36e-08 FLOPS = 1.35e+12 Tdav = 1.01 T = 4.28
+ <-- Site =   52-  53 .. Mmps = 1200 Ndav =   1 E =  -4734.1700699793 Error = 1.22e-07 FLOPS = 1.35e+12 Tdav = 1.06 T = 4.14
+ <-- Site =   51-  52 .. Mmps = 1200 Ndav =   2 E =  -4734.1700756884 Error = 7.19e-07 FLOPS = 1.66e+12 Tdav = 2.16 T = 5.81
+ <-- Site =   50-  51 .. Mmps = 1200 Ndav =   2 E =  -4734.1700809987 Error = 8.44e-07 FLOPS = 1.80e+12 Tdav = 2.02 T = 5.69
+ <-- Site =   49-  50 .. Mmps = 1200 Ndav =   2 E =  -4734.1701420303 Error = 3.79e-06 FLOPS = 1.86e+12 Tdav = 2.30 T = 6.18
+ <-- Site =   48-  49 .. Mmps = 1200 Ndav =   3 E =  -4734.1703288127 Error = 2.24e-06 FLOPS = 1.99e+12 Tdav = 3.51 T = 7.45
+ <-- Site =   47-  48 .. Mmps = 1200 Ndav =   3 E =  -4734.1704975485 Error = 4.38e-06 FLOPS = 1.88e+12 Tdav = 4.16 T = 8.69
+ <-- Site =   46-  47 .. Mmps = 1200 Ndav =   3 E =  -4734.1705756846 Error = 3.63e-06 FLOPS = 1.84e+12 Tdav = 4.57 T = 9.31
+ <-- Site =   45-  46 .. Mmps = 1200 Ndav =   3 E =  -4734.1707117699 Error = 4.19e-06 FLOPS = 1.98e+12 Tdav = 4.26 T = 9.36
+ <-- Site =   44-  45 .. Mmps = 1200 Ndav =   2 E =  -4734.1707521357 Error = 5.25e-06 FLOPS = 2.18e+12 Tdav = 2.33 T = 7.24
+ <-- Site =   43-  44 .. Mmps = 1200 Ndav =   2 E =  -4734.1707684833 Error = 1.86e-06 FLOPS = 2.20e+12 Tdav = 2.54 T = 7.67
+ <-- Site =   42-  43 .. Mmps = 1200 Ndav =   2 E =  -4734.1708285274 Error = 5.16e-06 FLOPS = 2.16e+12 Tdav = 2.45 T = 7.42
+ <-- Site =   41-  42 .. Mmps = 1200 Ndav =   3 E =  -4734.1709762657 Error = 1.16e-05 FLOPS = 2.46e+12 Tdav = 4.07 T = 9.05
+ <-- Site =   40-  41 .. Mmps = 1200 Ndav =   3 E =  -4734.1710662931 Error = 3.97e-06 FLOPS = 2.25e+12 Tdav = 4.19 T = 9.15
+ <-- Site =   39-  40 .. Mmps = 1200 Ndav =   2 E =  -4734.1711219917 Error = 1.16e-06 FLOPS = 2.19e+12 Tdav = 3.36 T = 8.86
+ <-- Site =   38-  39 .. Mmps = 1200 Ndav =   3 E =  -4734.1711979370 Error = 1.05e-05 FLOPS = 2.42e+12 Tdav = 4.56 T = 10.27
+ <-- Site =   37-  38 .. Mmps = 1200 Ndav =   2 E =  -4734.1712475735 Error = 1.66e-05 FLOPS = 2.35e+12 Tdav = 3.47 T = 9.25
+ <-- Site =   36-  37 .. Mmps = 1200 Ndav =   3 E =  -4734.1713088915 Error = 2.24e-06 FLOPS = 2.39e+12 Tdav = 6.06 T = 12.71
+ <-- Site =   35-  36 .. Mmps = 1200 Ndav =   2 E =  -4734.1713675799 Error = 1.16e-05 FLOPS = 2.44e+12 Tdav = 4.07 T = 10.57
+ <-- Site =   34-  35 .. Mmps = 1200 Ndav =   3 E =  -4734.1714419748 Error = 1.35e-05 FLOPS = 2.42e+12 Tdav = 7.20 T = 14.39
+ <-- Site =   33-  34 .. Mmps = 1200 Ndav =   2 E =  -4734.1714500932 Error = 7.83e-06 FLOPS = 2.52e+12 Tdav = 4.95 T = 12.23
+ <-- Site =   32-  33 .. Mmps = 1200 Ndav =   3 E =  -4734.1715580967 Error = 2.42e-05 FLOPS = 2.59e+12 Tdav = 7.59 T = 15.10
+ <-- Site =   31-  32 .. Mmps = 1200 Ndav =   3 E =  -4734.1716046688 Error = 8.28e-06 FLOPS = 2.29e+12 Tdav = 8.00 T = 16.36
+ <-- Site =   30-  31 .. Mmps = 1200 Ndav =   2 E =  -4734.1716303389 Error = 2.09e-06 FLOPS = 2.45e+12 Tdav = 5.18 T = 25.79
+ <-- Site =   29-  30 .. Mmps = 1200 Ndav =   3 E =  -4734.1718570877 Error = 2.35e-05 FLOPS = 2.71e+12 Tdav = 7.61 T = 14.24
+ <-- Site =   28-  29 .. Mmps = 1200 Ndav =   3 E =  -4734.1721164252 Error = 5.82e-06 FLOPS = 2.44e+12 Tdav = 7.25 T = 13.60
+ <-- Site =   27-  28 .. Mmps = 1200 Ndav =   3 E =  -4734.1722426323 Error = 1.40e-05 FLOPS = 2.70e+12 Tdav = 6.17 T = 12.11
+ <-- Site =   26-  27 .. Mmps = 1200 Ndav =   3 E =  -4734.1723936098 Error = 1.80e-05 FLOPS = 2.44e+12 Tdav = 6.48 T = 11.97
+ <-- Site =   25-  26 .. Mmps = 1200 Ndav =   2 E =  -4734.1724028769 Error = 8.76e-06 FLOPS = 2.44e+12 Tdav = 4.04 T = 9.25
+ <-- Site =   24-  25 .. Mmps = 1200 Ndav =   3 E =  -4734.1724662150 Error = 1.00e-05 FLOPS = 2.69e+12 Tdav = 5.11 T = 10.21
+ <-- Site =   23-  24 .. Mmps = 1200 Ndav =   2 E =  -4734.1724774053 Error = 5.86e-06 FLOPS = 2.57e+12 Tdav = 3.27 T = 8.13
+ <-- Site =   22-  23 .. Mmps = 1200 Ndav =   2 E =  -4734.1724920545 Error = 4.02e-06 FLOPS = 2.53e+12 Tdav = 3.24 T = 8.10
+ <-- Site =   21-  22 .. Mmps = 1200 Ndav =   2 E =  -4734.1725018126 Error = 4.00e-06 FLOPS = 2.33e+12 Tdav = 3.22 T = 7.77
+ <-- Site =   20-  21 .. Mmps = 1200 Ndav =   2 E =  -4734.1725216282 Error = 7.97e-06 FLOPS = 2.30e+12 Tdav = 3.34 T = 7.85
+ <-- Site =   19-  20 .. Mmps = 1200 Ndav =   2 E =  -4734.1725111958 Error = 2.26e-06 FLOPS = 2.48e+12 Tdav = 2.90 T = 7.13
+ <-- Site =   18-  19 .. Mmps = 1200 Ndav =   2 E =  -4734.1725085619 Error = 7.79e-07 FLOPS = 2.33e+12 Tdav = 2.86 T = 6.98
+ <-- Site =   17-  18 .. Mmps = 1200 Ndav =   2 E =  -4734.1725136704 Error = 2.34e-06 FLOPS = 2.16e+12 Tdav = 3.15 T = 7.24
+ <-- Site =   16-  17 .. Mmps = 1200 Ndav =   2 E =  -4734.1725125819 Error = 1.57e-06 FLOPS = 2.04e+12 Tdav = 2.82 T = 6.72
+ <-- Site =   15-  16 .. Mmps = 1200 Ndav =   1 E =  -4734.1725086003 Error = 2.38e-07 FLOPS = 1.76e+12 Tdav = 1.54 T = 5.25
+ <-- Site =   14-  15 .. Mmps = 1200 Ndav =   2 E =  -4734.1725121263 Error = 9.69e-07 FLOPS = 2.09e+12 Tdav = 2.61 T = 6.24
+ <-- Site =   13-  14 .. Mmps = 1200 Ndav =   2 E =  -4734.1725150335 Error = 1.97e-06 FLOPS = 2.10e+12 Tdav = 2.42 T = 5.91
+ <-- Site =   12-  13 .. Mmps = 1200 Ndav =   2 E =  -4734.1725143491 Error = 1.30e-06 FLOPS = 1.76e+12 Tdav = 2.39 T = 5.69
+ <-- Site =   11-  12 .. Mmps = 1200 Ndav =   1 E =  -4734.1725108145 Error = 1.24e-07 FLOPS = 1.55e+12 Tdav = 1.31 T = 4.41
+ <-- Site =   10-  11 .. Mmps = 1200 Ndav =   1 E =  -4734.1725107298 Error = 1.59e-07 FLOPS = 1.46e+12 Tdav = 1.12 T = 4.14
+ <-- Site =    9-  10 .. Mmps = 1200 Ndav =   1 E =  -4734.1725106013 Error = 1.77e-07 FLOPS = 1.29e+12 Tdav = 1.13 T = 4.01
+ <-- Site =    8-   9 .. Mmps = 1200 Ndav =   1 E =  -4734.1725104855 Error = 4.94e-08 FLOPS = 1.37e+12 Tdav = 1.04 T = 3.87
+ <-- Site =    7-   8 .. Mmps = 1200 Ndav =   1 E =  -4734.1725104798 Error = 4.72e-09 FLOPS = 1.24e+12 Tdav = 0.99 T = 3.52
+ <-- Site =    6-   7 .. Mmps = 1200 Ndav =   1 E =  -4734.1725104808 Error = 4.35e-10 FLOPS = 1.20e+12 Tdav = 0.98 T = 3.75
+ <-- Site =    5-   6 .. Mmps = 1200 Ndav =   1 E =  -4734.1725104813 Error = 2.11e-09 FLOPS = 9.11e+11 Tdav = 0.36 T = 1.85
+ <-- Site =    4-   5 .. Mmps = 1200 Ndav =   1 E =  -4734.1725104814 Error = 5.63e-10 FLOPS = 5.00e+11 Tdav = 0.14 T = 1.22
+ <-- Site =    3-   4 .. Mmps = 1200 Ndav =   1 E =  -4734.1725104815 Error = 8.84e-11 FLOPS = 1.57e+11 Tdav = 0.10 T = 0.89
+ <-- Site =    2-   3 .. Mmps =  812 Ndav =   1 E =  -4734.1725104815 Error = 3.76e-13 FLOPS = 9.50e+10 Tdav = 0.05 T = 0.66
+ <-- Site =    1-   2 .. Mmps =  179 Ndav =   1 E =  -4734.1725104815 Error = 2.06e-14 FLOPS = 7.76e+09 Tdav = 0.09 T = 0.66
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4734.1725104815 Error = 2.51e-15 FLOPS = 4.59e+07 Tdav = 0.08 T = 0.28
+Time elapsed =   2850.965 | E =   -4734.1725216282 | DE = -2.45e-03 | DW = 2.42e-05
+Time sweep =      431.320 | 359 TFLOP/SWP
+ | Tcomm = 52.229 | Tidle = 24.451 | Twait = 0.000 | Dmem = 796 MB (3%) | Imem = 156 KB (97%) | Hmem = 9.45 GB | Pmem = 128 MB
+ | Tread = 27.872 | Twrite = 19.969 | Tfpread = 25.913 | Tfpwrite = 19.851 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 22.1 GB | cpsd = 15.8 GB
+ | Trot = 8.029 | Tctr = 3.415 | Tint = 10.187 | Tmid = 14.076 | Tdctr = 8.523 | Tdiag = 31.381 | Tinfo = 2.121
+ | Teff = 92.155 | Tprt = 47.268 | Teig = 175.582 | Tblk = 340.078 | Tmve = 91.216 | Tdm = 17.408 | Tsplt = 3.611 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   12 | Direction =  forward | Bond dimension = 1600 | Noise =  5.00e-05 | Dav threshold =  1.00e-05
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4734.1725104815 Error = 0.00e+00 FLOPS = 4.81e+07 Tdav = 0.08 T = 0.19
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4734.1725104815 Error = 0.00e+00 FLOPS = 8.09e+09 Tdav = 0.09 T = 0.37
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4734.1725104815 Error = 0.00e+00 FLOPS = 4.47e+10 Tdav = 0.10 T = 0.46
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   1 E =  -4734.1725104815 Error = 0.00e+00 FLOPS = 2.42e+11 Tdav = 0.07 T = 0.42
+ --> Site =    4-   5 .. Mmps =  462 Ndav =   1 E =  -4734.1725104815 Error = 0.00e+00 FLOPS = 6.21e+11 Tdav = 0.11 T = 0.60
+ --> Site =    5-   6 .. Mmps = 1600 Ndav =   1 E =  -4734.1725104814 Error = 2.15e-12 FLOPS = 9.16e+11 Tdav = 0.36 T = 1.42
+ --> Site =    6-   7 .. Mmps = 1600 Ndav =   1 E =  -4734.1725104814 Error = 5.08e-10 FLOPS = 1.24e+12 Tdav = 1.40 T = 5.36
+ --> Site =    7-   8 .. Mmps = 1600 Ndav =   1 E =  -4734.1725104822 Error = 3.76e-09 FLOPS = 1.23e+12 Tdav = 1.46 T = 5.92
+ --> Site =    8-   9 .. Mmps = 1600 Ndav =   1 E =  -4734.1725104805 Error = 1.55e-08 FLOPS = 1.31e+12 Tdav = 1.56 T = 6.22
+ --> Site =    9-  10 .. Mmps = 1600 Ndav =   2 E =  -4734.1725138525 Error = 2.59e-07 FLOPS = 1.49e+12 Tdav = 2.70 T = 7.16
+ --> Site =   10-  11 .. Mmps = 1600 Ndav =   2 E =  -4734.1725161578 Error = 2.56e-07 FLOPS = 1.67e+12 Tdav = 2.94 T = 8.25
+ --> Site =   11-  12 .. Mmps = 1600 Ndav =   1 E =  -4734.1725155458 Error = 2.72e-08 FLOPS = 1.48e+12 Tdav = 2.03 T = 7.59
+ --> Site =   12-  13 .. Mmps = 1600 Ndav =   2 E =  -4734.1725206156 Error = 6.44e-07 FLOPS = 1.86e+12 Tdav = 3.26 T = 9.01
+ --> Site =   13-  14 .. Mmps = 1600 Ndav =   2 E =  -4734.1725264936 Error = 8.16e-07 FLOPS = 1.88e+12 Tdav = 3.90 T = 10.01
+ --> Site =   14-  15 .. Mmps = 1600 Ndav =   2 E =  -4734.1725279999 Error = 4.16e-07 FLOPS = 1.85e+12 Tdav = 4.26 T = 10.84
+ --> Site =   15-  16 .. Mmps = 1600 Ndav =   2 E =  -4734.1725305606 Error = 3.72e-07 FLOPS = 1.96e+12 Tdav = 4.05 T = 11.31
+ --> Site =   16-  17 .. Mmps = 1600 Ndav =   2 E =  -4734.1725354676 Error = 6.91e-07 FLOPS = 2.13e+12 Tdav = 3.97 T = 11.31
+ --> Site =   17-  18 .. Mmps = 1600 Ndav =   2 E =  -4734.1725423724 Error = 1.08e-06 FLOPS = 2.22e+12 Tdav = 4.43 T = 12.41
+ --> Site =   18-  19 .. Mmps = 1600 Ndav =   2 E =  -4734.1725438463 Error = 4.35e-07 FLOPS = 2.14e+12 Tdav = 4.51 T = 12.59
+ --> Site =   19-  20 .. Mmps = 1600 Ndav =   2 E =  -4734.1725520689 Error = 1.24e-06 FLOPS = 2.09e+12 Tdav = 4.91 T = 13.16
+ --> Site =   20-  21 .. Mmps = 1600 Ndav =   2 E =  -4734.1725784170 Error = 3.83e-06 FLOPS = 2.39e+12 Tdav = 4.63 T = 12.90
+ --> Site =   21-  22 .. Mmps = 1600 Ndav =   2 E =  -4734.1725833674 Error = 1.62e-06 FLOPS = 2.49e+12 Tdav = 4.30 T = 12.95
+ --> Site =   22-  23 .. Mmps = 1600 Ndav =   2 E =  -4734.1725952391 Error = 1.53e-06 FLOPS = 2.42e+12 Tdav = 4.76 T = 14.28
+ --> Site =   23-  24 .. Mmps = 1600 Ndav =   3 E =  -4734.1726148765 Error = 3.23e-06 FLOPS = 2.40e+12 Tdav = 7.33 T = 16.53
+ --> Site =   24-  25 .. Mmps = 1600 Ndav =   2 E =  -4734.1726421721 Error = 3.99e-06 FLOPS = 2.46e+12 Tdav = 5.16 T = 14.70
+ --> Site =   25-  26 .. Mmps = 1600 Ndav =   2 E =  -4734.1726751060 Error = 4.13e-06 FLOPS = 2.41e+12 Tdav = 5.59 T = 15.61
+ --> Site =   26-  27 .. Mmps = 1600 Ndav =   2 E =  -4734.1727224601 Error = 7.71e-06 FLOPS = 2.55e+12 Tdav = 5.64 T = 16.35
+ --> Site =   27-  28 .. Mmps = 1600 Ndav =   2 E =  -4734.1727645035 Error = 5.45e-06 FLOPS = 2.53e+12 Tdav = 6.04 T = 17.34
+ --> Site =   28-  29 .. Mmps = 1600 Ndav =   2 E =  -4734.1727766640 Error = 2.43e-06 FLOPS = 2.48e+12 Tdav = 6.64 T = 18.22
+ --> Site =   29-  30 .. Mmps = 1600 Ndav =   3 E =  -4734.1729123419 Error = 1.30e-05 FLOPS = 2.85e+12 Tdav = 10.10 T = 21.79
+ --> Site =   30-  31 .. Mmps = 1600 Ndav =   2 E =  -4734.1729187925 Error = 8.11e-07 FLOPS = 2.57e+12 Tdav = 6.94 T = 19.29
+ --> Site =   31-  32 .. Mmps = 1600 Ndav =   2 E =  -4734.1729947170 Error = 3.18e-06 FLOPS = 2.48e+12 Tdav = 8.09 T = 47.11
+ --> Site =   32-  33 .. Mmps = 1600 Ndav =   3 E =  -4734.1731563678 Error = 1.21e-05 FLOPS = 2.51e+12 Tdav = 12.89 T = 23.09
+ --> Site =   33-  34 .. Mmps = 1600 Ndav =   3 E =  -4734.1732265813 Error = 3.58e-06 FLOPS = 2.57e+12 Tdav = 11.95 T = 21.48
+ --> Site =   34-  35 .. Mmps = 1600 Ndav =   2 E =  -4734.1732911254 Error = 5.72e-06 FLOPS = 2.39e+12 Tdav = 8.00 T = 17.57
+ --> Site =   35-  36 .. Mmps = 1600 Ndav =   2 E =  -4734.1733622964 Error = 5.34e-06 FLOPS = 2.27e+12 Tdav = 7.17 T = 16.26
+ --> Site =   36-  37 .. Mmps = 1600 Ndav =   2 E =  -4734.1733636806 Error = 1.14e-06 FLOPS = 2.26e+12 Tdav = 7.06 T = 15.66
+ --> Site =   37-  38 .. Mmps = 1600 Ndav =   3 E =  -4734.1734919336 Error = 8.97e-06 FLOPS = 2.45e+12 Tdav = 8.59 T = 16.71
+ --> Site =   38-  39 .. Mmps = 1600 Ndav =   2 E =  -4734.1735166312 Error = 4.37e-06 FLOPS = 2.09e+12 Tdav = 6.07 T = 13.48
+ --> Site =   39-  40 .. Mmps = 1600 Ndav =   2 E =  -4734.1735128101 Error = 4.92e-07 FLOPS = 2.17e+12 Tdav = 5.62 T = 12.57
+ --> Site =   40-  41 .. Mmps = 1600 Ndav =   2 E =  -4734.1735341098 Error = 1.54e-06 FLOPS = 2.10e+12 Tdav = 5.06 T = 11.91
+ --> Site =   41-  42 .. Mmps = 1600 Ndav =   2 E =  -4734.1735822967 Error = 4.83e-06 FLOPS = 2.06e+12 Tdav = 5.30 T = 11.83
+ --> Site =   42-  43 .. Mmps = 1600 Ndav =   2 E =  -4734.1736283132 Error = 1.75e-06 FLOPS = 1.93e+12 Tdav = 4.61 T = 10.74
+ --> Site =   43-  44 .. Mmps = 1600 Ndav =   2 E =  -4734.1736692797 Error = 5.29e-07 FLOPS = 2.07e+12 Tdav = 4.66 T = 10.71
+ --> Site =   44-  45 .. Mmps = 1600 Ndav =   2 E =  -4734.1737158289 Error = 2.24e-06 FLOPS = 1.96e+12 Tdav = 4.59 T = 10.57
+ --> Site =   45-  46 .. Mmps = 1600 Ndav =   2 E =  -4734.1737335795 Error = 1.29e-06 FLOPS = 1.83e+12 Tdav = 5.08 T = 11.17
+ --> Site =   46-  47 .. Mmps = 1600 Ndav =   2 E =  -4734.1737522019 Error = 1.23e-06 FLOPS = 1.76e+12 Tdav = 5.21 T = 11.07
+ --> Site =   47-  48 .. Mmps = 1600 Ndav =   2 E =  -4734.1737727531 Error = 1.64e-06 FLOPS = 1.95e+12 Tdav = 4.42 T = 10.07
+ --> Site =   48-  49 .. Mmps = 1600 Ndav =   2 E =  -4734.1737837153 Error = 8.37e-07 FLOPS = 1.82e+12 Tdav = 4.06 T = 9.48
+ --> Site =   49-  50 .. Mmps = 1600 Ndav =   2 E =  -4734.1738084334 Error = 1.92e-06 FLOPS = 1.73e+12 Tdav = 3.98 T = 9.09
+ --> Site =   50-  51 .. Mmps = 1600 Ndav =   2 E =  -4734.1738119211 Error = 1.94e-07 FLOPS = 1.85e+12 Tdav = 3.12 T = 7.90
+ --> Site =   51-  52 .. Mmps = 1600 Ndav =   2 E =  -4734.1738156481 Error = 1.81e-07 FLOPS = 1.78e+12 Tdav = 3.25 T = 7.78
+ --> Site =   52-  53 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151600 Error = 3.09e-09 FLOPS = 1.45e+12 Tdav = 1.61 T = 6.17
+ --> Site =   53-  54 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151596 Error = 2.31e-09 FLOPS = 1.40e+12 Tdav = 1.48 T = 5.25
+ --> Site =   54-  55 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151607 Error = 4.22e-09 FLOPS = 1.31e+12 Tdav = 1.47 T = 5.13
+ --> Site =   55-  56 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151619 Error = 2.46e-09 FLOPS = 1.36e+12 Tdav = 1.33 T = 4.86
+ --> Site =   56-  57 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151621 Error = 1.65e-09 FLOPS = 1.08e+12 Tdav = 0.47 T = 2.70
+ --> Site =   57-  58 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151612 Error = 1.47e-10 FLOPS = 5.63e+11 Tdav = 0.20 T = 1.76
+ --> Site =   58-  59 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151612 Error = 1.15e-11 FLOPS = 2.18e+11 Tdav = 0.12 T = 1.37
+ --> Site =   59-  60 .. Mmps =  789 Ndav =   1 E =  -4734.1738151613 Error = 3.67e-13 FLOPS = 9.15e+10 Tdav = 0.08 T = 1.23
+ --> Site =   60-  61 .. Mmps =  178 Ndav =   1 E =  -4734.1738151613 Error = 1.82e-14 FLOPS = 4.19e+10 Tdav = 0.02 T = 0.50
+ --> Site =   61-  62 .. Mmps =   31 Ndav =   1 E =  -4734.1738151613 Error = 2.61e-15 FLOPS = 8.12e+08 Tdav = 0.00 T = 0.09
+Time elapsed =   3500.887 | E =   -4734.1738156481 | DE = -1.29e-03 | DW = 1.30e-05
+Time sweep =      649.921 | 497 TFLOP/SWP
+ | Tcomm = 74.280 | Tidle = 40.539 | Twait = 0.000 | Dmem = 1.33 GB (2%) | Imem = 158 KB (96%) | Hmem = 16.0 GB | Pmem = 169 MB
+ | Tread = 33.320 | Twrite = 32.837 | Tfpread = 31.394 | Tfpwrite = 32.626 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 38.3 GB | cpsd = 27.4 GB
+ | Trot = 17.195 | Tctr = 5.184 | Tint = 17.965 | Tmid = 28.490 | Tdctr = 13.634 | Tdiag = 38.353 | Tinfo = 1.720
+ | Teff = 118.072 | Tprt = 76.412 | Teig = 248.845 | Tblk = 489.568 | Tmve = 160.325 | Tdm = 33.448 | Tsplt = 7.325 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   13 | Direction = backward | Bond dimension = 1600 | Noise =  5.00e-05 | Dav threshold =  1.00e-05
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4734.1738151613 Error = 0.00e+00 FLOPS = 8.41e+08 Tdav = 0.00 T = 0.05
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4734.1738151613 Error = 0.00e+00 FLOPS = 4.24e+10 Tdav = 0.02 T = 0.14
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4734.1738151613 Error = 0.00e+00 FLOPS = 6.85e+10 Tdav = 0.11 T = 0.61
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4734.1738151613 Error = 0.00e+00 FLOPS = 2.81e+11 Tdav = 0.09 T = 0.67
+ <-- Site =   57-  58 .. Mmps =  462 Ndav =   1 E =  -4734.1738151612 Error = 0.00e+00 FLOPS = 5.38e+11 Tdav = 0.21 T = 1.02
+ <-- Site =   56-  57 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151612 Error = 2.33e-12 FLOPS = 1.16e+12 Tdav = 0.44 T = 1.87
+ <-- Site =   55-  56 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151612 Error = 6.88e-10 FLOPS = 1.40e+12 Tdav = 1.87 T = 6.83
+ <-- Site =   54-  55 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151617 Error = 3.30e-09 FLOPS = 1.54e+12 Tdav = 1.78 T = 7.27
+ <-- Site =   53-  54 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151599 Error = 7.02e-09 FLOPS = 1.40e+12 Tdav = 2.08 T = 7.90
+ <-- Site =   52-  53 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151551 Error = 1.40e-08 FLOPS = 1.44e+12 Tdav = 2.30 T = 8.77
+ <-- Site =   51-  52 .. Mmps = 1600 Ndav =   1 E =  -4734.1738151420 Error = 1.92e-07 FLOPS = 1.42e+12 Tdav = 2.84 T = 9.35
+ <-- Site =   50-  51 .. Mmps = 1600 Ndav =   1 E =  -4734.1738149426 Error = 2.50e-07 FLOPS = 1.49e+12 Tdav = 2.79 T = 10.13
+ <-- Site =   49-  50 .. Mmps = 1600 Ndav =   2 E =  -4734.1738231758 Error = 2.82e-06 FLOPS = 1.58e+12 Tdav = 6.29 T = 14.02
+ <-- Site =   48-  49 .. Mmps = 1600 Ndav =   2 E =  -4734.1738237781 Error = 1.48e-06 FLOPS = 1.85e+12 Tdav = 5.70 T = 13.35
+ <-- Site =   47-  48 .. Mmps = 1600 Ndav =   2 E =  -4734.1738313120 Error = 2.83e-06 FLOPS = 1.86e+12 Tdav = 6.62 T = 14.80
+ <-- Site =   46-  47 .. Mmps = 1600 Ndav =   2 E =  -4734.1738332271 Error = 2.30e-06 FLOPS = 2.02e+12 Tdav = 6.45 T = 15.27
+ <-- Site =   45-  46 .. Mmps = 1600 Ndav =   2 E =  -4734.1738364498 Error = 2.33e-06 FLOPS = 2.09e+12 Tdav = 6.37 T = 15.49
+ <-- Site =   44-  45 .. Mmps = 1600 Ndav =   2 E =  -4734.1738423670 Error = 3.64e-06 FLOPS = 1.90e+12 Tdav = 6.70 T = 15.88
+ <-- Site =   43-  44 .. Mmps = 1600 Ndav =   2 E =  -4734.1738383591 Error = 1.04e-06 FLOPS = 2.23e+12 Tdav = 6.01 T = 15.57
+ <-- Site =   42-  43 .. Mmps = 1600 Ndav =   2 E =  -4734.1738537790 Error = 3.25e-06 FLOPS = 2.17e+12 Tdav = 5.78 T = 15.28
+ <-- Site =   41-  42 .. Mmps = 1600 Ndav =   2 E =  -4734.1738871792 Error = 7.27e-06 FLOPS = 2.26e+12 Tdav = 6.81 T = 16.34
+ <-- Site =   40-  41 .. Mmps = 1600 Ndav =   2 E =  -4734.1738860529 Error = 2.23e-06 FLOPS = 2.22e+12 Tdav = 6.86 T = 17.15
+ <-- Site =   39-  40 .. Mmps = 1600 Ndav =   2 E =  -4734.1738869648 Error = 5.01e-07 FLOPS = 2.20e+12 Tdav = 7.64 T = 17.99
+ <-- Site =   38-  39 .. Mmps = 1600 Ndav =   2 E =  -4734.1739106716 Error = 6.84e-06 FLOPS = 2.41e+12 Tdav = 7.33 T = 18.73
+ <-- Site =   37-  38 .. Mmps = 1600 Ndav =   2 E =  -4734.1739300965 Error = 1.24e-05 FLOPS = 2.30e+12 Tdav = 8.36 T = 19.96
+ <-- Site =   36-  37 .. Mmps = 1600 Ndav =   2 E =  -4734.1739195166 Error = 1.59e-06 FLOPS = 2.41e+12 Tdav = 9.27 T = 21.68
+ <-- Site =   35-  36 .. Mmps = 1600 Ndav =   2 E =  -4734.1739468141 Error = 8.70e-06 FLOPS = 2.49e+12 Tdav = 9.15 T = 22.00
+ <-- Site =   34-  35 .. Mmps = 1600 Ndav =   2 E =  -4734.1739676256 Error = 9.75e-06 FLOPS = 2.45e+12 Tdav = 10.90 T = 24.02
+ <-- Site =   33-  34 .. Mmps = 1600 Ndav =   2 E =  -4734.1739626832 Error = 5.80e-06 FLOPS = 2.57e+12 Tdav = 11.10 T = 25.02
+ <-- Site =   32-  33 .. Mmps = 1600 Ndav =   2 E =  -4734.1740166857 Error = 1.87e-05 FLOPS = 2.64e+12 Tdav = 11.38 T = 25.94
+ <-- Site =   31-  32 .. Mmps = 1600 Ndav =   2 E =  -4734.1740062060 Error = 6.36e-06 FLOPS = 2.55e+12 Tdav = 10.99 T = 25.88
+ <-- Site =   30-  31 .. Mmps = 1600 Ndav =   2 E =  -4734.1740055613 Error = 1.58e-06 FLOPS = 2.46e+12 Tdav = 11.72 T = 53.58
+ <-- Site =   29-  30 .. Mmps = 1600 Ndav =   2 E =  -4734.1740894863 Error = 1.88e-05 FLOPS = 2.68e+12 Tdav = 11.63 T = 24.36
+ <-- Site =   28-  29 .. Mmps = 1600 Ndav =   3 E =  -4734.1741406704 Error = 4.47e-06 FLOPS = 2.55e+12 Tdav = 15.69 T = 27.09
+ <-- Site =   27-  28 .. Mmps = 1600 Ndav =   2 E =  -4734.1741807549 Error = 9.76e-06 FLOPS = 2.49e+12 Tdav = 10.05 T = 21.31
+ <-- Site =   26-  27 .. Mmps = 1600 Ndav =   2 E =  -4734.1742259475 Error = 1.25e-05 FLOPS = 2.50e+12 Tdav = 9.48 T = 20.22
+ <-- Site =   25-  26 .. Mmps = 1600 Ndav =   2 E =  -4734.1742203530 Error = 6.35e-06 FLOPS = 2.45e+12 Tdav = 8.99 T = 19.39
+ <-- Site =   24-  25 .. Mmps = 1600 Ndav =   2 E =  -4734.1742380982 Error = 6.48e-06 FLOPS = 2.46e+12 Tdav = 8.42 T = 18.11
+ <-- Site =   23-  24 .. Mmps = 1600 Ndav =   2 E =  -4734.1742388468 Error = 3.96e-06 FLOPS = 2.47e+12 Tdav = 7.73 T = 16.87
+ <-- Site =   22-  23 .. Mmps = 1600 Ndav =   2 E =  -4734.1742423718 Error = 2.70e-06 FLOPS = 2.39e+12 Tdav = 7.80 T = 17.00
+ <-- Site =   21-  22 .. Mmps = 1600 Ndav =   2 E =  -4734.1742455277 Error = 2.59e-06 FLOPS = 2.40e+12 Tdav = 7.29 T = 16.12
+ <-- Site =   20-  21 .. Mmps = 1600 Ndav =   2 E =  -4734.1742568896 Error = 5.28e-06 FLOPS = 2.28e+12 Tdav = 7.77 T = 16.36
+ <-- Site =   19-  20 .. Mmps = 1600 Ndav =   2 E =  -4734.1742501867 Error = 1.57e-06 FLOPS = 2.27e+12 Tdav = 7.27 T = 15.73
+ <-- Site =   18-  19 .. Mmps = 1600 Ndav =   1 E =  -4734.1742455244 Error = 7.18e-08 FLOPS = 1.83e+12 Tdav = 4.22 T = 12.11
+ <-- Site =   17-  18 .. Mmps = 1600 Ndav =   2 E =  -4734.1742515598 Error = 1.39e-06 FLOPS = 2.14e+12 Tdav = 7.26 T = 15.42
+ <-- Site =   16-  17 .. Mmps = 1600 Ndav =   2 E =  -4734.1742513606 Error = 9.15e-07 FLOPS = 1.92e+12 Tdav = 7.00 T = 14.44
+ <-- Site =   15-  16 .. Mmps = 1600 Ndav =   1 E =  -4734.1742488492 Error = 1.03e-07 FLOPS = 1.72e+12 Tdav = 3.68 T = 10.94
+ <-- Site =   14-  15 .. Mmps = 1600 Ndav =   1 E =  -4734.1742487823 Error = 1.09e-07 FLOPS = 1.68e+12 Tdav = 3.75 T = 11.01
+ <-- Site =   13-  14 .. Mmps = 1600 Ndav =   2 E =  -4734.1742528125 Error = 1.07e-06 FLOPS = 2.11e+12 Tdav = 5.47 T = 12.22
+ <-- Site =   12-  13 .. Mmps = 1600 Ndav =   2 E =  -4734.1742533469 Error = 7.37e-07 FLOPS = 1.79e+12 Tdav = 5.40 T = 11.56
+ <-- Site =   11-  12 .. Mmps = 1600 Ndav =   1 E =  -4734.1742512172 Error = 4.56e-08 FLOPS = 1.56e+12 Tdav = 3.02 T = 8.73
+ <-- Site =   10-  11 .. Mmps = 1600 Ndav =   1 E =  -4734.1742511737 Error = 1.08e-07 FLOPS = 1.74e+12 Tdav = 2.19 T = 7.55
+ <-- Site =    9-  10 .. Mmps = 1600 Ndav =   1 E =  -4734.1742510812 Error = 1.06e-07 FLOPS = 1.31e+12 Tdav = 2.39 T = 7.48
+ <-- Site =    8-   9 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509865 Error = 1.94e-08 FLOPS = 1.36e+12 Tdav = 2.33 T = 7.10
+ <-- Site =    7-   8 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509748 Error = 1.59e-09 FLOPS = 1.24e+12 Tdav = 2.23 T = 6.65
+ <-- Site =    6-   7 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509759 Error = 1.34e-10 FLOPS = 1.43e+12 Tdav = 1.87 T = 6.25
+ <-- Site =    5-   6 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509762 Error = 6.18e-10 FLOPS = 1.38e+12 Tdav = 0.38 T = 2.54
+ <-- Site =    4-   5 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509766 Error = 1.03e-10 FLOPS = 6.93e+11 Tdav = 0.17 T = 1.80
+ <-- Site =    3-   4 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509767 Error = 1.32e-11 FLOPS = 2.14e+11 Tdav = 0.12 T = 1.24
+ <-- Site =    2-   3 .. Mmps =  800 Ndav =   1 E =  -4734.1742509767 Error = 3.53e-13 FLOPS = 9.86e+10 Tdav = 0.08 T = 1.22
+ <-- Site =    1-   2 .. Mmps =  178 Ndav =   1 E =  -4734.1742509767 Error = 1.69e-14 FLOPS = 1.35e+10 Tdav = 0.05 T = 0.56
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4734.1742509767 Error = 1.27e-15 FLOPS = 3.89e+08 Tdav = 0.01 T = 0.12
+Time elapsed =   4314.973 | E =   -4734.1742568896 | DE = -4.41e-04 | DW = 1.88e-05
+Time sweep =      814.087 | 667 TFLOP/SWP
+ | Tcomm = 94.160 | Tidle = 40.579 | Twait = 0.000 | Dmem = 1.35 GB (3%) | Imem = 165 KB (97%) | Hmem = 16.5 GB | Pmem = 224 MB
+ | Tread = 41.696 | Twrite = 33.451 | Tfpread = 39.550 | Tfpwrite = 33.216 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 38.3 GB | cpsd = 27.3 GB
+ | Trot = 16.717 | Tctr = 4.867 | Tint = 20.232 | Tmid = 29.476 | Tdctr = 13.348 | Tdiag = 51.475 | Tinfo = 1.849
+ | Teff = 155.972 | Tprt = 96.123 | Teig = 329.709 | Tblk = 651.155 | Tmve = 162.904 | Tdm = 57.500 | Tsplt = 7.462 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   14 | Direction =  forward | Bond dimension = 1600 | Noise =  5.00e-05 | Dav threshold =  1.00e-05
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4734.1742509767 Error = 0.00e+00 FLOPS = 3.90e+08 Tdav = 0.01 T = 0.06
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4734.1742509767 Error = 0.00e+00 FLOPS = 4.10e+10 Tdav = 0.02 T = 0.18
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4734.1742509767 Error = 0.00e+00 FLOPS = 6.30e+10 Tdav = 0.12 T = 0.64
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   1 E =  -4734.1742509767 Error = 0.00e+00 FLOPS = 2.15e+11 Tdav = 0.12 T = 0.69
+ --> Site =    4-   5 .. Mmps =  462 Ndav =   1 E =  -4734.1742509767 Error = 0.00e+00 FLOPS = 6.78e+11 Tdav = 0.17 T = 0.94
+ --> Site =    5-   6 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509767 Error = 2.04e-12 FLOPS = 1.25e+12 Tdav = 0.42 T = 1.91
+ --> Site =    6-   7 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509766 Error = 4.86e-10 FLOPS = 1.43e+12 Tdav = 1.88 T = 6.86
+ --> Site =    7-   8 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509773 Error = 3.66e-09 FLOPS = 1.43e+12 Tdav = 1.93 T = 7.15
+ --> Site =    8-   9 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509761 Error = 1.52e-08 FLOPS = 1.21e+12 Tdav = 2.63 T = 8.32
+ --> Site =    9-  10 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509701 Error = 8.96e-08 FLOPS = 1.26e+12 Tdav = 2.50 T = 8.37
+ --> Site =   10-  11 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509075 Error = 8.77e-08 FLOPS = 1.46e+12 Tdav = 2.60 T = 9.29
+ --> Site =   11-  12 .. Mmps = 1600 Ndav =   1 E =  -4734.1742508494 Error = 3.20e-08 FLOPS = 1.52e+12 Tdav = 3.10 T = 10.16
+ --> Site =   12-  13 .. Mmps = 1600 Ndav =   1 E =  -4734.1742508490 Error = 3.19e-07 FLOPS = 1.87e+12 Tdav = 2.59 T = 10.01
+ --> Site =   13-  14 .. Mmps = 1600 Ndav =   2 E =  -4734.1742541337 Error = 1.14e-06 FLOPS = 1.92e+12 Tdav = 6.06 T = 14.20
+ --> Site =   14-  15 .. Mmps = 1600 Ndav =   1 E =  -4734.1742511147 Error = 1.28e-07 FLOPS = 1.70e+12 Tdav = 3.74 T = 12.01
+ --> Site =   15-  16 .. Mmps = 1600 Ndav =   1 E =  -4734.1742510428 Error = 1.20e-07 FLOPS = 1.84e+12 Tdav = 3.43 T = 11.68
+ --> Site =   16-  17 .. Mmps = 1600 Ndav =   1 E =  -4734.1742509716 Error = 2.59e-07 FLOPS = 1.87e+12 Tdav = 3.60 T = 12.50
+ --> Site =   17-  18 .. Mmps = 1600 Ndav =   2 E =  -4734.1742553418 Error = 1.56e-06 FLOPS = 2.15e+12 Tdav = 7.29 T = 17.05
+ --> Site =   18-  19 .. Mmps = 1600 Ndav =   1 E =  -4734.1742511831 Error = 1.46e-07 FLOPS = 1.93e+12 Tdav = 3.99 T = 13.82
+ --> Site =   19-  20 .. Mmps = 1600 Ndav =   2 E =  -4734.1742565299 Error = 1.95e-06 FLOPS = 2.26e+12 Tdav = 7.28 T = 17.32
+ --> Site =   20-  21 .. Mmps = 1600 Ndav =   2 E =  -4734.1742674162 Error = 6.01e-06 FLOPS = 2.35e+12 Tdav = 7.52 T = 18.06
+ --> Site =   21-  22 .. Mmps = 1600 Ndav =   2 E =  -4734.1742592414 Error = 2.73e-06 FLOPS = 2.41e+12 Tdav = 7.26 T = 18.08
+ --> Site =   22-  23 .. Mmps = 1600 Ndav =   2 E =  -4734.1742602003 Error = 2.92e-06 FLOPS = 2.38e+12 Tdav = 7.80 T = 18.65
+ --> Site =   23-  24 .. Mmps = 1600 Ndav =   2 E =  -4734.1742634134 Error = 3.86e-06 FLOPS = 2.46e+12 Tdav = 7.75 T = 19.40
+ --> Site =   24-  25 .. Mmps = 1600 Ndav =   3 E =  -4734.1742727892 Error = 8.47e-06 FLOPS = 2.65e+12 Tdav = 11.67 T = 23.77
+ --> Site =   25-  26 .. Mmps = 1600 Ndav =   2 E =  -4734.1742736755 Error = 7.23e-06 FLOPS = 2.51e+12 Tdav = 8.71 T = 20.88
+ --> Site =   26-  27 .. Mmps = 1600 Ndav =   2 E =  -4734.1742914196 Error = 1.51e-05 FLOPS = 2.46e+12 Tdav = 9.52 T = 22.73
+ --> Site =   27-  28 .. Mmps = 1600 Ndav =   2 E =  -4734.1742854662 Error = 1.07e-05 FLOPS = 2.59e+12 Tdav = 9.50 T = 24.88
+ --> Site =   28-  29 .. Mmps = 1600 Ndav =   2 E =  -4734.1742705111 Error = 5.15e-06 FLOPS = 2.48e+12 Tdav = 10.69 T = 25.19
+ --> Site =   29-  30 .. Mmps = 1600 Ndav =   2 E =  -4734.1743307512 Error = 2.33e-05 FLOPS = 2.56e+12 Tdav = 12.24 T = 27.52
+ --> Site =   30-  31 .. Mmps = 1600 Ndav =   2 E =  -4734.1742803685 Error = 1.66e-06 FLOPS = 2.58e+12 Tdav = 10.98 T = 26.46
+ --> Site =   31-  32 .. Mmps = 1600 Ndav =   2 E =  -4734.1743095213 Error = 7.28e-06 FLOPS = 2.48e+12 Tdav = 11.28 T = 52.78
+ --> Site =   32-  33 .. Mmps = 1600 Ndav =   2 E =  -4734.1743695278 Error = 1.99e-05 FLOPS = 2.56e+12 Tdav = 11.73 T = 23.73
+ --> Site =   33-  34 .. Mmps = 1600 Ndav =   2 E =  -4734.1743513587 Error = 6.02e-06 FLOPS = 2.61e+12 Tdav = 11.03 T = 25.42
+ --> Site =   34-  35 .. Mmps = 1600 Ndav =   2 E =  -4734.1743747818 Error = 1.09e-05 FLOPS = 2.44e+12 Tdav = 11.05 T = 23.34
+ --> Site =   35-  36 .. Mmps = 1600 Ndav =   2 E =  -4734.1743809842 Error = 8.95e-06 FLOPS = 2.32e+12 Tdav = 9.88 T = 20.70
+ --> Site =   36-  37 .. Mmps = 1600 Ndav =   2 E =  -4734.1743638307 Error = 1.94e-06 FLOPS = 2.37e+12 Tdav = 9.43 T = 19.75
+ --> Site =   37-  38 .. Mmps = 1600 Ndav =   2 E =  -4734.1744141356 Error = 1.42e-05 FLOPS = 2.26e+12 Tdav = 8.68 T = 18.05
+ --> Site =   38-  39 .. Mmps = 1600 Ndav =   2 E =  -4734.1743982486 Error = 6.93e-06 FLOPS = 2.55e+12 Tdav = 7.03 T = 16.71
+ --> Site =   39-  40 .. Mmps = 1600 Ndav =   2 E =  -4734.1743816635 Error = 5.16e-07 FLOPS = 2.30e+12 Tdav = 7.35 T = 16.13
+ --> Site =   40-  41 .. Mmps = 1600 Ndav =   2 E =  -4734.1743895463 Error = 2.77e-06 FLOPS = 2.15e+12 Tdav = 7.10 T = 15.46
+ --> Site =   41-  42 .. Mmps = 1600 Ndav =   2 E =  -4734.1744090358 Error = 7.68e-06 FLOPS = 2.12e+12 Tdav = 7.32 T = 15.44
+ --> Site =   42-  43 .. Mmps = 1600 Ndav =   2 E =  -4734.1744024955 Error = 2.69e-06 FLOPS = 2.05e+12 Tdav = 6.09 T = 13.71
+ --> Site =   43-  44 .. Mmps = 1600 Ndav =   2 E =  -4734.1744047285 Error = 7.70e-07 FLOPS = 1.99e+12 Tdav = 6.76 T = 14.24
+ --> Site =   44-  45 .. Mmps = 1600 Ndav =   2 E =  -4734.1744190273 Error = 3.29e-06 FLOPS = 1.94e+12 Tdav = 6.62 T = 13.80
+ --> Site =   45-  46 .. Mmps = 1600 Ndav =   2 E =  -4734.1744167581 Error = 1.60e-06 FLOPS = 1.91e+12 Tdav = 6.99 T = 14.40
+ --> Site =   46-  47 .. Mmps = 1600 Ndav =   2 E =  -4734.1744178593 Error = 1.85e-06 FLOPS = 1.98e+12 Tdav = 6.56 T = 13.88
+ --> Site =   47-  48 .. Mmps = 1600 Ndav =   2 E =  -4734.1744209154 Error = 2.69e-06 FLOPS = 1.86e+12 Tdav = 6.63 T = 13.40
+ --> Site =   48-  49 .. Mmps = 1600 Ndav =   2 E =  -4734.1744174749 Error = 1.33e-06 FLOPS = 1.61e+12 Tdav = 6.57 T = 13.61
+ --> Site =   49-  50 .. Mmps = 1600 Ndav =   2 E =  -4734.1744224492 Error = 2.63e-06 FLOPS = 1.86e+12 Tdav = 5.37 T = 11.63
+ --> Site =   50-  51 .. Mmps = 1600 Ndav =   1 E =  -4734.1744143280 Error = 3.08e-08 FLOPS = 1.62e+12 Tdav = 2.56 T = 8.41
+ --> Site =   51-  52 .. Mmps = 1600 Ndav =   1 E =  -4734.1744143061 Error = 3.92e-08 FLOPS = 1.57e+12 Tdav = 2.54 T = 7.93
+ --> Site =   52-  53 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142971 Error = 3.68e-09 FLOPS = 1.22e+12 Tdav = 2.71 T = 8.14
+ --> Site =   53-  54 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142977 Error = 2.41e-09 FLOPS = 1.29e+12 Tdav = 2.25 T = 6.90
+ --> Site =   54-  55 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142985 Error = 4.09e-09 FLOPS = 1.26e+12 Tdav = 2.19 T = 6.90
+ --> Site =   55-  56 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142989 Error = 2.11e-09 FLOPS = 1.37e+12 Tdav = 1.90 T = 6.27
+ --> Site =   56-  57 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142986 Error = 1.45e-09 FLOPS = 1.13e+12 Tdav = 0.45 T = 2.73
+ --> Site =   57-  58 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142979 Error = 1.47e-10 FLOPS = 6.05e+11 Tdav = 0.19 T = 1.91
+ --> Site =   58-  59 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142979 Error = 1.15e-11 FLOPS = 2.18e+11 Tdav = 0.12 T = 1.41
+ --> Site =   59-  60 .. Mmps =  790 Ndav =   1 E =  -4734.1744142979 Error = 3.62e-13 FLOPS = 6.84e+10 Tdav = 0.11 T = 1.18
+ --> Site =   60-  61 .. Mmps =  178 Ndav =   1 E =  -4734.1744142979 Error = 1.83e-14 FLOPS = 7.53e+09 Tdav = 0.09 T = 0.67
+ --> Site =   61-  62 .. Mmps =   31 Ndav =   1 E =  -4734.1744142979 Error = 2.31e-15 FLOPS = 4.56e+07 Tdav = 0.08 T = 0.31
+Time elapsed =   5132.687 | E =   -4734.1744224492 | DE = -1.66e-04 | DW = 2.33e-05
+Time sweep =      817.713 | 654 TFLOP/SWP
+ | Tcomm = 94.995 | Tidle = 41.592 | Twait = 0.000 | Dmem = 1.35 GB (3%) | Imem = 166 KB (97%) | Hmem = 16.5 GB | Pmem = 225 MB
+ | Tread = 48.435 | Twrite = 36.183 | Tfpread = 41.626 | Tfpwrite = 35.971 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 38.4 GB | cpsd = 27.5 GB
+ | Trot = 17.142 | Tctr = 4.982 | Tint = 20.133 | Tmid = 28.137 | Tdctr = 15.170 | Tdiag = 49.561 | Tinfo = 2.335
+ | Teff = 161.555 | Tprt = 101.904 | Teig = 325.805 | Tblk = 653.458 | Tmve = 164.229 | Tdm = 50.167 | Tsplt = 7.414 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   15 | Direction = backward | Bond dimension = 1600 | Noise =  5.00e-05 | Dav threshold =  1.00e-05
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4734.1744142979 Error = 0.00e+00 FLOPS = 4.89e+07 Tdav = 0.08 T = 0.19
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4734.1744142979 Error = 0.00e+00 FLOPS = 7.70e+09 Tdav = 0.09 T = 0.34
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4734.1744142979 Error = 0.00e+00 FLOPS = 7.96e+10 Tdav = 0.10 T = 0.65
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4734.1744142979 Error = 0.00e+00 FLOPS = 1.88e+11 Tdav = 0.14 T = 0.80
+ <-- Site =   57-  58 .. Mmps =  462 Ndav =   1 E =  -4734.1744142979 Error = 0.00e+00 FLOPS = 5.98e+11 Tdav = 0.19 T = 0.95
+ <-- Site =   56-  57 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142979 Error = 2.23e-12 FLOPS = 1.21e+12 Tdav = 0.42 T = 1.84
+ <-- Site =   55-  56 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142979 Error = 6.44e-10 FLOPS = 1.36e+12 Tdav = 1.91 T = 6.79
+ <-- Site =   54-  55 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142984 Error = 3.13e-09 FLOPS = 1.44e+12 Tdav = 1.91 T = 7.29
+ <-- Site =   53-  54 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142971 Error = 6.68e-09 FLOPS = 1.22e+12 Tdav = 2.39 T = 7.69
+ <-- Site =   52-  53 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142938 Error = 1.36e-08 FLOPS = 1.35e+12 Tdav = 2.44 T = 8.53
+ <-- Site =   51-  52 .. Mmps = 1600 Ndav =   1 E =  -4734.1744142847 Error = 1.23e-07 FLOPS = 1.48e+12 Tdav = 2.70 T = 9.45
+ <-- Site =   50-  51 .. Mmps = 1600 Ndav =   1 E =  -4734.1744141826 Error = 1.59e-07 FLOPS = 1.64e+12 Tdav = 2.53 T = 9.46
+ <-- Site =   49-  50 .. Mmps = 1600 Ndav =   2 E =  -4734.1744222274 Error = 2.99e-06 FLOPS = 1.98e+12 Tdav = 5.04 T = 12.60
+ <-- Site =   48-  49 .. Mmps = 1600 Ndav =   2 E =  -4734.1744184804 Error = 1.54e-06 FLOPS = 1.90e+12 Tdav = 5.58 T = 13.13
+ <-- Site =   47-  48 .. Mmps = 1600 Ndav =   2 E =  -4734.1744229575 Error = 3.04e-06 FLOPS = 2.19e+12 Tdav = 5.64 T = 14.04
+ <-- Site =   46-  47 .. Mmps = 1600 Ndav =   2 E =  -4734.1744209904 Error = 2.45e-06 FLOPS = 2.10e+12 Tdav = 6.20 T = 15.05
+ <-- Site =   45-  46 .. Mmps = 1600 Ndav =   2 E =  -4734.1744217049 Error = 2.52e-06 FLOPS = 2.13e+12 Tdav = 6.27 T = 15.62
+ <-- Site =   44-  45 .. Mmps = 1600 Ndav =   2 E =  -4734.1744259271 Error = 4.36e-06 FLOPS = 2.10e+12 Tdav = 6.10 T = 15.28
+ <-- Site =   43-  44 .. Mmps = 1600 Ndav =   2 E =  -4734.1744176543 Error = 1.12e-06 FLOPS = 2.11e+12 Tdav = 6.35 T = 15.99
+ <-- Site =   42-  43 .. Mmps = 1600 Ndav =   2 E =  -4734.1744252052 Error = 3.68e-06 FLOPS = 2.33e+12 Tdav = 5.35 T = 14.80
+ <-- Site =   41-  42 .. Mmps = 1600 Ndav =   2 E =  -4734.1744421353 Error = 8.02e-06 FLOPS = 2.33e+12 Tdav = 6.64 T = 16.38
+ <-- Site =   40-  41 .. Mmps = 1600 Ndav =   2 E =  -4734.1744261958 Error = 2.11e-06 FLOPS = 2.29e+12 Tdav = 6.68 T = 16.99
+ <-- Site =   39-  40 .. Mmps = 1600 Ndav =   2 E =  -4734.1744212270 Error = 4.66e-07 FLOPS = 2.38e+12 Tdav = 7.12 T = 17.58
+ <-- Site =   38-  39 .. Mmps = 1600 Ndav =   2 E =  -4734.1744416166 Error = 8.45e-06 FLOPS = 2.35e+12 Tdav = 7.60 T = 19.09
+ <-- Site =   37-  38 .. Mmps = 1600 Ndav =   2 E =  -4734.1744603985 Error = 1.60e-05 FLOPS = 2.46e+12 Tdav = 8.00 T = 19.27
+ <-- Site =   36-  37 .. Mmps = 1600 Ndav =   2 E =  -4734.1744254220 Error = 1.79e-06 FLOPS = 2.45e+12 Tdav = 9.15 T = 21.93
+ <-- Site =   35-  36 .. Mmps = 1600 Ndav =   2 E =  -4734.1744468915 Error = 1.03e-05 FLOPS = 2.33e+12 Tdav = 9.77 T = 22.67
+ <-- Site =   34-  35 .. Mmps = 1600 Ndav =   2 E =  -4734.1744532498 Error = 1.19e-05 FLOPS = 2.56e+12 Tdav = 10.54 T = 23.93
+ <-- Site =   33-  34 .. Mmps = 1600 Ndav =   2 E =  -4734.1744377516 Error = 6.44e-06 FLOPS = 2.60e+12 Tdav = 11.09 T = 25.15
+ <-- Site =   32-  33 .. Mmps = 1600 Ndav =   2 E =  -4734.1744824980 Error = 2.21e-05 FLOPS = 2.55e+12 Tdav = 11.79 T = 26.92
+ <-- Site =   31-  32 .. Mmps = 1600 Ndav =   2 E =  -4734.1744422997 Error = 7.62e-06 FLOPS = 2.48e+12 Tdav = 11.16 T = 26.25
+ <-- Site =   30-  31 .. Mmps = 1600 Ndav =   2 E =  -4734.1744262578 Error = 1.57e-06 FLOPS = 2.50e+12 Tdav = 11.33 T = 53.67
+ <-- Site =   29-  30 .. Mmps = 1600 Ndav =   2 E =  -4734.1744974243 Error = 2.30e-05 FLOPS = 2.46e+12 Tdav = 12.72 T = 25.79
+ <-- Site =   28-  29 .. Mmps = 1600 Ndav =   2 E =  -4734.1744596452 Error = 4.45e-06 FLOPS = 2.45e+12 Tdav = 10.74 T = 23.04
+ <-- Site =   27-  28 .. Mmps = 1600 Ndav =   2 E =  -4734.1744812874 Error = 1.04e-05 FLOPS = 2.64e+12 Tdav = 9.31 T = 20.56
+ <-- Site =   26-  27 .. Mmps = 1600 Ndav =   2 E =  -4734.1744982219 Error = 1.34e-05 FLOPS = 2.53e+12 Tdav = 9.30 T = 19.91
+ <-- Site =   25-  26 .. Mmps = 1600 Ndav =   2 E =  -4734.1744812323 Error = 6.00e-06 FLOPS = 2.59e+12 Tdav = 8.47 T = 18.53
+ <-- Site =   24-  25 .. Mmps = 1600 Ndav =   2 E =  -4734.1744862122 Error = 6.68e-06 FLOPS = 2.49e+12 Tdav = 8.29 T = 18.14
+ <-- Site =   23-  24 .. Mmps = 1600 Ndav =   2 E =  -4734.1744799462 Error = 3.89e-06 FLOPS = 2.40e+12 Tdav = 7.96 T = 17.38
+ <-- Site =   22-  23 .. Mmps = 1600 Ndav =   2 E =  -4734.1744776790 Error = 2.67e-06 FLOPS = 2.42e+12 Tdav = 7.71 T = 16.96
+ <-- Site =   21-  22 .. Mmps = 1600 Ndav =   2 E =  -4734.1744773021 Error = 2.49e-06 FLOPS = 2.26e+12 Tdav = 7.76 T = 16.72
+ <-- Site =   20-  21 .. Mmps = 1600 Ndav =   2 E =  -4734.1744865878 Error = 5.44e-06 FLOPS = 2.24e+12 Tdav = 7.91 T = 16.97
+ <-- Site =   19-  20 .. Mmps = 1600 Ndav =   2 E =  -4734.1744762029 Error = 1.46e-06 FLOPS = 2.16e+12 Tdav = 7.65 T = 16.03
+ <-- Site =   18-  19 .. Mmps = 1600 Ndav =   1 E =  -4734.1744712545 Error = 7.02e-08 FLOPS = 1.94e+12 Tdav = 3.99 T = 12.28
+ <-- Site =   17-  18 .. Mmps = 1600 Ndav =   2 E =  -4734.1744758592 Error = 1.43e-06 FLOPS = 2.07e+12 Tdav = 7.56 T = 15.62
+ <-- Site =   16-  17 .. Mmps = 1600 Ndav =   1 E =  -4734.1744716450 Error = 1.11e-07 FLOPS = 1.79e+12 Tdav = 3.76 T = 11.39
+ <-- Site =   15-  16 .. Mmps = 1600 Ndav =   1 E =  -4734.1744715767 Error = 8.05e-08 FLOPS = 1.83e+12 Tdav = 3.46 T = 10.72
+ <-- Site =   14-  15 .. Mmps = 1600 Ndav =   1 E =  -4734.1744715407 Error = 7.85e-08 FLOPS = 1.95e+12 Tdav = 3.27 T = 10.40
+ <-- Site =   13-  14 .. Mmps = 1600 Ndav =   2 E =  -4734.1744747448 Error = 1.12e-06 FLOPS = 1.84e+12 Tdav = 6.34 T = 13.30
+ <-- Site =   12-  13 .. Mmps = 1600 Ndav =   1 E =  -4734.1744716541 Error = 9.50e-08 FLOPS = 1.54e+12 Tdav = 3.14 T = 9.40
+ <-- Site =   11-  12 .. Mmps = 1600 Ndav =   1 E =  -4734.1744715909 Error = 3.15e-08 FLOPS = 1.66e+12 Tdav = 2.84 T = 8.58
+ <-- Site =   10-  11 .. Mmps = 1600 Ndav =   1 E =  -4734.1744715714 Error = 7.06e-08 FLOPS = 1.50e+12 Tdav = 2.53 T = 8.02
+ <-- Site =    9-  10 .. Mmps = 1600 Ndav =   1 E =  -4734.1744715126 Error = 6.84e-08 FLOPS = 1.19e+12 Tdav = 2.63 T = 7.71
+ <-- Site =    8-   9 .. Mmps = 1600 Ndav =   1 E =  -4734.1744714524 Error = 1.26e-08 FLOPS = 1.21e+12 Tdav = 2.62 T = 7.67
+ <-- Site =    7-   8 .. Mmps = 1600 Ndav =   1 E =  -4734.1744714477 Error = 1.19e-09 FLOPS = 1.22e+12 Tdav = 2.25 T = 6.89
+ <-- Site =    6-   7 .. Mmps = 1600 Ndav =   1 E =  -4734.1744714481 Error = 1.01e-10 FLOPS = 1.43e+12 Tdav = 1.87 T = 6.62
+ <-- Site =    5-   6 .. Mmps = 1600 Ndav =   1 E =  -4734.1744714483 Error = 5.25e-10 FLOPS = 1.37e+12 Tdav = 0.38 T = 2.76
+ <-- Site =    4-   5 .. Mmps = 1600 Ndav =   1 E =  -4734.1744714485 Error = 1.01e-10 FLOPS = 1.02e+12 Tdav = 0.12 T = 1.66
+ <-- Site =    3-   4 .. Mmps = 1600 Ndav =   1 E =  -4734.1744714485 Error = 1.33e-11 FLOPS = 3.70e+11 Tdav = 0.07 T = 1.22
+ <-- Site =    2-   3 .. Mmps =  802 Ndav =   1 E =  -4734.1744714485 Error = 3.37e-13 FLOPS = 6.65e+10 Tdav = 0.11 T = 1.28
+ <-- Site =    1-   2 .. Mmps =  178 Ndav =   1 E =  -4734.1744714485 Error = 1.68e-14 FLOPS = 3.33e+10 Tdav = 0.02 T = 0.45
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4734.1744714485 Error = 1.27e-15 FLOPS = 8.12e+08 Tdav = 0.00 T = 0.14
+Time elapsed =   5939.182 | E =   -4734.1744982219 | DE = -7.58e-05 | DW = 2.30e-05
+Time sweep =      806.495 | 645 TFLOP/SWP
+ | Tcomm = 96.198 | Tidle = 40.075 | Twait = 0.000 | Dmem = 1.35 GB (3%) | Imem = 167 KB (96%) | Hmem = 16.5 GB | Pmem = 225 MB
+ | Tread = 42.517 | Twrite = 34.078 | Tfpread = 40.459 | Tfpwrite = 33.871 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 38.3 GB | cpsd = 27.4 GB
+ | Trot = 16.830 | Tctr = 4.898 | Tint = 20.568 | Tmid = 29.494 | Tdctr = 13.264 | Tdiag = 53.111 | Tinfo = 1.619
+ | Teff = 158.753 | Tprt = 99.489 | Teig = 317.057 | Tblk = 644.249 | Tmve = 162.219 | Tdm = 56.850 | Tsplt = 7.168 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   16 | Direction =  forward | Bond dimension = 2000 | Noise =  5.00e-05 | Dav threshold =  1.00e-06
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4734.1744714485 Error = 0.00e+00 FLOPS = 5.99e+08 Tdav = 0.01 T = 0.05
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4734.1744714485 Error = 0.00e+00 FLOPS = 7.83e+09 Tdav = 0.09 T = 0.31
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4734.1744714485 Error = 0.00e+00 FLOPS = 6.93e+10 Tdav = 0.11 T = 0.65
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   2 E =  -4734.1744719281 Error = 0.00e+00 FLOPS = 2.45e+11 Tdav = 0.22 T = 0.75
+ --> Site =    4-   5 .. Mmps =  462 Ndav =   2 E =  -4734.1744725353 Error = 0.00e+00 FLOPS = 7.23e+11 Tdav = 0.33 T = 1.04
+ --> Site =    5-   6 .. Mmps = 1682 Ndav =   2 E =  -4734.1744728690 Error = 1.43e-13 FLOPS = 1.35e+12 Tdav = 0.78 T = 2.18
+ --> Site =    6-   7 .. Mmps = 2000 Ndav =   1 E =  -4734.1744728689 Error = 2.51e-10 FLOPS = 1.20e+12 Tdav = 2.36 T = 7.71
+ --> Site =    7-   8 .. Mmps = 2000 Ndav =   2 E =  -4734.1744733534 Error = 4.62e-09 FLOPS = 1.63e+12 Tdav = 4.67 T = 12.07
+ --> Site =    8-   9 .. Mmps = 2000 Ndav =   2 E =  -4734.1744742334 Error = 4.84e-08 FLOPS = 1.65e+12 Tdav = 5.37 T = 13.53
+ --> Site =    9-  10 .. Mmps = 2000 Ndav =   2 E =  -4734.1744761893 Error = 1.96e-07 FLOPS = 1.61e+12 Tdav = 5.76 T = 14.40
+ --> Site =   10-  11 .. Mmps = 2000 Ndav =   2 E =  -4734.1744780091 Error = 1.95e-07 FLOPS = 1.66e+12 Tdav = 6.22 T = 15.62
+ --> Site =   11-  12 .. Mmps = 2000 Ndav =   2 E =  -4734.1744795894 Error = 2.03e-07 FLOPS = 1.65e+12 Tdav = 7.65 T = 17.80
+ --> Site =   12-  13 .. Mmps = 2000 Ndav =   2 E =  -4734.1744822833 Error = 5.55e-07 FLOPS = 1.85e+12 Tdav = 7.16 T = 17.63
+ --> Site =   13-  14 .. Mmps = 2000 Ndav =   2 E =  -4734.1744852711 Error = 6.67e-07 FLOPS = 2.01e+12 Tdav = 7.69 T = 18.89
+ --> Site =   14-  15 .. Mmps = 2000 Ndav =   2 E =  -4734.1744866589 Error = 3.57e-07 FLOPS = 1.86e+12 Tdav = 9.02 T = 20.60
+ --> Site =   15-  16 .. Mmps = 2000 Ndav =   2 E =  -4734.1744882932 Error = 3.38e-07 FLOPS = 2.05e+12 Tdav = 8.24 T = 20.15
+ --> Site =   16-  17 .. Mmps = 2000 Ndav =   2 E =  -4734.1744912123 Error = 6.19e-07 FLOPS = 2.18e+12 Tdav = 8.29 T = 20.73
+ --> Site =   17-  18 .. Mmps = 2000 Ndav =   2 E =  -4734.1744951418 Error = 9.31e-07 FLOPS = 2.00e+12 Tdav = 10.31 T = 23.40
+ --> Site =   18-  19 .. Mmps = 2000 Ndav =   2 E =  -4734.1744955502 Error = 4.00e-07 FLOPS = 2.09e+12 Tdav = 9.70 T = 22.78
+ --> Site =   19-  20 .. Mmps = 2000 Ndav =   2 E =  -4734.1745007506 Error = 1.16e-06 FLOPS = 2.23e+12 Tdav = 9.78 T = 24.16
+ --> Site =   20-  21 .. Mmps = 2000 Ndav =   3 E =  -4734.1745184698 Error = 3.94e-06 FLOPS = 2.40e+12 Tdav = 14.67 T = 29.39
+ --> Site =   21-  22 .. Mmps = 2000 Ndav =   3 E =  -4734.1745196726 Error = 1.99e-06 FLOPS = 2.58e+12 Tdav = 13.47 T = 28.34
+ --> Site =   22-  23 .. Mmps = 2000 Ndav =   3 E =  -4734.1745269696 Error = 2.18e-06 FLOPS = 2.54e+12 Tdav = 14.51 T = 30.24
+ --> Site =   23-  24 .. Mmps = 2000 Ndav =   3 E =  -4734.1745377723 Error = 3.19e-06 FLOPS = 2.56e+12 Tdav = 14.67 T = 30.46
+ --> Site =   24-  25 .. Mmps = 2000 Ndav =   3 E =  -4734.1745565905 Error = 4.76e-06 FLOPS = 2.45e+12 Tdav = 16.50 T = 32.75
+ --> Site =   25-  26 .. Mmps = 2000 Ndav =   3 E =  -4734.1745724519 Error = 4.68e-06 FLOPS = 2.49e+12 Tdav = 17.26 T = 33.94
+ --> Site =   26-  27 .. Mmps = 2000 Ndav =   4 E =  -4734.1746087822 Error = 9.73e-06 FLOPS = 2.55e+12 Tdav = 24.06 T = 41.54
+ --> Site =   27-  28 .. Mmps = 2000 Ndav =   3 E =  -4734.1746276826 Error = 6.66e-06 FLOPS = 2.61e+12 Tdav = 18.47 T = 36.44
+ --> Site =   28-  29 .. Mmps = 2000 Ndav =   3 E =  -4734.1746288333 Error = 3.01e-06 FLOPS = 2.56e+12 Tdav = 20.22 T = 39.30
+ --> Site =   29-  30 .. Mmps = 2000 Ndav =   3 E =  -4734.1747091037 Error = 1.51e-05 FLOPS = 2.65e+12 Tdav = 23.10 T = 43.27
+ --> Site =   30-  31 .. Mmps = 2000 Ndav =   3 E =  -4734.1746803029 Error = 9.58e-07 FLOPS = 2.64e+12 Tdav = 21.14 T = 40.38
+ --> Site =   31-  32 .. Mmps = 2000 Ndav =   3 E =  -4734.1747120467 Error = 3.86e-06 FLOPS = 2.43e+12 Tdav = 24.96 T = 97.75
+ --> Site =   32-  33 .. Mmps = 2000 Ndav =   3 E =  -4734.1747909339 Error = 1.29e-05 FLOPS = 2.49e+12 Tdav = 26.56 T = 44.92
+ --> Site =   33-  34 .. Mmps = 2000 Ndav =   3 E =  -4734.1747935357 Error = 3.74e-06 FLOPS = 2.43e+12 Tdav = 25.90 T = 42.93
+ --> Site =   34-  35 .. Mmps = 2000 Ndav =   3 E =  -4734.1748299272 Error = 6.83e-06 FLOPS = 2.24e+12 Tdav = 26.28 T = 42.32
+ --> Site =   35-  36 .. Mmps = 2000 Ndav =   3 E =  -4734.1748578689 Error = 6.22e-06 FLOPS = 2.49e+12 Tdav = 20.17 T = 35.36
+ --> Site =   36-  37 .. Mmps = 2000 Ndav =   2 E =  -4734.1748495645 Error = 1.21e-06 FLOPS = 2.27e+12 Tdav = 14.36 T = 29.23
+ --> Site =   37-  38 .. Mmps = 2000 Ndav =   3 E =  -4734.1749161078 Error = 9.41e-06 FLOPS = 2.48e+12 Tdav = 17.31 T = 30.72
+ --> Site =   38-  39 .. Mmps = 2000 Ndav =   3 E =  -4734.1749233326 Error = 4.99e-06 FLOPS = 2.45e+12 Tdav = 16.30 T = 28.98
+ --> Site =   39-  40 .. Mmps = 2000 Ndav =   2 E =  -4734.1749147356 Error = 4.74e-07 FLOPS = 1.74e+12 Tdav = 14.38 T = 27.17
+ --> Site =   40-  41 .. Mmps = 2000 Ndav =   3 E =  -4734.1749264352 Error = 1.65e-06 FLOPS = 2.36e+12 Tdav = 14.14 T = 25.80
+ --> Site =   41-  42 .. Mmps = 2000 Ndav =   3 E =  -4734.1749568220 Error = 4.92e-06 FLOPS = 2.53e+12 Tdav = 13.36 T = 24.26
+ --> Site =   42-  43 .. Mmps = 2000 Ndav =   3 E =  -4734.1749657173 Error = 1.87e-06 FLOPS = 2.33e+12 Tdav = 12.00 T = 22.31
+ --> Site =   43-  44 .. Mmps = 2000 Ndav =   3 E =  -4734.1749730076 Error = 6.54e-07 FLOPS = 1.81e+12 Tdav = 16.57 T = 27.35
+ --> Site =   44-  45 .. Mmps = 2000 Ndav =   3 E =  -4734.1749920588 Error = 2.68e-06 FLOPS = 2.13e+12 Tdav = 13.41 T = 23.45
+ --> Site =   45-  46 .. Mmps = 2000 Ndav =   3 E =  -4734.1749964826 Error = 1.52e-06 FLOPS = 2.19e+12 Tdav = 13.28 T = 23.78
+ --> Site =   46-  47 .. Mmps = 2000 Ndav =   3 E =  -4734.1750023613 Error = 1.43e-06 FLOPS = 1.87e+12 Tdav = 15.13 T = 25.03
+ --> Site =   47-  48 .. Mmps = 2000 Ndav =   3 E =  -4734.1750105725 Error = 1.75e-06 FLOPS = 1.78e+12 Tdav = 14.97 T = 24.60
+ --> Site =   48-  49 .. Mmps = 2000 Ndav =   2 E =  -4734.1750122199 Error = 8.09e-07 FLOPS = 1.90e+12 Tdav = 8.00 T = 17.04
+ --> Site =   49-  50 .. Mmps = 2000 Ndav =   3 E =  -4734.1750210386 Error = 1.69e-06 FLOPS = 1.99e+12 Tdav = 10.77 T = 19.38
+ --> Site =   50-  51 .. Mmps = 2000 Ndav =   2 E =  -4734.1750189579 Error = 1.62e-07 FLOPS = 1.90e+12 Tdav = 6.26 T = 14.03
+ --> Site =   51-  52 .. Mmps = 2000 Ndav =   2 E =  -4734.1750203639 Error = 1.27e-07 FLOPS = 1.66e+12 Tdav = 6.93 T = 14.56
+ --> Site =   52-  53 .. Mmps = 2000 Ndav =   2 E =  -4734.1750215716 Error = 2.05e-08 FLOPS = 1.66e+12 Tdav = 5.75 T = 12.88
+ --> Site =   53-  54 .. Mmps = 2000 Ndav =   2 E =  -4734.1750223992 Error = 9.55e-09 FLOPS = 1.76e+12 Tdav = 4.99 T = 11.72
+ --> Site =   54-  55 .. Mmps = 2000 Ndav =   2 E =  -4734.1750229267 Error = 1.15e-08 FLOPS = 1.64e+12 Tdav = 4.99 T = 11.34
+ --> Site =   55-  56 .. Mmps = 2000 Ndav =   2 E =  -4734.1750242941 Error = 4.29e-09 FLOPS = 1.72e+12 Tdav = 4.39 T = 10.52
+ --> Site =   56-  57 .. Mmps = 2000 Ndav =   1 E =  -4734.1750242855 Error = 1.53e-09 FLOPS = 1.32e+12 Tdav = 0.58 T = 3.84
+ --> Site =   57-  58 .. Mmps = 2000 Ndav =   1 E =  -4734.1750242842 Error = 7.35e-11 FLOPS = 6.69e+11 Tdav = 0.26 T = 2.70
+ --> Site =   58-  59 .. Mmps = 2000 Ndav =   1 E =  -4734.1750242842 Error = 3.59e-12 FLOPS = 2.40e+11 Tdav = 0.16 T = 1.88
+ --> Site =   59-  60 .. Mmps =  796 Ndav =   1 E =  -4734.1750242842 Error = 3.49e-13 FLOPS = 8.86e+10 Tdav = 0.13 T = 1.80
+ --> Site =   60-  61 .. Mmps =  178 Ndav =   1 E =  -4734.1750242842 Error = 1.79e-14 FLOPS = 7.74e+09 Tdav = 0.09 T = 0.59
+ --> Site =   61-  62 .. Mmps =   31 Ndav =   1 E =  -4734.1750242842 Error = 2.44e-15 FLOPS = 4.20e+07 Tdav = 0.09 T = 0.29
+Time elapsed =   7278.215 | E =   -4734.1750242941 | DE = -5.26e-04 | DW = 1.51e-05
+Time sweep =     1339.033 | 1.31 PFLOP/SWP
+ | Tcomm = 154.286 | Tidle = 59.156 | Twait = 0.000 | Dmem = 2.03 GB (2%) | Imem = 169 KB (96%) | Hmem = 24.8 GB | Pmem = 278 MB
+ | Tread = 50.944 | Twrite = 51.630 | Tfpread = 48.703 | Tfpwrite = 51.351 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 58.9 GB | cpsd = 42.0 GB
+ | Trot = 32.566 | Tctr = 7.028 | Tint = 32.683 | Tmid = 53.797 | Tdctr = 20.617 | Tdiag = 55.752 | Tinfo = 1.987
+ | Teff = 188.691 | Tprt = 150.873 | Teig = 654.283 | Tblk = 1081.945 | Tmve = 257.062 | Tdm = 69.145 | Tsplt = 13.672 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   17 | Direction = backward | Bond dimension = 2000 | Noise =  5.00e-05 | Dav threshold =  1.00e-06
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4734.1750242842 Error = 0.00e+00 FLOPS = 4.49e+07 Tdav = 0.08 T = 0.21
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4734.1750242842 Error = 0.00e+00 FLOPS = 7.65e+09 Tdav = 0.09 T = 0.35
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4734.1750242842 Error = 0.00e+00 FLOPS = 9.56e+10 Tdav = 0.12 T = 0.87
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4734.1750242842 Error = 0.00e+00 FLOPS = 2.56e+11 Tdav = 0.15 T = 0.99
+ <-- Site =   57-  58 .. Mmps =  462 Ndav =   1 E =  -4734.1750242842 Error = 0.00e+00 FLOPS = 6.68e+11 Tdav = 0.26 T = 1.50
+ <-- Site =   56-  57 .. Mmps = 1689 Ndav =   1 E =  -4734.1750242842 Error = 1.40e-13 FLOPS = 1.19e+12 Tdav = 0.65 T = 2.43
+ <-- Site =   55-  56 .. Mmps = 2000 Ndav =   1 E =  -4734.1750242842 Error = 6.11e-10 FLOPS = 1.35e+12 Tdav = 3.00 T = 9.59
+ <-- Site =   54-  55 .. Mmps = 2000 Ndav =   1 E =  -4734.1750242837 Error = 5.20e-09 FLOPS = 1.43e+12 Tdav = 3.94 T = 13.30
+ <-- Site =   53-  54 .. Mmps = 2000 Ndav =   1 E =  -4734.1750242778 Error = 1.38e-08 FLOPS = 1.63e+12 Tdav = 3.70 T = 13.82
+ <-- Site =   52-  53 .. Mmps = 2000 Ndav =   1 E =  -4734.1750242620 Error = 3.43e-08 FLOPS = 1.57e+12 Tdav = 4.14 T = 14.46
+ <-- Site =   51-  52 .. Mmps = 2000 Ndav =   2 E =  -4734.1750250105 Error = 2.98e-07 FLOPS = 1.67e+12 Tdav = 9.54 T = 20.53
+ <-- Site =   50-  51 .. Mmps = 2000 Ndav =   2 E =  -4734.1750250071 Error = 3.56e-07 FLOPS = 1.91e+12 Tdav = 8.30 T = 19.08
+ <-- Site =   49-  50 .. Mmps = 2000 Ndav =   2 E =  -4734.1750301587 Error = 2.18e-06 FLOPS = 2.00e+12 Tdav = 9.46 T = 21.56
+ <-- Site =   48-  49 .. Mmps = 2000 Ndav =   2 E =  -4734.1750287109 Error = 1.23e-06 FLOPS = 2.10e+12 Tdav = 9.57 T = 22.29
+ <-- Site =   47-  48 .. Mmps = 2000 Ndav =   2 E =  -4734.1750325015 Error = 2.27e-06 FLOPS = 2.02e+12 Tdav = 11.57 T = 25.21
+ <-- Site =   46-  47 .. Mmps = 2000 Ndav =   2 E =  -4734.1750324381 Error = 1.99e-06 FLOPS = 2.12e+12 Tdav = 11.69 T = 25.59
+ <-- Site =   45-  46 .. Mmps = 2000 Ndav =   2 E =  -4734.1750334446 Error = 2.10e-06 FLOPS = 2.16e+12 Tdav = 11.83 T = 26.95
+ <-- Site =   44-  45 .. Mmps = 2000 Ndav =   3 E =  -4734.1750379210 Error = 4.07e-06 FLOPS = 2.22e+12 Tdav = 16.90 T = 31.48
+ <-- Site =   43-  44 .. Mmps = 2000 Ndav =   2 E =  -4734.1750324423 Error = 1.27e-06 FLOPS = 2.21e+12 Tdav = 11.83 T = 26.56
+ <-- Site =   42-  43 .. Mmps = 2000 Ndav =   3 E =  -4734.1750403205 Error = 3.28e-06 FLOPS = 2.36e+12 Tdav = 15.49 T = 29.83
+ <-- Site =   41-  42 .. Mmps = 2000 Ndav =   3 E =  -4734.1750580111 Error = 6.90e-06 FLOPS = 2.17e+12 Tdav = 20.55 T = 35.59
+ <-- Site =   40-  41 .. Mmps = 2000 Ndav =   3 E =  -4734.1750507171 Error = 2.45e-06 FLOPS = 2.40e+12 Tdav = 18.44 T = 33.73
+ <-- Site =   39-  40 .. Mmps = 2000 Ndav =   2 E =  -4734.1750479197 Error = 6.83e-07 FLOPS = 2.33e+12 Tdav = 13.98 T = 30.18
+ <-- Site =   38-  39 .. Mmps = 2000 Ndav =   3 E =  -4734.1750657015 Error = 7.23e-06 FLOPS = 2.54e+12 Tdav = 20.29 T = 37.64
+ <-- Site =   37-  38 .. Mmps = 2000 Ndav =   3 E =  -4734.1750826673 Error = 1.34e-05 FLOPS = 2.54e+12 Tdav = 21.91 T = 39.76
+ <-- Site =   36-  37 .. Mmps = 2000 Ndav =   3 E =  -4734.1750606274 Error = 1.60e-06 FLOPS = 2.65e+12 Tdav = 24.06 T = 42.26
+ <-- Site =   35-  36 .. Mmps = 2000 Ndav =   3 E =  -4734.1750802974 Error = 8.94e-06 FLOPS = 2.59e+12 Tdav = 25.16 T = 44.79
+ <-- Site =   34-  35 .. Mmps = 2000 Ndav =   3 E =  -4734.1750893939 Error = 9.82e-06 FLOPS = 2.66e+12 Tdav = 28.63 T = 48.90
+ <-- Site =   33-  34 .. Mmps = 2000 Ndav =   3 E =  -4734.1750802009 Error = 5.76e-06 FLOPS = 2.70e+12 Tdav = 30.08 T = 52.21
+ <-- Site =   32-  33 .. Mmps = 2000 Ndav =   3 E =  -4734.1751205246 Error = 1.84e-05 FLOPS = 2.69e+12 Tdav = 32.09 T = 54.87
+ <-- Site =   31-  32 .. Mmps = 2000 Ndav =   3 E =  -4734.1750938282 Error = 6.26e-06 FLOPS = 2.60e+12 Tdav = 30.42 T = 52.95
+ <-- Site =   30-  31 .. Mmps = 2000 Ndav =   2 E =  -4734.1750834923 Error = 1.45e-06 FLOPS = 2.38e+12 Tdav = 22.73 T = 99.17
+ <-- Site =   29-  30 .. Mmps = 2000 Ndav =   3 E =  -4734.1751415593 Error = 1.88e-05 FLOPS = 2.44e+12 Tdav = 36.39 T = 58.42
+ <-- Site =   28-  29 .. Mmps = 2000 Ndav =   3 E =  -4734.1751219120 Error = 4.00e-06 FLOPS = 2.32e+12 Tdav = 32.36 T = 52.06
+ <-- Site =   27-  28 .. Mmps = 2000 Ndav =   3 E =  -4734.1751411596 Error = 9.27e-06 FLOPS = 2.65e+12 Tdav = 26.49 T = 44.43
+ <-- Site =   26-  27 .. Mmps = 2000 Ndav =   3 E =  -4734.1751597766 Error = 1.21e-05 FLOPS = 2.48e+12 Tdav = 27.17 T = 45.32
+ <-- Site =   25-  26 .. Mmps = 2000 Ndav =   3 E =  -4734.1751478214 Error = 6.15e-06 FLOPS = 2.37e+12 Tdav = 26.43 T = 43.20
+ <-- Site =   24-  25 .. Mmps = 2000 Ndav =   3 E =  -4734.1751549310 Error = 6.15e-06 FLOPS = 2.29e+12 Tdav = 25.76 T = 42.18
+ <-- Site =   23-  24 .. Mmps = 2000 Ndav =   3 E =  -4734.1751516209 Error = 3.77e-06 FLOPS = 2.36e+12 Tdav = 23.31 T = 39.12
+ <-- Site =   22-  23 .. Mmps = 2000 Ndav =   3 E =  -4734.1751518697 Error = 2.75e-06 FLOPS = 2.49e+12 Tdav = 21.57 T = 37.60
+ <-- Site =   21-  22 .. Mmps = 2000 Ndav =   3 E =  -4734.1751524743 Error = 2.50e-06 FLOPS = 2.45e+12 Tdav = 20.69 T = 35.53
+ <-- Site =   20-  21 .. Mmps = 2000 Ndav =   3 E =  -4734.1751603524 Error = 4.74e-06 FLOPS = 2.01e+12 Tdav = 25.23 T = 40.46
+ <-- Site =   19-  20 .. Mmps = 2000 Ndav =   2 E =  -4734.1751533609 Error = 1.31e-06 FLOPS = 2.35e+12 Tdav = 13.52 T = 28.19
+ <-- Site =   18-  19 .. Mmps = 2000 Ndav =   2 E =  -4734.1751518453 Error = 4.66e-07 FLOPS = 2.14e+12 Tdav = 13.67 T = 27.61
+ <-- Site =   17-  18 .. Mmps = 2000 Ndav =   2 E =  -4734.1751541899 Error = 1.08e-06 FLOPS = 2.25e+12 Tdav = 13.27 T = 26.74
+ <-- Site =   16-  17 .. Mmps = 2000 Ndav =   2 E =  -4734.1751537617 Error = 7.01e-07 FLOPS = 2.16e+12 Tdav = 11.93 T = 24.25
+ <-- Site =   15-  16 .. Mmps = 2000 Ndav =   2 E =  -4734.1751532846 Error = 3.90e-07 FLOPS = 2.07e+12 Tdav = 11.64 T = 23.96
+ <-- Site =   14-  15 .. Mmps = 2000 Ndav =   2 E =  -4734.1751538205 Error = 4.27e-07 FLOPS = 1.85e+12 Tdav = 13.10 T = 25.31
+ <-- Site =   13-  14 .. Mmps = 2000 Ndav =   2 E =  -4734.1751553742 Error = 8.43e-07 FLOPS = 1.88e+12 Tdav = 11.79 T = 23.45
+ <-- Site =   12-  13 .. Mmps = 2000 Ndav =   2 E =  -4734.1751555674 Error = 5.96e-07 FLOPS = 2.09e+12 Tdav = 9.07 T = 19.48
+ <-- Site =   11-  12 .. Mmps = 2000 Ndav =   2 E =  -4734.1751547274 Error = 2.23e-07 FLOPS = 1.37e+12 Tdav = 13.21 T = 23.38
+ <-- Site =   10-  11 .. Mmps = 2000 Ndav =   2 E =  -4734.1751552379 Error = 2.67e-07 FLOPS = 1.64e+12 Tdav = 9.12 T = 18.03
+ <-- Site =    9-  10 .. Mmps = 2000 Ndav =   2 E =  -4734.1751554621 Error = 2.65e-07 FLOPS = 1.40e+12 Tdav = 9.45 T = 18.20
+ <-- Site =    8-   9 .. Mmps = 2000 Ndav =   2 E =  -4734.1751550144 Error = 5.47e-08 FLOPS = 1.43e+12 Tdav = 8.75 T = 16.99
+ <-- Site =    7-   8 .. Mmps = 2000 Ndav =   1 E =  -4734.1751548599 Error = 1.54e-09 FLOPS = 1.47e+12 Tdav = 3.73 T = 11.36
+ <-- Site =    6-   7 .. Mmps = 2000 Ndav =   1 E =  -4734.1751548581 Error = 1.37e-10 FLOPS = 1.28e+12 Tdav = 3.21 T = 9.87
+ <-- Site =    5-   6 .. Mmps = 2000 Ndav =   1 E =  -4734.1751548583 Error = 4.11e-10 FLOPS = 1.15e+12 Tdav = 0.69 T = 3.98
+ <-- Site =    4-   5 .. Mmps = 2000 Ndav =   1 E =  -4734.1751548582 Error = 5.36e-11 FLOPS = 6.60e+11 Tdav = 0.27 T = 2.66
+ <-- Site =    3-   4 .. Mmps = 2000 Ndav =   1 E =  -4734.1751548582 Error = 4.69e-12 FLOPS = 2.72e+11 Tdav = 0.15 T = 1.82
+ <-- Site =    2-   3 .. Mmps =  805 Ndav =   1 E =  -4734.1751548582 Error = 3.67e-13 FLOPS = 9.39e+10 Tdav = 0.12 T = 1.64
+ <-- Site =    1-   2 .. Mmps =  178 Ndav =   1 E =  -4734.1751548582 Error = 1.68e-14 FLOPS = 7.97e+09 Tdav = 0.09 T = 0.58
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4734.1751548582 Error = 1.28e-15 FLOPS = 4.49e+07 Tdav = 0.08 T = 0.27
+Time elapsed =   8902.925 | E =   -4734.1751603524 | DE = -1.36e-04 | DW = 1.88e-05
+Time sweep =     1624.710 | 1.70 PFLOP/SWP
+ | Tcomm = 189.204 | Tidle = 56.348 | Twait = 0.000 | Dmem = 2.06 GB (3%) | Imem = 171 KB (96%) | Hmem = 25.4 GB | Pmem = 347 MB
+ | Tread = 60.781 | Twrite = 50.169 | Tfpread = 58.802 | Tfpwrite = 49.923 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 58.9 GB | cpsd = 42.0 GB
+ | Trot = 34.434 | Tctr = 7.315 | Tint = 36.035 | Tmid = 55.241 | Tdctr = 20.166 | Tdiag = 65.631 | Tinfo = 1.643
+ | Teff = 233.639 | Tprt = 182.306 | Teig = 832.860 | Tblk = 1376.061 | Tmve = 248.619 | Tdm = 105.161 | Tsplt = 14.174 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   18 | Direction =  forward | Bond dimension = 2000 | Noise =  5.00e-05 | Dav threshold =  1.00e-06
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4734.1751548582 Error = 0.00e+00 FLOPS = 3.90e+07 Tdav = 0.10 T = 0.21
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4734.1751548582 Error = 0.00e+00 FLOPS = 8.16e+09 Tdav = 0.09 T = 0.34
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4734.1751548582 Error = 0.00e+00 FLOPS = 7.88e+10 Tdav = 0.15 T = 0.91
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   1 E =  -4734.1751548582 Error = 0.00e+00 FLOPS = 2.11e+11 Tdav = 0.19 T = 1.14
+ --> Site =    4-   5 .. Mmps =  462 Ndav =   1 E =  -4734.1751548582 Error = 0.00e+00 FLOPS = 6.85e+11 Tdav = 0.26 T = 1.61
+ --> Site =    5-   6 .. Mmps = 1687 Ndav =   1 E =  -4734.1751548582 Error = 1.15e-13 FLOPS = 1.18e+12 Tdav = 0.68 T = 2.66
+ --> Site =    6-   7 .. Mmps = 2000 Ndav =   1 E =  -4734.1751548581 Error = 2.24e-10 FLOPS = 1.29e+12 Tdav = 3.15 T = 9.93
+ --> Site =    7-   8 .. Mmps = 2000 Ndav =   1 E =  -4734.1751548581 Error = 3.03e-09 FLOPS = 1.55e+12 Tdav = 3.52 T = 12.44
+ --> Site =    8-   9 .. Mmps = 2000 Ndav =   1 E =  -4734.1751548563 Error = 3.07e-08 FLOPS = 1.64e+12 Tdav = 3.81 T = 13.45
+ --> Site =    9-  10 .. Mmps = 2000 Ndav =   2 E =  -4734.1751556467 Error = 2.70e-07 FLOPS = 1.68e+12 Tdav = 7.85 T = 17.97
+ --> Site =   10-  11 .. Mmps = 2000 Ndav =   2 E =  -4734.1751557382 Error = 2.83e-07 FLOPS = 1.83e+12 Tdav = 8.18 T = 19.07
+ --> Site =   11-  12 .. Mmps = 2000 Ndav =   2 E =  -4734.1751556947 Error = 2.59e-07 FLOPS = 1.82e+12 Tdav = 9.97 T = 21.89
+ --> Site =   12-  13 .. Mmps = 2000 Ndav =   2 E =  -4734.1751569538 Error = 7.67e-07 FLOPS = 1.87e+12 Tdav = 10.18 T = 22.58
+ --> Site =   13-  14 .. Mmps = 2000 Ndav =   2 E =  -4734.1751576274 Error = 8.88e-07 FLOPS = 2.03e+12 Tdav = 11.01 T = 24.54
+ --> Site =   14-  15 .. Mmps = 2000 Ndav =   2 E =  -4734.1751565553 Error = 4.75e-07 FLOPS = 1.92e+12 Tdav = 12.77 T = 26.87
+ --> Site =   15-  16 .. Mmps = 2000 Ndav =   2 E =  -4734.1751565269 Error = 4.65e-07 FLOPS = 2.01e+12 Tdav = 12.01 T = 26.00
+ --> Site =   16-  17 .. Mmps = 2000 Ndav =   2 E =  -4734.1751575873 Error = 8.56e-07 FLOPS = 1.98e+12 Tdav = 13.10 T = 27.95
+ --> Site =   17-  18 .. Mmps = 2000 Ndav =   2 E =  -4734.1751588237 Error = 1.25e-06 FLOPS = 2.12e+12 Tdav = 14.19 T = 30.12
+ --> Site =   18-  19 .. Mmps = 2000 Ndav =   2 E =  -4734.1751570102 Error = 5.83e-07 FLOPS = 2.04e+12 Tdav = 14.37 T = 30.24
+ --> Site =   19-  20 .. Mmps = 2000 Ndav =   2 E =  -4734.1751596220 Error = 1.60e-06 FLOPS = 2.04e+12 Tdav = 15.66 T = 32.85
+ --> Site =   20-  21 .. Mmps = 2000 Ndav =   3 E =  -4734.1751686086 Error = 5.34e-06 FLOPS = 2.31e+12 Tdav = 21.94 T = 39.94
+ --> Site =   21-  22 .. Mmps = 2000 Ndav =   3 E =  -4734.1751619210 Error = 2.69e-06 FLOPS = 2.23e+12 Tdav = 22.77 T = 40.30
+ --> Site =   22-  23 .. Mmps = 2000 Ndav =   3 E =  -4734.1751630205 Error = 3.20e-06 FLOPS = 2.39e+12 Tdav = 22.48 T = 41.04
+ --> Site =   23-  24 .. Mmps = 2000 Ndav =   3 E =  -4734.1751657872 Error = 4.35e-06 FLOPS = 2.55e+12 Tdav = 21.66 T = 40.95
+ --> Site =   24-  25 .. Mmps = 2000 Ndav =   3 E =  -4734.1751725453 Error = 7.27e-06 FLOPS = 2.38e+12 Tdav = 24.86 T = 45.17
+ --> Site =   25-  26 .. Mmps = 2000 Ndav =   3 E =  -4734.1751721591 Error = 6.60e-06 FLOPS = 2.52e+12 Tdav = 24.98 T = 44.33
+ --> Site =   26-  27 .. Mmps = 2000 Ndav =   3 E =  -4734.1751885015 Error = 1.43e-05 FLOPS = 2.50e+12 Tdav = 26.85 T = 46.84
+ --> Site =   27-  28 .. Mmps = 2000 Ndav =   3 E =  -4734.1751801521 Error = 9.86e-06 FLOPS = 2.49e+12 Tdav = 27.97 T = 48.90
+ --> Site =   28-  29 .. Mmps = 2000 Ndav =   3 E =  -4734.1751660654 Error = 4.91e-06 FLOPS = 2.58e+12 Tdav = 28.95 T = 51.11
+ --> Site =   29-  30 .. Mmps = 2000 Ndav =   3 E =  -4734.1752138349 Error = 2.15e-05 FLOPS = 2.58e+12 Tdav = 34.58 T = 57.37
+ --> Site =   30-  31 .. Mmps = 2000 Ndav =   2 E =  -4734.1751616014 Error = 1.48e-06 FLOPS = 2.50e+12 Tdav = 21.37 T = 44.54
+ --> Site =   31-  32 .. Mmps = 2000 Ndav =   3 E =  -4734.1751806111 Error = 6.75e-06 FLOPS = 2.18e+12 Tdav = 36.53 T = 124.36
+ --> Site =   32-  33 .. Mmps = 2000 Ndav =   3 E =  -4734.1752227431 Error = 1.84e-05 FLOPS = 2.49e+12 Tdav = 34.71 T = 55.83
+ --> Site =   33-  34 .. Mmps = 2000 Ndav =   3 E =  -4734.1751932053 Error = 5.50e-06 FLOPS = 2.66e+12 Tdav = 30.69 T = 51.06
+ --> Site =   34-  35 .. Mmps = 2000 Ndav =   3 E =  -4734.1752092410 Error = 1.04e-05 FLOPS = 2.72e+12 Tdav = 28.18 T = 47.25
+ --> Site =   35-  36 .. Mmps = 2000 Ndav =   3 E =  -4734.1752092740 Error = 8.55e-06 FLOPS = 2.61e+12 Tdav = 24.97 T = 43.00
+ --> Site =   36-  37 .. Mmps = 2000 Ndav =   2 E =  -4734.1751920265 Error = 1.87e-06 FLOPS = 2.32e+12 Tdav = 18.39 T = 36.03
+ --> Site =   37-  38 .. Mmps = 2000 Ndav =   3 E =  -4734.1752303942 Error = 1.33e-05 FLOPS = 2.35e+12 Tdav = 24.12 T = 40.65
+ --> Site =   38-  39 .. Mmps = 2000 Ndav =   3 E =  -4734.1752140652 Error = 7.12e-06 FLOPS = 2.58e+12 Tdav = 20.13 T = 35.74
+ --> Site =   39-  40 .. Mmps = 2000 Ndav =   2 E =  -4734.1751982926 Error = 6.94e-07 FLOPS = 2.34e+12 Tdav = 13.98 T = 28.71
+ --> Site =   40-  41 .. Mmps = 2000 Ndav =   2 E =  -4734.1752040812 Error = 2.50e-06 FLOPS = 2.17e+12 Tdav = 13.61 T = 27.42
+ --> Site =   41-  42 .. Mmps = 2000 Ndav =   3 E =  -4734.1752197373 Error = 7.06e-06 FLOPS = 2.43e+12 Tdav = 18.45 T = 32.13
+ --> Site =   42-  43 .. Mmps = 2000 Ndav =   3 E =  -4734.1752118460 Error = 2.93e-06 FLOPS = 2.27e+12 Tdav = 15.97 T = 28.23
+ --> Site =   43-  44 .. Mmps = 2000 Ndav =   3 E =  -4734.1752105374 Error = 1.13e-06 FLOPS = 2.00e+12 Tdav = 19.63 T = 32.56
+ --> Site =   44-  45 .. Mmps = 2000 Ndav =   3 E =  -4734.1752203103 Error = 4.02e-06 FLOPS = 2.19e+12 Tdav = 17.13 T = 29.59
+ --> Site =   45-  46 .. Mmps = 2000 Ndav =   3 E =  -4734.1752169230 Error = 2.20e-06 FLOPS = 2.31e+12 Tdav = 16.68 T = 29.59
+ --> Site =   46-  47 .. Mmps = 2000 Ndav =   2 E =  -4734.1752169865 Error = 1.86e-06 FLOPS = 2.04e+12 Tdav = 12.20 T = 24.59
+ --> Site =   47-  48 .. Mmps = 2000 Ndav =   2 E =  -4734.1752189065 Error = 2.31e-06 FLOPS = 2.02e+12 Tdav = 11.63 T = 23.72
+ --> Site =   48-  49 .. Mmps = 2000 Ndav =   2 E =  -4734.1752160001 Error = 1.16e-06 FLOPS = 1.84e+12 Tdav = 10.95 T = 21.70
+ --> Site =   49-  50 .. Mmps = 2000 Ndav =   2 E =  -4734.1752192532 Error = 2.01e-06 FLOPS = 2.04e+12 Tdav = 9.32 T = 19.46
+ --> Site =   50-  51 .. Mmps = 2000 Ndav =   2 E =  -4734.1752142278 Error = 2.09e-07 FLOPS = 1.95e+12 Tdav = 8.12 T = 17.34
+ --> Site =   51-  52 .. Mmps = 2000 Ndav =   2 E =  -4734.1752144217 Error = 2.05e-07 FLOPS = 1.88e+12 Tdav = 8.47 T = 18.24
+ --> Site =   52-  53 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138382 Error = 7.59e-09 FLOPS = 1.71e+12 Tdav = 3.84 T = 12.83
+ --> Site =   53-  54 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138306 Error = 3.96e-09 FLOPS = 1.48e+12 Tdav = 4.06 T = 12.62
+ --> Site =   54-  55 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138297 Error = 4.62e-09 FLOPS = 1.64e+12 Tdav = 3.44 T = 11.52
+ --> Site =   55-  56 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138261 Error = 2.03e-09 FLOPS = 1.26e+12 Tdav = 3.21 T = 9.81
+ --> Site =   56-  57 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138246 Error = 1.12e-09 FLOPS = 1.09e+12 Tdav = 0.71 T = 3.92
+ --> Site =   57-  58 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138239 Error = 7.39e-11 FLOPS = 4.35e+11 Tdav = 0.40 T = 2.90
+ --> Site =   58-  59 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138239 Error = 3.61e-12 FLOPS = 2.19e+11 Tdav = 0.18 T = 2.00
+ --> Site =   59-  60 .. Mmps =  796 Ndav =   1 E =  -4734.1752138239 Error = 3.52e-13 FLOPS = 9.18e+10 Tdav = 0.13 T = 1.93
+ --> Site =   60-  61 .. Mmps =  178 Ndav =   1 E =  -4734.1752138239 Error = 1.80e-14 FLOPS = 8.06e+09 Tdav = 0.08 T = 0.62
+ --> Site =   61-  62 .. Mmps =   31 Ndav =   1 E =  -4734.1752138239 Error = 2.21e-15 FLOPS = 4.47e+07 Tdav = 0.08 T = 0.29
+Time elapsed =  10551.893 | E =   -4734.1752303942 | DE = -7.00e-05 | DW = 2.15e-05
+Time sweep =     1648.968 | 1.69 PFLOP/SWP
+ | Tcomm = 195.502 | Tidle = 63.552 | Twait = 0.000 | Dmem = 2.06 GB (3%) | Imem = 171 KB (96%) | Hmem = 25.5 GB | Pmem = 348 MB
+ | Tread = 62.545 | Twrite = 50.921 | Tfpread = 60.433 | Tfpwrite = 50.693 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 59.2 GB | cpsd = 42.2 GB
+ | Trot = 35.046 | Tctr = 8.268 | Tint = 30.037 | Tmid = 65.552 | Tdctr = 21.230 | Tdiag = 68.241 | Tinfo = 2.001
+ | Teff = 237.762 | Tprt = 180.387 | Teig = 829.587 | Tblk = 1382.148 | Tmve = 266.794 | Tdm = 111.075 | Tsplt = 14.217 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   19 | Direction = backward | Bond dimension = 2000 | Noise =  5.00e-05 | Dav threshold =  1.00e-06
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4734.1752138239 Error = 0.00e+00 FLOPS = 4.50e+07 Tdav = 0.08 T = 0.21
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4734.1752138239 Error = 0.00e+00 FLOPS = 7.76e+09 Tdav = 0.09 T = 0.35
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4734.1752138239 Error = 0.00e+00 FLOPS = 9.07e+10 Tdav = 0.13 T = 0.91
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4734.1752138239 Error = 0.00e+00 FLOPS = 2.34e+11 Tdav = 0.17 T = 1.06
+ <-- Site =   57-  58 .. Mmps =  462 Ndav =   1 E =  -4734.1752138239 Error = 0.00e+00 FLOPS = 6.04e+11 Tdav = 0.29 T = 1.45
+ <-- Site =   56-  57 .. Mmps = 1689 Ndav =   1 E =  -4734.1752138239 Error = 1.26e-13 FLOPS = 1.13e+12 Tdav = 0.68 T = 2.61
+ <-- Site =   55-  56 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138238 Error = 3.94e-10 FLOPS = 1.27e+12 Tdav = 3.19 T = 10.13
+ <-- Site =   54-  55 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138236 Error = 3.19e-09 FLOPS = 1.61e+12 Tdav = 3.48 T = 13.21
+ <-- Site =   53-  54 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138200 Error = 8.28e-09 FLOPS = 1.62e+12 Tdav = 3.70 T = 13.70
+ <-- Site =   52-  53 .. Mmps = 2000 Ndav =   1 E =  -4734.1752138118 Error = 1.99e-08 FLOPS = 1.51e+12 Tdav = 4.33 T = 14.82
+ <-- Site =   51-  52 .. Mmps = 2000 Ndav =   2 E =  -4734.1752143849 Error = 3.15e-07 FLOPS = 1.55e+12 Tdav = 10.28 T = 21.65
+ <-- Site =   50-  51 .. Mmps = 2000 Ndav =   2 E =  -4734.1752142881 Error = 3.73e-07 FLOPS = 1.60e+12 Tdav = 9.88 T = 21.34
+ <-- Site =   49-  50 .. Mmps = 2000 Ndav =   2 E =  -4734.1752196289 Error = 2.33e-06 FLOPS = 1.83e+12 Tdav = 10.39 T = 23.00
+ <-- Site =   48-  49 .. Mmps = 2000 Ndav =   2 E =  -4734.1752169192 Error = 1.29e-06 FLOPS = 2.00e+12 Tdav = 10.12 T = 22.89
+ <-- Site =   47-  48 .. Mmps = 2000 Ndav =   2 E =  -4734.1752202993 Error = 2.46e-06 FLOPS = 2.21e+12 Tdav = 10.65 T = 24.40
+ <-- Site =   46-  47 .. Mmps = 2000 Ndav =   2 E =  -4734.1752187648 Error = 2.10e-06 FLOPS = 2.18e+12 Tdav = 11.43 T = 25.48
+ <-- Site =   45-  46 .. Mmps = 2000 Ndav =   2 E =  -4734.1752190327 Error = 2.22e-06 FLOPS = 2.06e+12 Tdav = 12.44 T = 28.20
+ <-- Site =   44-  45 .. Mmps = 2000 Ndav =   3 E =  -4734.1752234904 Error = 4.61e-06 FLOPS = 2.42e+12 Tdav = 15.53 T = 30.69
+ <-- Site =   43-  44 .. Mmps = 2000 Ndav =   2 E =  -4734.1752160518 Error = 1.39e-06 FLOPS = 2.18e+12 Tdav = 12.01 T = 27.39
+ <-- Site =   42-  43 .. Mmps = 2000 Ndav =   3 E =  -4734.1752221522 Error = 3.59e-06 FLOPS = 2.43e+12 Tdav = 14.89 T = 29.98
+ <-- Site =   41-  42 .. Mmps = 2000 Ndav =   3 E =  -4734.1752360271 Error = 7.60e-06 FLOPS = 2.46e+12 Tdav = 18.26 T = 34.03
+ <-- Site =   40-  41 .. Mmps = 2000 Ndav =   3 E =  -4734.1752224590 Error = 2.69e-06 FLOPS = 2.41e+12 Tdav = 18.35 T = 34.75
+ <-- Site =   39-  40 .. Mmps = 2000 Ndav =   2 E =  -4734.1752172802 Error = 7.35e-07 FLOPS = 2.22e+12 Tdav = 14.78 T = 32.21
+ <-- Site =   38-  39 .. Mmps = 2000 Ndav =   3 E =  -4734.1752349174 Error = 8.16e-06 FLOPS = 2.58e+12 Tdav = 20.12 T = 38.42
+ <-- Site =   37-  38 .. Mmps = 2000 Ndav =   3 E =  -4734.1752521378 Error = 1.52e-05 FLOPS = 2.53e+12 Tdav = 22.36 T = 41.21
+ <-- Site =   36-  37 .. Mmps = 2000 Ndav =   2 E =  -4734.1752191515 Error = 1.69e-06 FLOPS = 2.63e+12 Tdav = 16.27 T = 35.10
+ <-- Site =   35-  36 .. Mmps = 2000 Ndav =   3 E =  -4734.1752380170 Error = 9.79e-06 FLOPS = 2.62e+12 Tdav = 24.95 T = 44.70
+ <-- Site =   34-  35 .. Mmps = 2000 Ndav =   3 E =  -4734.1752425308 Error = 1.11e-05 FLOPS = 2.74e+12 Tdav = 27.92 T = 48.83
+ <-- Site =   33-  34 .. Mmps = 2000 Ndav =   3 E =  -4734.1752284136 Error = 6.25e-06 FLOPS = 2.72e+12 Tdav = 30.07 T = 52.53
+ <-- Site =   32-  33 .. Mmps = 2000 Ndav =   3 E =  -4734.1752666958 Error = 2.03e-05 FLOPS = 2.67e+12 Tdav = 32.37 T = 55.82
+ <-- Site =   31-  32 .. Mmps = 2000 Ndav =   3 E =  -4734.1752296092 Error = 7.20e-06 FLOPS = 2.70e+12 Tdav = 29.32 T = 52.18
+ <-- Site =   30-  31 .. Mmps = 2000 Ndav =   2 E =  -4734.1752143945 Error = 1.59e-06 FLOPS = 2.27e+12 Tdav = 23.66 T = 103.04
+ <-- Site =   29-  30 .. Mmps = 2000 Ndav =   3 E =  -4734.1752746124 Error = 2.13e-05 FLOPS = 2.39e+12 Tdav = 37.44 T = 59.70
+ <-- Site =   28-  29 .. Mmps = 2000 Ndav =   3 E =  -4734.1752333639 Error = 4.33e-06 FLOPS = 2.48e+12 Tdav = 30.12 T = 50.22
+ <-- Site =   27-  28 .. Mmps = 2000 Ndav =   3 E =  -4734.1752495738 Error = 1.01e-05 FLOPS = 2.56e+12 Tdav = 27.24 T = 45.99
+ <-- Site =   26-  27 .. Mmps = 2000 Ndav =   3 E =  -4734.1752620224 Error = 1.32e-05 FLOPS = 2.41e+12 Tdav = 27.90 T = 46.42
+ <-- Site =   25-  26 .. Mmps = 2000 Ndav =   3 E =  -4734.1752459487 Error = 6.57e-06 FLOPS = 2.49e+12 Tdav = 25.22 T = 42.96
+ <-- Site =   24-  25 .. Mmps = 2000 Ndav =   3 E =  -4734.1752491271 Error = 6.72e-06 FLOPS = 2.50e+12 Tdav = 23.65 T = 40.92
+ <-- Site =   23-  24 .. Mmps = 2000 Ndav =   3 E =  -4734.1752428845 Error = 4.02e-06 FLOPS = 2.21e+12 Tdav = 25.01 T = 41.09
+ <-- Site =   22-  23 .. Mmps = 2000 Ndav =   3 E =  -4734.1752408506 Error = 2.94e-06 FLOPS = 2.53e+12 Tdav = 21.24 T = 37.32
+ <-- Site =   21-  22 .. Mmps = 2000 Ndav =   3 E =  -4734.1752401120 Error = 2.65e-06 FLOPS = 2.29e+12 Tdav = 22.24 T = 37.90
+ <-- Site =   20-  21 .. Mmps = 2000 Ndav =   3 E =  -4734.1752475189 Error = 5.09e-06 FLOPS = 2.29e+12 Tdav = 22.26 T = 38.32
+ <-- Site =   19-  20 .. Mmps = 2000 Ndav =   2 E =  -4734.1752386480 Error = 1.36e-06 FLOPS = 2.24e+12 Tdav = 14.26 T = 28.94
+ <-- Site =   18-  19 .. Mmps = 2000 Ndav =   2 E =  -4734.1752362354 Error = 4.81e-07 FLOPS = 2.19e+12 Tdav = 13.39 T = 27.91
+ <-- Site =   17-  18 .. Mmps = 2000 Ndav =   2 E =  -4734.1752382343 Error = 1.15e-06 FLOPS = 2.19e+12 Tdav = 13.73 T = 27.65
+ <-- Site =   16-  17 .. Mmps = 2000 Ndav =   2 E =  -4734.1752371443 Error = 7.47e-07 FLOPS = 2.11e+12 Tdav = 12.29 T = 25.06
+ <-- Site =   15-  16 .. Mmps = 2000 Ndav =   2 E =  -4734.1752362181 Error = 4.16e-07 FLOPS = 2.21e+12 Tdav = 10.93 T = 23.83
+ <-- Site =   14-  15 .. Mmps = 2000 Ndav =   2 E =  -4734.1752364108 Error = 4.50e-07 FLOPS = 1.93e+12 Tdav = 12.67 T = 25.48
+ <-- Site =   13-  14 .. Mmps = 2000 Ndav =   2 E =  -4734.1752376734 Error = 8.93e-07 FLOPS = 2.08e+12 Tdav = 10.78 T = 22.44
+ <-- Site =   12-  13 .. Mmps = 2000 Ndav =   2 E =  -4734.1752372879 Error = 6.41e-07 FLOPS = 2.05e+12 Tdav = 9.30 T = 20.12
+ <-- Site =   11-  12 .. Mmps = 2000 Ndav =   2 E =  -4734.1752361143 Error = 2.34e-07 FLOPS = 1.80e+12 Tdav = 10.09 T = 20.67
+ <-- Site =   10-  11 .. Mmps = 2000 Ndav =   2 E =  -4734.1752362679 Error = 2.78e-07 FLOPS = 1.54e+12 Tdav = 9.74 T = 19.27
+ <-- Site =    9-  10 .. Mmps = 2000 Ndav =   2 E =  -4734.1752362501 Error = 2.75e-07 FLOPS = 1.72e+12 Tdav = 7.65 T = 16.76
+ <-- Site =    8-   9 .. Mmps = 2000 Ndav =   1 E =  -4734.1752354612 Error = 2.13e-08 FLOPS = 1.32e+12 Tdav = 4.77 T = 13.47
+ <-- Site =    7-   8 .. Mmps = 2000 Ndav =   1 E =  -4734.1752354366 Error = 1.18e-09 FLOPS = 1.38e+12 Tdav = 3.97 T = 11.92
+ <-- Site =    6-   7 .. Mmps = 2000 Ndav =   1 E =  -4734.1752354366 Error = 9.10e-11 FLOPS = 1.26e+12 Tdav = 3.22 T = 9.95
+ <-- Site =    5-   6 .. Mmps = 2000 Ndav =   1 E =  -4734.1752354368 Error = 3.36e-10 FLOPS = 1.29e+12 Tdav = 0.62 T = 3.81
+ <-- Site =    4-   5 .. Mmps = 2000 Ndav =   1 E =  -4734.1752354368 Error = 5.40e-11 FLOPS = 6.70e+11 Tdav = 0.27 T = 2.78
+ <-- Site =    3-   4 .. Mmps = 2000 Ndav =   1 E =  -4734.1752354368 Error = 4.72e-12 FLOPS = 2.38e+11 Tdav = 0.17 T = 2.03
+ <-- Site =    2-   3 .. Mmps =  805 Ndav =   1 E =  -4734.1752354368 Error = 3.67e-13 FLOPS = 8.17e+10 Tdav = 0.14 T = 1.79
+ <-- Site =    1-   2 .. Mmps =  178 Ndav =   1 E =  -4734.1752354368 Error = 1.70e-14 FLOPS = 7.92e+09 Tdav = 0.09 T = 0.74
+ <-- Site =    0-   1 .. Mmps =   31 Ndav =   1 E =  -4734.1752354368 Error = 1.27e-15 FLOPS = 4.44e+07 Tdav = 0.08 T = 0.30
+Time elapsed =  12183.935 | E =   -4734.1752746124 | DE = -4.42e-05 | DW = 2.13e-05
+Time sweep =     1632.041 | 1.68 PFLOP/SWP
+ | Tcomm = 187.819 | Tidle = 60.498 | Twait = 0.000 | Dmem = 2.07 GB (3%) | Imem = 171 KB (96%) | Hmem = 25.5 GB | Pmem = 348 MB
+ | Tread = 62.157 | Twrite = 50.838 | Tfpread = 59.978 | Tfpwrite = 50.589 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 59.0 GB | cpsd = 42.0 GB
+ | Trot = 33.978 | Tctr = 7.458 | Tint = 33.172 | Tmid = 56.981 | Tdctr = 20.634 | Tdiag = 69.981 | Tinfo = 2.066
+ | Teff = 240.173 | Tprt = 177.003 | Teig = 812.619 | Tblk = 1375.425 | Tmve = 256.590 | Tdm = 123.182 | Tsplt = 13.779 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   20 | Direction =  forward | Bond dimension = 2500 | Noise =  5.00e-05 | Dav threshold =  1.00e-06
+ --> Site =    0-   1 .. Mmps =    3 Ndav =   1 E =  -4734.1752354368 Error = 0.00e+00 FLOPS = 4.63e+07 Tdav = 0.08 T = 0.20
+ --> Site =    1-   2 .. Mmps =   10 Ndav =   1 E =  -4734.1752354368 Error = 0.00e+00 FLOPS = 8.33e+09 Tdav = 0.08 T = 0.34
+ --> Site =    2-   3 .. Mmps =   35 Ndav =   1 E =  -4734.1752354368 Error = 0.00e+00 FLOPS = 1.13e+11 Tdav = 0.10 T = 0.98
+ --> Site =    3-   4 .. Mmps =  126 Ndav =   1 E =  -4734.1752354368 Error = 0.00e+00 FLOPS = 2.49e+11 Tdav = 0.16 T = 1.11
+ --> Site =    4-   5 .. Mmps =  462 Ndav =   1 E =  -4734.1752354368 Error = 0.00e+00 FLOPS = 8.41e+11 Tdav = 0.21 T = 1.25
+ --> Site =    5-   6 .. Mmps = 1687 Ndav =   1 E =  -4734.1752354367 Error = 1.05e-13 FLOPS = 1.14e+12 Tdav = 0.70 T = 2.66
+ --> Site =    6-   7 .. Mmps = 2500 Ndav =   1 E =  -4734.1752354367 Error = 8.26e-11 FLOPS = 1.30e+12 Tdav = 3.12 T = 10.20
+ --> Site =    7-   8 .. Mmps = 2500 Ndav =   1 E =  -4734.1752354367 Error = 1.20e-09 FLOPS = 1.40e+12 Tdav = 5.19 T = 17.80
+ --> Site =    8-   9 .. Mmps = 2500 Ndav =   1 E =  -4734.1752354362 Error = 8.30e-09 FLOPS = 1.40e+12 Tdav = 5.87 T = 19.71
+ --> Site =    9-  10 .. Mmps = 2500 Ndav =   2 E =  -4734.1752363393 Error = 1.28e-07 FLOPS = 1.64e+12 Tdav = 10.18 T = 24.47
+ --> Site =   10-  11 .. Mmps = 2500 Ndav =   2 E =  -4734.1752370053 Error = 1.49e-07 FLOPS = 1.75e+12 Tdav = 11.41 T = 26.62
+ --> Site =   11-  12 .. Mmps = 2500 Ndav =   2 E =  -4734.1752374777 Error = 1.48e-07 FLOPS = 1.94e+12 Tdav = 12.57 T = 30.45
+ --> Site =   12-  13 .. Mmps = 2500 Ndav =   2 E =  -4734.1752393697 Error = 4.29e-07 FLOPS = 1.91e+12 Tdav = 13.35 T = 31.26
+ --> Site =   13-  14 .. Mmps = 2500 Ndav =   2 E =  -4734.1752416143 Error = 5.36e-07 FLOPS = 1.85e+12 Tdav = 16.03 T = 34.45
+ --> Site =   14-  15 .. Mmps = 2500 Ndav =   2 E =  -4734.1752418859 Error = 2.85e-07 FLOPS = 1.94e+12 Tdav = 16.66 T = 36.96
+ --> Site =   15-  16 .. Mmps = 2500 Ndav =   2 E =  -4734.1752426709 Error = 2.73e-07 FLOPS = 1.97e+12 Tdav = 16.30 T = 36.82
+ --> Site =   16-  17 .. Mmps = 2500 Ndav =   2 E =  -4734.1752446571 Error = 4.93e-07 FLOPS = 2.16e+12 Tdav = 15.83 T = 37.33
+ --> Site =   17-  18 .. Mmps = 2500 Ndav =   2 E =  -4734.1752475855 Error = 7.43e-07 FLOPS = 2.14e+12 Tdav = 18.43 T = 40.63
+ --> Site =   18-  19 .. Mmps = 2500 Ndav =   2 E =  -4734.1752476386 Error = 3.40e-07 FLOPS = 2.19e+12 Tdav = 17.81 T = 40.43
+ --> Site =   19-  20 .. Mmps = 2500 Ndav =   2 E =  -4734.1752516405 Error = 9.59e-07 FLOPS = 2.25e+12 Tdav = 18.69 T = 42.56
+ --> Site =   20-  21 .. Mmps = 2500 Ndav =   3 E =  -4734.1752654191 Error = 3.14e-06 FLOPS = 2.40e+12 Tdav = 28.02 T = 51.93
+ --> Site =   21-  22 .. Mmps = 2500 Ndav =   3 E =  -4734.1752661918 Error = 1.62e-06 FLOPS = 2.47e+12 Tdav = 27.10 T = 51.60
+ --> Site =   22-  23 .. Mmps = 2500 Ndav =   3 E =  -4734.1752722089 Error = 1.84e-06 FLOPS = 2.46e+12 Tdav = 28.85 T = 54.18
+ --> Site =   23-  24 .. Mmps = 2500 Ndav =   3 E =  -4734.1752806514 Error = 2.62e-06 FLOPS = 2.58e+12 Tdav = 28.04 T = 54.15
+ --> Site =   24-  25 .. Mmps = 2500 Ndav =   3 E =  -4734.1752962323 Error = 4.00e-06 FLOPS = 2.48e+12 Tdav = 31.15 T = 57.02
+ --> Site =   25-  26 .. Mmps = 2500 Ndav =   3 E =  -4734.1753089474 Error = 3.94e-06 FLOPS = 2.64e+12 Tdav = 31.13 T = 58.33
+ --> Site =   26-  27 .. Mmps = 2500 Ndav =   3 E =  -4734.1753390752 Error = 8.07e-06 FLOPS = 2.55e+12 Tdav = 34.56 T = 64.43
+ --> Site =   27-  28 .. Mmps = 2500 Ndav =   3 E =  -4734.1753541341 Error = 5.73e-06 FLOPS = 2.49e+12 Tdav = 36.74 T = 66.20
+ --> Site =   28-  29 .. Mmps = 2500 Ndav =   3 E =  -4734.1753545932 Error = 2.68e-06 FLOPS = 2.56e+12 Tdav = 38.13 T = 69.35
+ --> Site =   29-  30 .. Mmps = 2500 Ndav =   3 E =  -4734.1754201012 Error = 1.31e-05 FLOPS = 2.59e+12 Tdav = 44.91 T = 78.06
+ --> Site =   30-  31 .. Mmps = 2500 Ndav =   3 E =  -4734.1753939744 Error = 8.56e-07 FLOPS = 2.60e+12 Tdav = 40.81 T = 75.18
+ --> Site =   31-  32 .. Mmps = 2500 Ndav =   3 E =  -4734.1754190190 Error = 3.30e-06 FLOPS = 2.44e+12 Tdav = 47.67 T = 174.39
+ --> Site =   32-  33 .. Mmps = 2500 Ndav =   3 E =  -4734.1754833138 Error = 1.11e-05 FLOPS = 2.57e+12 Tdav = 49.08 T = 79.30
+ --> Site =   33-  34 .. Mmps = 2500 Ndav =   3 E =  -4734.1754817027 Error = 3.21e-06 FLOPS = 2.50e+12 Tdav = 47.94 T = 77.94
+ --> Site =   34-  35 .. Mmps = 2500 Ndav =   3 E =  -4734.1755114636 Error = 5.79e-06 FLOPS = 2.52e+12 Tdav = 44.46 T = 72.42
+ --> Site =   35-  36 .. Mmps = 2500 Ndav =   3 E =  -4734.1755332038 Error = 5.25e-06 FLOPS = 2.55e+12 Tdav = 37.40 T = 63.44
+ --> Site =   36-  37 .. Mmps = 2500 Ndav =   2 E =  -4734.1755259307 Error = 1.05e-06 FLOPS = 2.49e+12 Tdav = 25.12 T = 50.18
+ --> Site =   37-  38 .. Mmps = 2500 Ndav =   3 E =  -4734.1755792608 Error = 7.90e-06 FLOPS = 2.60e+12 Tdav = 31.68 T = 54.57
+ --> Site =   38-  39 .. Mmps = 2500 Ndav =   3 E =  -4734.1755848361 Error = 4.26e-06 FLOPS = 2.54e+12 Tdav = 30.01 T = 51.89
+ --> Site =   39-  40 .. Mmps = 2500 Ndav =   2 E =  -4734.1755771618 Error = 4.00e-07 FLOPS = 1.76e+12 Tdav = 27.23 T = 47.64
+ --> Site =   40-  41 .. Mmps = 2500 Ndav =   3 E =  -4734.1755865729 Error = 1.37e-06 FLOPS = 2.34e+12 Tdav = 27.67 T = 47.74
+ --> Site =   41-  42 .. Mmps = 2500 Ndav =   3 E =  -4734.1756108255 Error = 3.97e-06 FLOPS = 2.06e+12 Tdav = 31.79 T = 51.91
+ --> Site =   42-  43 .. Mmps = 2500 Ndav =   3 E =  -4734.1756170171 Error = 1.61e-06 FLOPS = 1.84e+12 Tdav = 29.44 T = 47.54
+ --> Site =   43-  44 .. Mmps = 2500 Ndav =   3 E =  -4734.1756220656 Error = 5.78e-07 FLOPS = 2.22e+12 Tdav = 26.14 T = 44.70
+ --> Site =   44-  45 .. Mmps = 2500 Ndav =   3 E =  -4734.1756372727 Error = 2.26e-06 FLOPS = 2.37e+12 Tdav = 23.25 T = 41.09
+ --> Site =   45-  46 .. Mmps = 2500 Ndav =   3 E =  -4734.1756402156 Error = 1.19e-06 FLOPS = 2.39e+12 Tdav = 23.27 T = 41.29
+ --> Site =   46-  47 .. Mmps = 2500 Ndav =   2 E =  -4734.1756445316 Error = 1.03e-06 FLOPS = 2.22e+12 Tdav = 16.14 T = 33.62
+ --> Site =   47-  48 .. Mmps = 2500 Ndav =   3 E =  -4734.1756509866 Error = 1.34e-06 FLOPS = 2.06e+12 Tdav = 24.58 T = 41.44
+ --> Site =   48-  49 .. Mmps = 2500 Ndav =   2 E =  -4734.1756522896 Error = 6.46e-07 FLOPS = 1.84e+12 Tdav = 15.77 T = 31.12
+ --> Site =   49-  50 .. Mmps = 2500 Ndav =   2 E =  -4734.1756586515 Error = 1.19e-06 FLOPS = 1.92e+12 Tdav = 14.13 T = 29.26
+ --> Site =   50-  51 .. Mmps = 2500 Ndav =   2 E =  -4734.1756566378 Error = 1.19e-07 FLOPS = 1.80e+12 Tdav = 12.67 T = 26.49
+ --> Site =   51-  52 .. Mmps = 2500 Ndav =   2 E =  -4734.1756573063 Error = 1.08e-07 FLOPS = 1.74e+12 Tdav = 13.04 T = 26.77
+ --> Site =   52-  53 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569991 Error = 2.08e-09 FLOPS = 1.50e+12 Tdav = 6.25 T = 18.47
+ --> Site =   53-  54 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569984 Error = 1.28e-09 FLOPS = 1.52e+12 Tdav = 5.45 T = 16.98
+ --> Site =   54-  55 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569988 Error = 1.73e-09 FLOPS = 1.48e+12 Tdav = 5.27 T = 16.63
+ --> Site =   55-  56 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569989 Error = 8.46e-10 FLOPS = 1.34e+12 Tdav = 4.22 T = 13.78
+ --> Site =   56-  57 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569988 Error = 4.80e-10 FLOPS = 1.21e+12 Tdav = 0.90 T = 5.88
+ --> Site =   57-  58 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569985 Error = 3.68e-11 FLOPS = 6.68e+11 Tdav = 0.38 T = 3.79
+ --> Site =   58-  59 .. Mmps = 2116 Ndav =   1 E =  -4734.1756569985 Error = 3.10e-12 FLOPS = 2.53e+11 Tdav = 0.24 T = 3.00
+ --> Site =   59-  60 .. Mmps =  799 Ndav =   1 E =  -4734.1756569985 Error = 3.48e-13 FLOPS = 9.01e+10 Tdav = 0.14 T = 2.07
+ --> Site =   60-  61 .. Mmps =  178 Ndav =   1 E =  -4734.1756569985 Error = 1.79e-14 FLOPS = 7.94e+09 Tdav = 0.09 T = 0.64
+ --> Site =   61-  62 .. Mmps =   31 Ndav =   1 E =  -4734.1756569985 Error = 2.31e-15 FLOPS = 4.39e+07 Tdav = 0.08 T = 0.31
+Time elapsed =  14516.906 | E =   -4734.1756586515 | DE = -3.84e-04 | DW = 1.31e-05
+Time sweep =     2332.971 | 2.40 PFLOP/SWP
+ | Tcomm = 268.031 | Tidle = 95.025 | Twait = 0.000 | Dmem = 3.13 GB (2%) | Imem = 173 KB (96%) | Hmem = 38.4 GB | Pmem = 431 MB
+ | Tread = 74.204 | Twrite = 75.829 | Tfpread = 71.872 | Tfpwrite = 75.519 | Tmporead = 0.000 | Tasync = 0.000
+ | data = 90.1 GB | cpsd = 64.1 GB
+ | Trot = 58.020 | Tctr = 10.155 | Tint = 47.305 | Tmid = 95.336 | Tdctr = 31.988 | Tdiag = 86.941 | Tinfo = 2.054
+ | Teff = 293.683 | Tprt = 259.925 | Teig = 1173.745 | Tblk = 1919.845 | Tmve = 413.098 | Tdm = 158.953 | Tsplt = 24.029 | Tsvd = 0.000 | Torth = 0.000
+
+Sweep =   21 | Direction = backward | Bond dimension = 2500 | Noise =  5.00e-05 | Dav threshold =  1.00e-06
+ <-- Site =   61-  62 .. Mmps =    3 Ndav =   1 E =  -4734.1756569985 Error = 0.00e+00 FLOPS = 4.49e+07 Tdav = 0.08 T = 0.21
+ <-- Site =   60-  61 .. Mmps =   10 Ndav =   1 E =  -4734.1756569985 Error = 0.00e+00 FLOPS = 2.22e+10 Tdav = 0.03 T = 0.25
+ <-- Site =   59-  60 .. Mmps =   35 Ndav =   1 E =  -4734.1756569985 Error = 0.00e+00 FLOPS = 8.95e+10 Tdav = 0.14 T = 1.11
+ <-- Site =   58-  59 .. Mmps =  126 Ndav =   1 E =  -4734.1756569985 Error = 0.00e+00 FLOPS = 2.16e+11 Tdav = 0.28 T = 1.78
+ <-- Site =   57-  58 .. Mmps =  462 Ndav =   1 E =  -4734.1756569985 Error = 0.00e+00 FLOPS = 6.18e+11 Tdav = 0.41 T = 2.25
+ <-- Site =   56-  57 .. Mmps = 1688 Ndav =   1 E =  -4734.1756569985 Error = 1.27e-13 FLOPS = 1.23e+12 Tdav = 0.89 T = 3.85
+ <-- Site =   55-  56 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569985 Error = 1.15e-10 FLOPS = 1.36e+12 Tdav = 4.14 T = 13.08
+ <-- Site =   54-  55 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569984 Error = 1.02e-09 FLOPS = 1.57e+12 Tdav = 6.47 T = 21.37
+ <-- Site =   53-  54 .. Mmps = 2500 Ndav =   1 E =  -4734.1756569977 Error = 2.62e-09 FLOPS = 1.38e+12 Tdav = 7.79 T = 23.60
+ <-- Site =   52-  53 .. Mmps = 2500 Ndav =   2 E =  -4734.1756573002 Error = 3.31e-08 FLOPS = 1.81e+12 Tdav = 13.44 T = 30.06
+ <-- Site =   51-  52 .. Mmps = 2500 Ndav =   2 E =  -4734.1756576611 Error = 2.02e-07 FLOPS = 1.80e+12 Tdav = 16.70 T = 35.25
+ <-- Site =   50-  51 .. Mmps = 2500 Ndav =   2 E =  -4734.1756576553 Error = 2.59e-07 FLOPS = 1.69e+12 Tdav = 17.84 T = 36.50
+ <-- Site =   49-  50 .. Mmps = 2500 Ndav =   2 E =  -4734.1756613899 Error = 1.63e-06 FLOPS = 1.83e+12 Tdav = 19.49 T = 39.24
+ <-- Site =   48-  49 .. Mmps = 2500 Ndav =   2 E =  -4734.1756604534 Error = 9.82e-07 FLOPS = 1.87e+12 Tdav = 20.48 T = 41.36
+ <-- Site =   47-  48 .. Mmps = 2500 Ndav =   2 E =  -4734.1756632305 Error = 1.76e-06 FLOPS = 1.95e+12 Tdav = 22.68 T = 44.98
+ <-- Site =   46-  47 .. Mmps = 2500 Ndav =   2 E =  -4734.1756630432 Error = 1.58e-06 FLOPS = 1.94e+12 Tdav = 24.32 T = 47.79
+ <-- Site =   45-  46 .. Mmps = 2500 Ndav =   2 E =  -4734.1756636948 Error = 1.66e-06 FLOPS = 2.13e+12 Tdav = 22.93 T = 47.36
+ <-- Site =   44-  45 .. Mmps = 2500 Ndav =   2 E =  -4734.1756672848 Error = 3.20e-06 FLOPS = 2.25e+12 Tdav = 21.72 T = 47.03
+ <-- Site =   43-  44 .. Mmps = 2500 Ndav =   2 E =  -4734.1756628711 Error = 1.14e-06 FLOPS = 2.02e+12 Tdav = 24.98 T = 50.88
+ <-- Site =   42-  43 .. Mmps = 2500 Ndav =   2 E =  -4734.1756689946 Error = 2.71e-06 FLOPS = 2.23e+12 Tdav = 21.20 T = 45.84
+ <-- Site =   41-  42 .. Mmps = 2500 Ndav =   3 E =  -4734.1756835975 Error = 5.68e-06 FLOPS = 2.53e+12 Tdav = 33.94 T = 60.00
+ <-- Site =   40-  41 .. Mmps = 2500 Ndav =   3 E =  -4734.1756773254 Error = 2.04e-06 FLOPS = 2.51e+12 Tdav = 33.84 T = 60.21
+ <-- Site =   39-  40 .. Mmps = 2500 Ndav =   2 E =  -4734.1756748680 Error = 5.93e-07 FLOPS = 2.62e+12 Tdav = 23.93 T = 52.35
+ <-- Site =   38-  39 .. Mmps = 2500 Ndav =   3 E =  -4734.1756898261 Error = 6.13e-06 FLOPS = 2.51e+12 Tdav = 39.35 T = 69.45
+ <-- Site =   37-  38 .. Mmps = 2500 Ndav =   3 E =  -4734.1757041879 Error = 1.13e-05 FLOPS = 2.66e+12 Tdav = 40.24 T = 72.22
+ <-- Site =   36-  37 .. Mmps = 2500 Ndav =   3 E =  -4734.1756847031 Error = 1.39e-06 FLOPS = 2.53e+12 Tdav = 48.16 T = 80.60
+ <-- Site =   35-  36 .. Mmps = 2500 Ndav =   3 E =  -4734.1757005503 Error = 7.52e-06 FLOPS = 2.66e+12 Tdav = 46.27 T = 81.82
+ <-- Site =   34-  35 .. Mmps = 2500 Ndav =   3 E =  -4734.1757076598 Error = 8.24e-06 FLOPS = 2.62e+12 Tdav = 55.56 T = 90.95
+ <-- Site =   33-  34 .. Mmps = 2500 Ndav =   3 E =  -4734.1756997096 Error = 4.92e-06 FLOPS = 2.71e+12 Tdav = 57.16 T = 94.09
+ <-- Site =   32-  33 .. Mmps = 2500 Ndav =   3 E =  -4734.1757330747 Error = 1.54e-05 FLOPS = 2.81e+12 Tdav = 58.35 T = 97.48
+ <-- Site =   31-  32 .. Mmps = 2500 Ndav =   3 E =  -4734.1757095077 Error = 5.26e-06 FLOPS = 2.66e+12 Tdav = 56.90 T = 95.59
+ <-- Site =   30-  31 .. Mmps = 2500 Ndav =   2 E =  -4734.1757003948 Error = 1.27e-06 FLOPS = 2.36e+12 Tdav = 43.48 T = 185.83
+ <-- Site =   29-  30 .. Mmps = 2500 Ndav =   3 E =  -4734.1757475264 Error = 1.56e-05 FLOPS = 2.47e+12 Tdav = 68.69 T = 108.22
+ <-- Site =   28-  29 .. Mmps = 2500 Ndav =   3 E =  -4734.1757263517 Error = 3.39e-06 FLOPS = 2.36e+12 Tdav = 60.52 T = 94.86
+ <-- Site =   27-  28 .. Mmps = 2500 Ndav =   3 E =  -4734.1757412972 Error = 7.62e-06 FLOPS = 2.44e+12 Tdav = 54.31 T = 86.69
+ <-- Site =   26-  27 .. Mmps = 2500 Ndav =   3 E =  -4734.1757552824 Error = 9.82e-06 FLOPS = 2.49e+12 Tdav = 51.39 T = 82.78
+ <-- Site =   25-  26 .. 

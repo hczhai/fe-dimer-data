@@ -1,0 +1,16 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.0.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hfe-def2-SVP-uks.4/runs/mp-21
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=29905203
+SLURM_JOB_NAME=hfe.21.hife
+HOST_NAME = hpc-81-04.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers/x2c-dk/hfe/runs/mp-21
+SLURM_CPUS_PER_TASK=24
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Overwritten attributes  max_cycle  of <class 'pyscf.mp.ump2.UMP2'>
+<class 'pyscf.mp.ump2.UMP2'> does not have attributes  diis_file
+SUCCESSFUL TERMINATION

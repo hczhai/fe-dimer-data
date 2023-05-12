@@ -1,0 +1,39 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.1.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hc-def2-SVP-uks.12/runs/cc-13
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/block2.cpython-38-x86_64-linux-gnu.so
+/home/hczhai/program/anaconda3/envs/python3.7/lib/python3.8/site-packages/pyblock2/__init__.py
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=32863531
+SLURM_JOB_NAME=hc.13.hife
+HOST_NAME = hpc-19-28.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-dz/hc/runs/cc-13
+SLURM_CPUS_PER_TASK=48
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+Traceback (most recent call last):
+  File "hife.py", line 141, in <module>
+    conv, l1, l2 = uccsd_t_lambda.kernel(mc, tol=1E-7)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd_t_lambda.py", line 32, in kernel
+    return ccsd_lambda.kernel(mycc, eris, t1, t2, l1, l2, max_cycle, tol,
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/ccsd_lambda.py", line 51, in kernel
+    imds = fintermediates(mycc, t1, t2, eris)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/cc/uccsd_t_lambda.py", line 57, in make_intermediates
+    d3 = lib.direct_sum('ia+jb+kc->ijkabc', eia, eia, eia)
+  File "/central/groups/changroup/members/hczhai/program/pyscf/pyscf/lib/numpy_helper.py", line 1044, in direct_sum
+    out = out.reshape(out.shape+(1,)*op.ndim) + op
+MemoryError: Unable to allocate 11.2 TiB for an array with shape (50, 231, 50, 231, 50, 231) and data type float64
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[465,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+ERROR TERMINATION

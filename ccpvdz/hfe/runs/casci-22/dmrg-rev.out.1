@@ -1,0 +1,54 @@
+MPI INIT: rank 0 of 6
+MPI INIT: rank 1 of 6
+MPI INIT: rank 5 of 6
+MPI INIT: rank 4 of 6
+MPI INIT: rank 2 of 6
+MPI INIT: rank 3 of 6
+
+********************************** INPUT START **********************************
+nelec                                                           48
+spin                                                             0
+orbitals                                                   FCIDUMP
+maxiter                                                         32
+sweep_tol                                               0.0000e+00
+outputlevel                                                      2
+hf_occ                                                    integral
+prefix                    /central/scratchio/hczhai/hife/hfe-def2-SVP-uks.6/runs/casci-22
+num_thrds                                                       24
+fullrestart                                                       
+twodot                                                            
+extrapolation                                                     
+mem                                                           82 g
+schedule                  Sweep   0-   3 : Mmps =  5000 Noise =         0 DavTol =     1e-07
+                          Sweep   4-   7 : Mmps =  4500 Noise =         0 DavTol =     1e-07
+                          Sweep   8-  11 : Mmps =  4000 Noise =         0 DavTol =     1e-07
+                          Sweep  12-  15 : Mmps =  3500 Noise =         0 DavTol =     1e-07
+                          Sweep  16-  19 : Mmps =  3000 Noise =         0 DavTol =     1e-07
+                          Sweep  20-  23 : Mmps =  2500 Noise =         0 DavTol =     1e-07
+                          Sweep  24-  27 : Mmps =  2000 Noise =         0 DavTol =     1e-07
+                          Sweep  28-  31 : Mmps =  1500 Noise =         0 DavTol =     1e-07
+irrep                                                            1
+********************************** INPUT END   **********************************
+
+SPIN ADAPTED - REAL DOMAIN - DOUBLE PREC
+qc mpo type =  QCTypes.Conventional
+ UseMainStack = 0 MinDiskUsage = 1 MinMemUsage = 0 IBuf = 0 OBuf = 0
+ FPCompression: prec = 1.00e-16 chunk = 1024
+ IMain = 0 B / 5.35 GB DMain = 0 B / 27.5 GB ISeco = 0 B / 2.29 GB DSeco = 0 B / 41.2 GB
+ OpenMP = 1 TBB = 0 MKL = GNU 2021.0.4 SeqType = Tasked MKLIntLen = 4
+ THREADING = 2 layers : Global | Operator BatchedGEMM 
+ NUMBER : Global = 24 Operator = 24 Quanta = 0 MKL = 1
+ COMPLEX = 1 SINGLE-PREC = 1 KSYMM = 0
+using fiedler reorder =  [54 43 50  2 49 53 52 47  5  1 46 12  8  9 37 31 24 16 19 28  3 21 25 30
+ 38 18 36 32 14 29 17 20 15 13 23 27 22 26 33 35 34 51 11 41 10 45  6  0
+ 42  7 40 39  4 48 44]
+read integral finished 0.8309333929792047
+integral sym error =            0
+MinMPOMemUsage =  False
+full restart
+MPI FINALIZE: rank 0 of 6
+MPI FINALIZE: rank 1 of 6
+MPI FINALIZE: rank 3 of 6
+MPI FINALIZE: rank 2 of 6
+MPI FINALIZE: rank 4 of 6
+MPI FINALIZE: rank 5 of 6

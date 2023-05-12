@@ -1,0 +1,1218 @@
+START  TIME =  02/11/2023 18:26:52
+#INFO: **** input file is /central/groups/changroup/members/hczhai/work/hife/feh-dimers-new/x2c-tz/hc/runs/mf-2/hife.py ****
+
+import time
+from datetime import datetime
+txst = time.perf_counter()
+print("START  TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+
+from pyscf import gto, scf
+mol = gto.Mole()
+mol.verbose = 4
+mol.atom = '''
+C    -1.0654597   -1.6165964   -3.6938910 
+H    -1.4383635   -0.5689779   -3.6741341 
+H    -1.7807115   -2.2443224   -3.1121367 
+H    -1.0773907   -1.9924332   -4.7494055 
+S     0.6243829   -1.6537410   -2.9602556 
+C     0.4156598    1.7876147   -4.0556776 
+H     1.3488982    2.3835358   -3.9218054 
+H    -0.1330190    2.2251636   -4.9293434 
+H     0.7135941    0.7422418   -4.2919146 
+S    -0.6070437    1.7896179   -2.5222937 
+C    -0.8232495    2.8573739    1.4681234 
+H    -0.0877151    2.8066116    0.6407689 
+H    -0.9439809    3.9246222    1.7897946 
+H    -1.7975667    2.5226444    1.0498580 
+S    -0.2735647    1.7807874    2.8579066 
+C    -1.0643237   -1.5242334    4.0337374 
+H    -1.0304628   -1.8368555    5.1103107 
+H    -1.8734238   -2.1231958    3.5494502 
+H    -1.3541746   -0.4526895    3.9781077 
+S     0.5588840   -1.7538671    3.1864833 
+Fe    0.4943827    0.0464709   -1.2052434 
+Fe    0.5810012   -0.0475200    1.4684925 
+S     2.2702018    0.5987571    0.0818694 
+C    -0.9804810   -0.8504359    0.1595883 
+H    -0.9278775   -1.9603768    0.2106940 
+H    -1.5301625   -0.5677658   -0.7796813 
+H    -1.6330329   -0.4914309    0.9945982 
+
+'''
+mol.basis = "ccpvtz-dk"
+mol.spin = 0
+mol.charge = -3
+mol.max_memory = 82000
+
+mol.build()
+print("NAO   = ", mol.nao)
+print("NELEC = ", mol.nelec)
+dm = None
+
+from pyblock2._pyscf import scf as b2scf
+dm = b2scf.get_metal_init_guess(mol, orb="Fe 3d", atom_idxs=[20, 21], coupling="+-", atomic_spin=4)
+
+
+print("PG = ", mol.groupname)
+
+mf = scf.sfx2c(scf.UKS(mol))
+mf.chkfile = 'mf.chk'
+mf.conv_tol = 1E-12
+mf.xc = 'tpss'
+mf.max_cycle = 1000
+mf = mf.newton()
+
+mf.kernel(dm0=dm)
+dm = mf.make_rdm1()
+
+import numpy as np
+np.save("mf_occ.npy", mf.mo_occ)
+np.save("mo_coeff.npy", mf.mo_coeff)
+np.save("mo_energy.npy", mf.mo_energy)
+np.save("e_tot.npy", mf.e_tot)
+np.save("mf_dmao.npy", dm)
+
+from pyblock2._pyscf import scf as b2scf
+b2scf.mulliken_pop_dmao(mol, dm)
+
+
+txed = time.perf_counter()
+print("FINISH TIME = ", datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+print("TOTAL TIME  = %20.3f" % (txed - txst))
+#INFO: ******************** input file end ********************
+
+
+System: uname_result(system='Linux', node='hpc-20-13.cm.cluster', release='3.10.0-1160.53.1.el7.x86_64', version='#1 SMP Fri Jan 14 13:59:45 UTC 2022', machine='x86_64', processor='x86_64')  Threads 24
+Python 3.8.5 (default, Sep  4 2020, 07:30:14) 
+[GCC 7.3.0]
+numpy 1.19.4  scipy 1.4.1
+Date: Sat Feb 11 18:26:53 2023
+PySCF version 2.1.1
+PySCF path  /central/groups/changroup/members/hczhai/program/pyscf
+GIT ORIG_HEAD 9d5b5bd309d1cc55fbd1a0ec76e26b5b0c7f76af
+GIT HEAD (branch ccsd_t_cas) bce349cd58351d56507ebb3005a119fa94c75308
+
+[ENV] PYSCF_MPIPREFIX orterun --map-by ppr:1:node:pe=24
+[ENV] PYSCF_TMPDIR /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 27
+[INPUT] num. electrons = 180
+[INPUT] charge = -3
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT] Symbol           X                Y                Z      unit          X                Y                Z       unit  Magmom
+[INPUT]  1 C     -1.065459700000  -1.616596400000  -3.693891000000 AA   -2.013427029761  -3.054924449958  -6.980442323996 Bohr   0.0
+[INPUT]  2 H     -1.438363500000  -0.568977900000  -3.674134100000 AA   -2.718113082571  -1.075212401930  -6.943107193925 Bohr   0.0
+[INPUT]  3 H     -1.780711500000  -2.244322400000  -3.112136700000 AA   -3.365057041863  -4.241154671227  -5.881086025208 Bohr   0.0
+[INPUT]  4 H     -1.077390700000  -1.992433200000  -4.749405500000 AA   -2.035973352153  -3.765153069491  -8.975075649503 Bohr   0.0
+[INPUT]  5 S      0.624382900000  -1.653741000000  -2.960255600000 AA    1.179912677862  -3.125117570964  -5.594072342710 Bohr   0.0
+[INPUT]  6 C      0.415659800000   1.787614700000  -4.055677600000 AA    0.785483182991   3.378102199247  -7.664119913533 Bohr   0.0
+[INPUT]  7 H      1.348898200000   2.383535800000  -3.921805400000 AA    2.549048167919   4.504229870096  -7.411138119840 Bohr   0.0
+[INPUT]  8 H     -0.133019000000   2.225163600000  -4.929343400000 AA   -0.251369479364   4.204949786351  -9.315108999932 Bohr   0.0
+[INPUT]  9 H      0.713594100000   0.742241800000  -4.291914600000 AA    1.348497413105   1.402633720204  -8.110543144022 Bohr   0.0
+[INPUT] 10 S     -0.607043700000   1.789617900000  -2.522293700000 AA   -1.147146338643   3.381887698619  -4.766444298716 Bohr   0.0
+[INPUT] 11 C     -0.823249500000   2.857373900000   1.468123400000 AA   -1.555716087185   5.399654106480   2.774351143065 Bohr   0.0
+[INPUT] 12 H     -0.087715100000   2.806611600000   0.640768900000 AA   -0.165757515989   5.303727262027   1.210877730139 Bohr   0.0
+[INPUT] 13 H     -0.943980900000   3.924622200000   1.789794600000 AA   -1.783865367820   7.416461100388   3.382221613225 Bohr   0.0
+[INPUT] 14 H     -1.797566700000   2.522644400000   1.049858000000 AA   -3.396908753638   4.767107025668   1.983944089684 Bohr   0.0
+[INPUT] 15 S     -0.273564700000   1.780787400000   2.857906600000 AA   -0.516962360349   3.365200472076   5.400660763587 Bohr   0.0
+[INPUT] 16 C     -1.064323700000  -1.524233400000   4.033737400000 AA   -2.011280300884  -2.880383675915   7.622658944415 Bohr   0.0
+[INPUT] 17 H     -1.030462800000  -1.836855500000   5.110310700000 AA   -1.947292473552  -3.471153825401   9.657087634434 Bohr   0.0
+[INPUT] 18 H     -1.873423800000  -2.123195800000   3.549450200000 AA   -3.540257897242  -4.012258570827   6.707488770783 Bohr   0.0
+[INPUT] 19 H     -1.354174600000  -0.452689500000   3.978107700000 AA   -2.559019118842  -0.855459174466   7.517534047023 Bohr   0.0
+[INPUT] 20 S      0.558884000000  -1.753867100000   3.186483300000 AA    1.056137695401  -3.314328477885   6.021580737500 Bohr   0.0
+[INPUT] 21 Fe     0.494382700000   0.046470900000  -1.205243400000 AA    0.934247903723   0.087817273762  -2.277579939440 Bohr   0.0
+[INPUT] 22 Fe     0.581001200000  -0.047520000000   1.468492500000 AA    1.097933146044  -0.089799785439   2.775048640978 Bohr   0.0
+[INPUT] 23 S      2.270201800000   0.598757100000   0.081869400000 AA    4.290059649495   1.131486934139   0.154710743982 Bohr   0.0
+[INPUT] 24 C     -0.980481000000  -0.850435900000   0.159588300000 AA   -1.852840560340  -1.607090937498   0.301578179685 Bohr   0.0
+[INPUT] 25 H     -0.927877500000  -1.960376800000   0.210694000000 AA   -1.753434352146  -3.704575252951   0.398153956089 Bohr   0.0
+[INPUT] 26 H     -1.530162500000  -0.567765800000  -0.779681300000 AA   -2.891588051080  -1.072921864895  -1.473384121445 Bohr   0.0
+[INPUT] 27 H     -1.633032900000  -0.491430900000   0.994598200000 AA   -3.085984933404  -0.928669810149   1.879518201985 Bohr   0.0
+
+nuclear repulsion = 2132.47477471161
+number of shells = 198
+number of NR pGTOs = 1007
+number of NR cGTOs = 666
+basis = ccpvtz-dk
+ecp = {}
+CPU time:         0.33
+NAO   =  666
+NELEC =  (90, 90)
+Initial guess from superposition of atomic densities.
+Spherically averaged atomic HF for {'S', 'H', 'Fe', 'C'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmpcrc4enc0
+max_memory 82000 MB (current use 66 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2835969259544
+cycle= 1 E= -37.3293065162715  delta_E= -0.0457  |g|=    0  |ddm|= 0.39
+cycle= 2 E= -37.3350770517406  delta_E= -0.00577  |g|=    0  |ddm|= 0.154
+cycle= 3 E= -37.336032239862  delta_E= -0.000955  |g|=    0  |ddm|= 0.0386
+cycle= 4 E= -37.3360397609842  delta_E= -7.52e-06  |g|=    0  |ddm|= 0.00694
+cycle= 5 E= -37.3360397714045  delta_E= -1.04e-08  |g|=    0  |ddm|= 0.000281
+cycle= 6 E= -37.3360397714226  delta_E= -1.81e-11  |g|=    0  |ddm|= 6.83e-06
+Extra cycle  E= -37.3360397714226  delta_E= -1.42e-14  |g|=    0  |ddm|= 3.41e-07
+Atomic HF for atom  C  converged. SCF energy = -37.3360397714226
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.499809808112553
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmp7hy06u8a
+max_memory 82000 MB (current use 81 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.905197552412
+cycle= 1 E= -396.911956309552  delta_E= -0.00676  |g|=    0  |ddm|= 0.152
+cycle= 2 E= -396.912336893088  delta_E= -0.000381  |g|=    0  |ddm|= 0.043
+cycle= 3 E= -396.912368071062  delta_E= -3.12e-05  |g|=    0  |ddm|= 0.00874
+cycle= 4 E= -396.912368571473  delta_E= -5e-07  |g|=    0  |ddm|= 0.00219
+cycle= 5 E= -396.912368571599  delta_E= -1.27e-10  |g|=    0  |ddm|= 5.09e-05
+Extra cycle  E= -396.912368571599  delta_E= -5.68e-14  |g|=    0  |ddm|= 2.41e-06
+Atomic HF for atom  S  converged. SCF energy = -396.912368571599
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmph8zb_mq2
+max_memory 82000 MB (current use 87 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.92214982328
+cycle= 1 E= -1251.9798611113  delta_E= 4.94  |g|=    0  |ddm|= 4.39
+cycle= 2 E= -1251.18396006309  delta_E= 0.796  |g|=    0  |ddm|=   12
+cycle= 3 E= -1256.82322785573  delta_E= -5.64  |g|=    0  |ddm|= 10.8
+cycle= 4 E= -1257.36002034987  delta_E= -0.537  |g|=    0  |ddm|= 0.923
+cycle= 5 E= -1257.38824962735  delta_E= -0.0282  |g|=    0  |ddm|= 0.171
+cycle= 6 E= -1257.38991413299  delta_E= -0.00166  |g|=    0  |ddm|= 0.0841
+cycle= 7 E= -1257.38991669824  delta_E= -2.57e-06  |g|=    0  |ddm|= 0.00863
+cycle= 8 E= -1257.38991699292  delta_E= -2.95e-07  |g|=    0  |ddm|= 0.000473
+cycle= 9 E= -1257.38991700254  delta_E= -9.61e-09  |g|=    0  |ddm|= 0.000184
+cycle= 10 E= -1257.38991700257  delta_E= -3.46e-11  |g|=    0  |ddm|= 1.41e-05
+Extra cycle  E= -1257.38991700257  delta_E= 3.18e-12  |g|=    0  |ddm|= 9.71e-07
+Atomic HF for atom  Fe  converged. SCF energy = -1257.38991700257
+NELEC BEFORE = 88.5 88.5
+ORB = 20 Fe 3d.* IDX = [449 450 451 452 453]
+ORB = 21 Fe 3d.* IDX = [517 518 519 520 521]
+Spherically averaged atomic HF for {'S', 'H', 'Fe', 'C'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmp6v4bvfr1
+max_memory 82000 MB (current use 107 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2835969259545
+cycle= 1 E= -37.3293065162716  delta_E= -0.0457  |g|=    0  |ddm|= 0.39
+cycle= 2 E= -37.3350770517406  delta_E= -0.00577  |g|=    0  |ddm|= 0.154
+cycle= 3 E= -37.336032239862  delta_E= -0.000955  |g|=    0  |ddm|= 0.0386
+cycle= 4 E= -37.3360397609842  delta_E= -7.52e-06  |g|=    0  |ddm|= 0.00694
+cycle= 5 E= -37.3360397714046  delta_E= -1.04e-08  |g|=    0  |ddm|= 0.000281
+cycle= 6 E= -37.3360397714225  delta_E= -1.8e-11  |g|=    0  |ddm|= 6.83e-06
+Extra cycle  E= -37.3360397714226  delta_E= -3.55e-14  |g|=    0  |ddm|= 3.41e-07
+Atomic HF for atom  C  converged. SCF energy = -37.3360397714226
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.499809808112553
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmptp8x0f4t
+max_memory 82000 MB (current use 110 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.905197552412
+cycle= 1 E= -396.911956309551  delta_E= -0.00676  |g|=    0  |ddm|= 0.152
+cycle= 2 E= -396.912336893088  delta_E= -0.000381  |g|=    0  |ddm|= 0.043
+cycle= 3 E= -396.912368071062  delta_E= -3.12e-05  |g|=    0  |ddm|= 0.00874
+cycle= 4 E= -396.912368571472  delta_E= -5e-07  |g|=    0  |ddm|= 0.00219
+cycle= 5 E= -396.912368571599  delta_E= -1.27e-10  |g|=    0  |ddm|= 5.09e-05
+Extra cycle  E= -396.912368571599  delta_E= -3.41e-13  |g|=    0  |ddm|= 2.41e-06
+Atomic HF for atom  S  converged. SCF energy = -396.912368571599
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmpx8hzagcv
+max_memory 82000 MB (current use 116 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.92214982328
+cycle= 1 E= -1251.9798611113  delta_E= 4.94  |g|=    0  |ddm|= 4.39
+cycle= 2 E= -1251.1839600631  delta_E= 0.796  |g|=    0  |ddm|=   12
+cycle= 3 E= -1256.82322785573  delta_E= -5.64  |g|=    0  |ddm|= 10.8
+cycle= 4 E= -1257.36002034987  delta_E= -0.537  |g|=    0  |ddm|= 0.923
+cycle= 5 E= -1257.38824962735  delta_E= -0.0282  |g|=    0  |ddm|= 0.171
+cycle= 6 E= -1257.38991413299  delta_E= -0.00166  |g|=    0  |ddm|= 0.0841
+cycle= 7 E= -1257.38991669824  delta_E= -2.57e-06  |g|=    0  |ddm|= 0.00863
+cycle= 8 E= -1257.38991699292  delta_E= -2.95e-07  |g|=    0  |ddm|= 0.000473
+cycle= 9 E= -1257.38991700254  delta_E= -9.61e-09  |g|=    0  |ddm|= 0.000184
+cycle= 10 E= -1257.38991700257  delta_E= -3.46e-11  |g|=    0  |ddm|= 1.41e-05
+Extra cycle  E= -1257.38991700257  delta_E= 6.82e-13  |g|=    0  |ddm|= 9.71e-07
+Atomic HF for atom  Fe  converged. SCF energy = -1257.38991700257
+NELEC AFTER  = 88.5 88.5
+PG =  C1
+
+
+
+
+******** <class 'pyscf.x2c.sfx2c1e.sfx2c1e.<locals>.SFX2C1E_SCF'> ********
+method = SFX2C1E_SCF-UKS
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-12
+SCF conv_tol_grad = None
+SCF max_cycles = 1000
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = mf.chk
+max_memory 82000 MB (current use 213 MB)
+number electrons alpha = 90  beta = 90
+XC library pyscf.dft.libxc version 6.0.0
+    S. Lehtola, C. Steigemann, M. J.T. Oliveira, and M. A.L. Marques.,  SoftwareX 7, 1–5 (2018)
+XC functionals = tpss
+    J. Tao, J. P. Perdew, V. N. Staroverov, and G. E. Scuseria.,  Phys. Rev. Lett. 91, 146401 (2003)
+    J. P. Perdew, J. Tao, V. N. Staroverov, and G. E. Scuseria.,  J. Chem. Phys. 120, 6898 (2004)
+    J. Tao, J. P. Perdew, V. N. Staroverov, and G. E. Scuseria.,  Phys. Rev. Lett. 91, 146401 (2003)
+    J. P. Perdew, J. Tao, V. N. Staroverov, and G. E. Scuseria.,  J. Chem. Phys. 120, 6898 (2004)
+radial grids: 
+    Treutler-Ahlrichs [JCP 102, 346 (1995); DOI:10.1063/1.469408] (M4) radial grids
+    
+becke partition: Becke, JCP 88, 2547 (1988); DOI:10.1063/1.454033
+pruning grids: <function nwchem_prune at 0x7fd2b1598b80>
+grids dens level: 3
+symmetrized grids: False
+atomic radii adjust function: <function treutler_atomic_radii_adjust at 0x7fd2b1598af0>
+small_rho_cutoff = 1e-07
+
+
+******** <class 'pyscf.x2c.sfx2c1e.SpinFreeX2CHelper'> ********
+approx = 1e
+xuncontract = 1
+******** <class 'pyscf.x2c.sfx2c1e.sfx2c1e.<locals>.SFX2C1E_SCF'> Newton solver flags ********
+SCF tol = 1e-12
+conv_tol_grad = None
+max. SCF cycles = 1000
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = mf.chk
+max_cycle_inner = 12
+max_stepsize = 0.05
+ah_start_tol = 1e+09
+ah_level_shift = 0
+ah_conv_tol = 1e-12
+ah_lindep = 1e-14
+ah_start_cycle = 1
+ah_max_cycle = 40
+ah_grad_trust_region = 2.5
+kf_interval = 4
+kf_trust_region = 5
+canonicalization = True
+max_memory 82000 MB (current use 213 MB)
+Set conv_tol_grad to 1e-06
+tot grids = 354352
+  alpha nocc = 90  HOMO = -0.523555933006596  LUMO = -0.512917012691506
+  beta  nocc = 90  HOMO = -0.534298144123752  LUMO = -0.532291596399769
+
+WARN: system HOMO -0.534298144123752 >= system LUMO -0.532291596399769
+
+Initial guess E= -4628.64805751473  |g|= 9.63917
+macro= 0  E= -4681.58000055448  delta_E= -52.9319  |g|= 6.77124  3 KF 15 JK
+macro= 1  E= -4711.98738755273  delta_E= -30.4074  |g|= 3.86802  3 KF 15 JK
+macro= 2  E= -4729.07539922443  delta_E= -17.088  |g|= 2.13304  3 KF 15 JK
+macro= 3  E= -4738.7974973347  delta_E= -9.7221  |g|= 1.03558  3 KF 15 JK
+macro= 4  E= -4741.46018242427  delta_E= -2.66269  |g|= 0.31758  4 KF 18 JK
+macro= 5  E= -4741.695606198  delta_E= -0.235424  |g|= 0.191844  3 KF 12 JK
+macro= 6  E= -4741.69650672924  delta_E= -0.000900531  |g|= 0.102981  3 KF 12 JK
+macro= 7  E= -4741.75236496455  delta_E= -0.0558582  |g|= 0.441121  3 KF 16 JK
+macro= 8  E= -4741.60013887238  delta_E= 0.152226  |g|= 0.266279  2 KF 7 JK
+macro= 9  E= -4741.73720049602  delta_E= -0.137062  |g|= 0.12943  3 KF 13 JK
+macro= 10  E= -4741.81525655484  delta_E= -0.0780561  |g|= 0.15419  4 KF 17 JK
+macro= 11  E= -4741.82317327228  delta_E= -0.00791672  |g|= 0.0970278  4 KF 19 JK
+macro= 12  E= -4741.82301341464  delta_E= 0.000159858  |g|= 0.0435999  4 KF 22 JK
+macro= 13  E= -4741.77340838845  delta_E= 0.049605  |g|= 0.223496  2 KF 7 JK
+macro= 14  E= -4741.65447292182  delta_E= 0.118935  |g|= 0.059368  3 KF 20 JK
+macro= 15  E= -4741.80532860316  delta_E= -0.150856  |g|= 0.135685  4 KF 19 JK
+macro= 16  E= -4741.83864735082  delta_E= -0.0333187  |g|= 0.13005  3 KF 14 JK
+macro= 17  E= -4741.84228556124  delta_E= -0.00363821  |g|= 0.113164  2 KF 8 JK
+macro= 18  E= -4741.85000558113  delta_E= -0.00772002  |g|= 0.0361716  3 KF 14 JK
+macro= 19  E= -4741.86158499339  delta_E= -0.0115794  |g|= 0.0207856  3 KF 22 JK
+macro= 20  E= -4741.86181328007  delta_E= -0.000228287  |g|= 0.00051264  4 KF 31 JK
+macro= 21  E= -4741.86181342343  delta_E= -1.43355e-07  |g|= 7.83117e-06  3 KF 38 JK
+macro= 22  E= -4741.86181342343  delta_E= -9.09495e-12  |g|= 9.61392e-07  2 KF 41 JK
+macro= 23  E= -4741.86181342343  delta_E= 0  |g|= 9.61393e-07  1 KF 2 JK
+Canonicalize SCF orbitals
+macro X = 24  E=-4741.86181342343  |g|= 9.61393e-07  total 73 KF 437 JK
+converged SCF energy = -4741.86181342343  <S^2> = 3.6176797  2S+1 = 3.9332835
+Spherically averaged atomic HF for {'S', 'H', 'Fe', 'C'}
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmpzukg7mqm
+max_memory 82000 MB (current use 827 MB)
+atom = C
+Set gradient conv threshold to 3.16228e-05
+init E= -37.2835969259545
+cycle= 1 E= -37.3293065162716  delta_E= -0.0457  |g|=    0  |ddm|= 0.39
+cycle= 2 E= -37.3350770517406  delta_E= -0.00577  |g|=    0  |ddm|= 0.154
+cycle= 3 E= -37.336032239862  delta_E= -0.000955  |g|=    0  |ddm|= 0.0386
+cycle= 4 E= -37.3360397609842  delta_E= -7.52e-06  |g|=    0  |ddm|= 0.00694
+cycle= 5 E= -37.3360397714045  delta_E= -1.04e-08  |g|=    0  |ddm|= 0.000281
+cycle= 6 E= -37.3360397714225  delta_E= -1.8e-11  |g|=    0  |ddm|= 6.83e-06
+Extra cycle  E= -37.3360397714226  delta_E= -6.39e-14  |g|=    0  |ddm|= 3.41e-07
+Atomic HF for atom  C  converged. SCF energy = -37.3360397714226
+
+
+******** 1 electron system ********
+Atomic HF for atom  H  converged. SCF energy = -0.499809808112553
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmps84qygiu
+max_memory 82000 MB (current use 827 MB)
+atom = S
+Set gradient conv threshold to 3.16228e-05
+init E= -396.905197552412
+cycle= 1 E= -396.911956309551  delta_E= -0.00676  |g|=    0  |ddm|= 0.152
+cycle= 2 E= -396.912336893089  delta_E= -0.000381  |g|=    0  |ddm|= 0.043
+cycle= 3 E= -396.912368071062  delta_E= -3.12e-05  |g|=    0  |ddm|= 0.00874
+cycle= 4 E= -396.912368571472  delta_E= -5e-07  |g|=    0  |ddm|= 0.00219
+cycle= 5 E= -396.912368571599  delta_E= -1.27e-10  |g|=    0  |ddm|= 5.09e-05
+Extra cycle  E= -396.912368571599  delta_E= -1.14e-13  |g|=    0  |ddm|= 2.41e-06
+Atomic HF for atom  S  converged. SCF energy = -396.912368571599
+
+
+******** <class 'pyscf.scf.atom_hf.AtomSphAverageRHF'> ********
+method = AtomSphAverageRHF-RHF
+initial guess = minao
+damping factor = 0
+level_shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+diis_start_cycle = 1
+diis_space = 8
+SCF conv_tol = 1e-09
+SCF conv_tol_grad = None
+SCF max_cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /central/scratch/hczhai/hife/hc-def2-SVP-uks.14/runs/mf-2/tmpax30pb_s
+max_memory 82000 MB (current use 827 MB)
+atom = Fe
+Set gradient conv threshold to 3.16228e-05
+init E= -1256.92214982328
+cycle= 1 E= -1251.9798611113  delta_E= 4.94  |g|=    0  |ddm|= 4.39
+cycle= 2 E= -1251.18396006309  delta_E= 0.796  |g|=    0  |ddm|=   12
+cycle= 3 E= -1256.82322785573  delta_E= -5.64  |g|=    0  |ddm|= 10.8
+cycle= 4 E= -1257.36002034987  delta_E= -0.537  |g|=    0  |ddm|= 0.923
+cycle= 5 E= -1257.38824962735  delta_E= -0.0282  |g|=    0  |ddm|= 0.171
+cycle= 6 E= -1257.38991413299  delta_E= -0.00166  |g|=    0  |ddm|= 0.0841
+cycle= 7 E= -1257.38991669824  delta_E= -2.57e-06  |g|=    0  |ddm|= 0.00863
+cycle= 8 E= -1257.38991699292  delta_E= -2.95e-07  |g|=    0  |ddm|= 0.000473
+cycle= 9 E= -1257.38991700254  delta_E= -9.61e-09  |g|=    0  |ddm|= 0.000184
+cycle= 10 E= -1257.38991700257  delta_E= -3.66e-11  |g|=    0  |ddm|= 1.41e-05
+Extra cycle  E= -1257.38991700257  delta_E= 3.87e-12  |g|=    0  |ddm|= 9.71e-07
+Atomic HF for atom  Fe  converged. SCF energy = -1257.38991700257
+ ** Mulliken pop            alpha | beta         magnetism **
+pop of  0 C 1s            0.95022 | 0.95021        0.00002
+pop of  0 C 2s            0.32711 | 0.32638        0.00073
+pop of  0 C 3s            0.02486 | 0.02455        0.00031
+pop of  0 C 4s            0.00385 | 0.00386       -0.00001
+pop of  0 C 2px           0.42977 | 0.42909        0.00068
+pop of  0 C 2py           0.44983 | 0.44967        0.00016
+pop of  0 C 2pz           0.43854 | 0.43825        0.00029
+pop of  0 C 3px           0.05663 | 0.05775       -0.00112
+pop of  0 C 3py           0.02203 | 0.02254       -0.00051
+pop of  0 C 3pz           0.02430 | 0.02484       -0.00053
+pop of  0 C 4px           0.00211 | 0.00211       -0.00000
+pop of  0 C 4py           0.00092 | 0.00095       -0.00003
+pop of  0 C 4pz           0.00124 | 0.00127       -0.00003
+pop of  0 C 3dxy          0.05842 | 0.06061       -0.00219
+pop of  0 C 3dyz          0.02459 | 0.02476       -0.00017
+pop of  0 C 3dz^2         0.05260 | 0.05413       -0.00153
+pop of  0 C 3dxz          0.04298 | 0.04437       -0.00139
+pop of  0 C 3dx2-y2       0.04124 | 0.04177       -0.00054
+pop of  0 C 4dxy          0.00261 | 0.00271       -0.00010
+pop of  0 C 4dyz          0.00057 | 0.00059       -0.00002
+pop of  0 C 4dz^2         0.00164 | 0.00170       -0.00005
+pop of  0 C 4dxz          0.00266 | 0.00273       -0.00007
+pop of  0 C 4dx2-y2       0.00241 | 0.00245       -0.00004
+pop of  0 C 4f-3          0.00293 | 0.00303       -0.00010
+pop of  0 C 4f-2          0.00349 | 0.00352       -0.00004
+pop of  0 C 4f-1          0.00365 | 0.00366       -0.00001
+pop of  0 C 4f 0          0.00328 | 0.00328       -0.00001
+pop of  0 C 4f 1          0.00216 | 0.00225       -0.00009
+pop of  0 C 4f 2          0.00191 | 0.00194       -0.00003
+pop of  0 C 4f 3          0.00364 | 0.00367       -0.00004
+pop of  1 H 1s            0.32795 | 0.32887       -0.00092
+pop of  1 H 2s            0.09021 | 0.08990        0.00031
+pop of  1 H 3s            0.00615 | 0.00606        0.00009
+pop of  1 H 2px           0.03473 | 0.03467        0.00005
+pop of  1 H 2py           0.05786 | 0.05835       -0.00049
+pop of  1 H 2pz           0.03162 | 0.03154        0.00009
+pop of  1 H 3px           0.00283 | 0.00283       -0.00001
+pop of  1 H 3py           0.00706 | 0.00709       -0.00003
+pop of  1 H 3pz           0.00171 | 0.00170        0.00000
+pop of  1 H 3dxy          0.00659 | 0.00656        0.00003
+pop of  1 H 3dyz          0.00546 | 0.00545        0.00001
+pop of  1 H 3dz^2         0.00199 | 0.00199       -0.00000
+pop of  1 H 3dxz          0.00062 | 0.00061        0.00000
+pop of  1 H 3dx2-y2       0.00559 | 0.00559        0.00000
+pop of  2 H 1s            0.36124 | 0.36175       -0.00051
+pop of  2 H 2s            0.05524 | 0.05480        0.00044
+pop of  2 H 3s            0.00334 | 0.00324        0.00010
+pop of  2 H 2px           0.04147 | 0.04138        0.00009
+pop of  2 H 2py           0.03721 | 0.03719        0.00002
+pop of  2 H 2pz           0.03579 | 0.03577        0.00001
+pop of  2 H 3px           0.00461 | 0.00463       -0.00002
+pop of  2 H 3py           0.00360 | 0.00360        0.00000
+pop of  2 H 3pz           0.00322 | 0.00322        0.00000
+pop of  2 H 3dxy          0.00422 | 0.00421        0.00001
+pop of  2 H 3dyz          0.00308 | 0.00307        0.00000
+pop of  2 H 3dz^2         0.00380 | 0.00379        0.00001
+pop of  2 H 3dxz          0.00396 | 0.00395        0.00000
+pop of  2 H 3dx2-y2       0.00461 | 0.00461        0.00000
+pop of  3 H 1s            0.37592 | 0.37605       -0.00013
+pop of  3 H 2s            0.04676 | 0.04698       -0.00022
+pop of  3 H 3s            0.00279 | 0.00276        0.00003
+pop of  3 H 2px           0.03450 | 0.03462       -0.00013
+pop of  3 H 2py           0.03578 | 0.03565        0.00013
+pop of  3 H 2pz           0.04488 | 0.04443        0.00045
+pop of  3 H 3px           0.00195 | 0.00196       -0.00001
+pop of  3 H 3py           0.00238 | 0.00238        0.00000
+pop of  3 H 3pz           0.00704 | 0.00704       -0.00000
+pop of  3 H 3dxy          0.00059 | 0.00059       -0.00000
+pop of  3 H 3dyz          0.00576 | 0.00575        0.00000
+pop of  3 H 3dz^2         0.00707 | 0.00706        0.00000
+pop of  3 H 3dxz          0.00517 | 0.00516        0.00001
+pop of  3 H 3dx2-y2       0.00077 | 0.00078       -0.00000
+pop of  4 S 1s            0.99937 | 0.99937       -0.00000
+pop of  4 S 2s            0.96398 | 0.96399       -0.00002
+pop of  4 S 3s            0.58769 | 0.58849       -0.00080
+pop of  4 S 4s            0.02803 | 0.02960       -0.00157
+pop of  4 S 5s            0.00384 | 0.00381        0.00003
+pop of  4 S 2px           0.99633 | 0.99633        0.00000
+pop of  4 S 2py           0.99864 | 0.99864       -0.00000
+pop of  4 S 2pz           0.99793 | 0.99793       -0.00001
+pop of  4 S 3px           0.54049 | 0.54135       -0.00087
+pop of  4 S 3py           0.72057 | 0.74045       -0.01988
+pop of  4 S 3pz           0.65632 | 0.68382       -0.02749
+pop of  4 S 4px           0.04105 | 0.04290       -0.00185
+pop of  4 S 4py           0.02460 | 0.02520       -0.00060
+pop of  4 S 4pz           0.02876 | 0.02979       -0.00102
+pop of  4 S 5px           0.00427 | 0.00423        0.00004
+pop of  4 S 5py           0.00210 | 0.00266       -0.00057
+pop of  4 S 5pz           0.00229 | 0.00285       -0.00056
+pop of  4 S 3dxy          0.02019 | 0.02223       -0.00204
+pop of  4 S 3dyz          0.00891 | 0.01450       -0.00559
+pop of  4 S 3dz^2         0.01067 | 0.01659       -0.00592
+pop of  4 S 3dxz          0.02942 | 0.03036       -0.00094
+pop of  4 S 3dx2-y2       0.02083 | 0.02409       -0.00327
+pop of  4 S 4dxy          0.00359 | 0.00401       -0.00041
+pop of  4 S 4dyz          0.00255 | 0.00306       -0.00051
+pop of  4 S 4dz^2         0.00188 | 0.00282       -0.00094
+pop of  4 S 4dxz          0.00403 | 0.00438       -0.00035
+pop of  4 S 4dx2-y2       0.00340 | 0.00395       -0.00055
+pop of  4 S 4f-3          0.00254 | 0.00264       -0.00010
+pop of  4 S 4f-2          0.00157 | 0.00179       -0.00022
+pop of  4 S 4f-1          0.00052 | 0.00104       -0.00052
+pop of  4 S 4f 0          0.00096 | 0.00138       -0.00041
+pop of  4 S 4f 1          0.00277 | 0.00280       -0.00003
+pop of  4 S 4f 2          0.00279 | 0.00314       -0.00035
+pop of  4 S 4f 3          0.00221 | 0.00228       -0.00007
+pop of  5 C 1s            0.95026 | 0.95023        0.00002
+pop of  5 C 2s            0.32725 | 0.32650        0.00075
+pop of  5 C 3s            0.02531 | 0.02469        0.00062
+pop of  5 C 4s            0.00381 | 0.00386       -0.00005
+pop of  5 C 2px           0.44749 | 0.44677        0.00073
+pop of  5 C 2py           0.44821 | 0.44796        0.00025
+pop of  5 C 2pz           0.42301 | 0.42186        0.00115
+pop of  5 C 3px           0.03224 | 0.03256       -0.00032
+pop of  5 C 3py           0.02226 | 0.02312       -0.00085
+pop of  5 C 3pz           0.04836 | 0.04968       -0.00132
+pop of  5 C 4px           0.00126 | 0.00130       -0.00003
+pop of  5 C 4py           0.00095 | 0.00102       -0.00007
+pop of  5 C 4pz           0.00190 | 0.00200       -0.00010
+pop of  5 C 3dxy          0.04407 | 0.04540       -0.00133
+pop of  5 C 3dyz          0.04110 | 0.04319       -0.00209
+pop of  5 C 3dz^2         0.05406 | 0.05677       -0.00271
+pop of  5 C 3dxz          0.05006 | 0.05082       -0.00076
+pop of  5 C 3dx2-y2       0.02929 | 0.03035       -0.00106
+pop of  5 C 4dxy          0.00108 | 0.00114       -0.00006
+pop of  5 C 4dyz          0.00211 | 0.00221       -0.00011
+pop of  5 C 4dz^2         0.00281 | 0.00293       -0.00012
+pop of  5 C 4dxz          0.00282 | 0.00285       -0.00003
+pop of  5 C 4dx2-y2       0.00103 | 0.00109       -0.00005
+pop of  5 C 4f-3          0.00401 | 0.00404       -0.00003
+pop of  5 C 4f-2          0.00298 | 0.00306       -0.00008
+pop of  5 C 4f-1          0.00344 | 0.00351       -0.00007
+pop of  5 C 4f 0          0.00241 | 0.00253       -0.00011
+pop of  5 C 4f 1          0.00438 | 0.00440       -0.00002
+pop of  5 C 4f 2          0.00205 | 0.00209       -0.00005
+pop of  5 C 4f 3          0.00169 | 0.00171       -0.00003
+pop of  6 H 1s            0.36043 | 0.36126       -0.00083
+pop of  6 H 2s            0.05417 | 0.05410        0.00007
+pop of  6 H 3s            0.00315 | 0.00313        0.00002
+pop of  6 H 2px           0.04419 | 0.04436       -0.00017
+pop of  6 H 2py           0.03664 | 0.03659        0.00005
+pop of  6 H 2pz           0.03317 | 0.03303        0.00014
+pop of  6 H 3px           0.00613 | 0.00616       -0.00003
+pop of  6 H 3py           0.00339 | 0.00339        0.00000
+pop of  6 H 3pz           0.00188 | 0.00187        0.00000
+pop of  6 H 3dxy          0.00566 | 0.00565        0.00001
+pop of  6 H 3dyz          0.00152 | 0.00151        0.00001
+pop of  6 H 3dz^2         0.00214 | 0.00214        0.00001
+pop of  6 H 3dxz          0.00420 | 0.00419        0.00001
+pop of  6 H 3dx2-y2       0.00613 | 0.00612        0.00001
+pop of  7 H 1s            0.37599 | 0.37678       -0.00080
+pop of  7 H 2s            0.04692 | 0.04694       -0.00003
+pop of  7 H 3s            0.00282 | 0.00277        0.00005
+pop of  7 H 2px           0.03524 | 0.03523        0.00001
+pop of  7 H 2py           0.03627 | 0.03610        0.00016
+pop of  7 H 2pz           0.04382 | 0.04377        0.00006
+pop of  7 H 3px           0.00313 | 0.00313       -0.00000
+pop of  7 H 3py           0.00261 | 0.00261        0.00001
+pop of  7 H 3pz           0.00561 | 0.00566       -0.00004
+pop of  7 H 3dxy          0.00223 | 0.00223       -0.00000
+pop of  7 H 3dyz          0.00429 | 0.00427        0.00002
+pop of  7 H 3dz^2         0.00576 | 0.00573        0.00004
+pop of  7 H 3dxz          0.00474 | 0.00475       -0.00001
+pop of  7 H 3dx2-y2       0.00235 | 0.00234        0.00001
+pop of  8 H 1s            0.32903 | 0.33025       -0.00122
+pop of  8 H 2s            0.08946 | 0.08991       -0.00045
+pop of  8 H 3s            0.00600 | 0.00603       -0.00003
+pop of  8 H 2px           0.03443 | 0.03426        0.00017
+pop of  8 H 2py           0.05788 | 0.05816       -0.00028
+pop of  8 H 2pz           0.03220 | 0.03198        0.00021
+pop of  8 H 3px           0.00228 | 0.00227        0.00000
+pop of  8 H 3py           0.00701 | 0.00704       -0.00003
+pop of  8 H 3pz           0.00232 | 0.00232       -0.00000
+pop of  8 H 3dxy          0.00617 | 0.00615        0.00003
+pop of  8 H 3dyz          0.00595 | 0.00591        0.00004
+pop of  8 H 3dz^2         0.00203 | 0.00203       -0.00000
+pop of  8 H 3dxz          0.00084 | 0.00084        0.00000
+pop of  8 H 3dx2-y2       0.00524 | 0.00523        0.00001
+pop of  9 S 1s            0.99938 | 0.99938       -0.00000
+pop of  9 S 2s            0.96432 | 0.96434       -0.00001
+pop of  9 S 3s            0.58703 | 0.58820       -0.00117
+pop of  9 S 4s            0.02805 | 0.03058       -0.00254
+pop of  9 S 5s            0.00378 | 0.00380       -0.00002
+pop of  9 S 2px           0.99808 | 0.99809       -0.00000
+pop of  9 S 2py           0.99860 | 0.99861       -0.00001
+pop of  9 S 2pz           0.99624 | 0.99624       -0.00000
+pop of  9 S 3px           0.67928 | 0.69642       -0.01714
+pop of  9 S 3py           0.71357 | 0.73673       -0.02316
+pop of  9 S 3pz           0.51392 | 0.53095       -0.01703
+pop of  9 S 4px           0.02585 | 0.02826       -0.00240
+pop of  9 S 4py           0.02588 | 0.02641       -0.00053
+pop of  9 S 4pz           0.04748 | 0.04808       -0.00060
+pop of  9 S 5px           0.00231 | 0.00262       -0.00031
+pop of  9 S 5py           0.00228 | 0.00284       -0.00056
+pop of  9 S 5pz           0.00474 | 0.00479       -0.00005
+pop of  9 S 3dxy          0.01126 | 0.01482       -0.00356
+pop of  9 S 3dyz          0.01772 | 0.02172       -0.00399
+pop of  9 S 3dz^2         0.03171 | 0.03045        0.00126
+pop of  9 S 3dxz          0.02527 | 0.02687       -0.00161
+pop of  9 S 3dx2-y2       0.00740 | 0.01356       -0.00616
+pop of  9 S 4dxy          0.00259 | 0.00308       -0.00049
+pop of  9 S 4dyz          0.00349 | 0.00388       -0.00039
+pop of  9 S 4dz^2         0.00426 | 0.00439       -0.00014
+pop of  9 S 4dxz          0.00366 | 0.00406       -0.00040
+pop of  9 S 4dx2-y2       0.00160 | 0.00270       -0.00110
+pop of  9 S 4f-3          0.00050 | 0.00082       -0.00032
+pop of  9 S 4f-2          0.00220 | 0.00262       -0.00042
+pop of  9 S 4f-1          0.00192 | 0.00204       -0.00012
+pop of  9 S 4f 0          0.00276 | 0.00292       -0.00016
+pop of  9 S 4f 1          0.00331 | 0.00338       -0.00007
+pop of  9 S 4f 2          0.00220 | 0.00246       -0.00026
+pop of  9 S 4f 3          0.00056 | 0.00082       -0.00026
+pop of  10 C 1s           0.94977 | 0.94979       -0.00001
+pop of  10 C 2s           0.32164 | 0.32229       -0.00065
+pop of  10 C 3s           0.02489 | 0.02566       -0.00077
+pop of  10 C 4s           0.00382 | 0.00382        0.00000
+pop of  10 C 2px          0.45089 | 0.45129       -0.00040
+pop of  10 C 2py          0.42260 | 0.42311       -0.00051
+pop of  10 C 2pz          0.42983 | 0.43046       -0.00062
+pop of  10 C 3px          0.02447 | 0.02415        0.00032
+pop of  10 C 3py          0.03538 | 0.03478        0.00061
+pop of  10 C 3pz          0.05014 | 0.04929        0.00085
+pop of  10 C 4px          0.00088 | 0.00087        0.00002
+pop of  10 C 4py          0.00165 | 0.00158        0.00007
+pop of  10 C 4pz          0.00182 | 0.00177        0.00005
+pop of  10 C 3dxy         0.01970 | 0.01920        0.00049
+pop of  10 C 3dyz         0.03848 | 0.03810        0.00038
+pop of  10 C 3dz^2        0.04692 | 0.04403        0.00289
+pop of  10 C 3dxz         0.06158 | 0.05870        0.00288
+pop of  10 C 3dx2-y2      0.05736 | 0.05631        0.00105
+pop of  10 C 4dxy         0.00120 | 0.00116        0.00004
+pop of  10 C 4dyz         0.00238 | 0.00235        0.00003
+pop of  10 C 4dz^2        0.00274 | 0.00258        0.00016
+pop of  10 C 4dxz         0.00222 | 0.00209        0.00013
+pop of  10 C 4dx2-y2      0.00150 | 0.00149        0.00001
+pop of  10 C 4f-3         0.00371 | 0.00369        0.00002
+pop of  10 C 4f-2         0.00225 | 0.00217        0.00008
+pop of  10 C 4f-1         0.00277 | 0.00275        0.00002
+pop of  10 C 4f 0         0.00298 | 0.00282        0.00016
+pop of  10 C 4f 1         0.00334 | 0.00329        0.00004
+pop of  10 C 4f 2         0.00476 | 0.00469        0.00007
+pop of  10 C 4f 3         0.00164 | 0.00162        0.00002
+pop of  11 H 1s           0.31984 | 0.31857        0.00127
+pop of  11 H 2s           0.08896 | 0.08889        0.00007
+pop of  11 H 3s           0.00599 | 0.00603       -0.00005
+pop of  11 H 2px          0.04003 | 0.03991        0.00012
+pop of  11 H 2py          0.03048 | 0.03058       -0.00010
+pop of  11 H 2pz          0.04426 | 0.04402        0.00024
+pop of  11 H 3px          0.00423 | 0.00423        0.00000
+pop of  11 H 3py          0.00162 | 0.00162        0.00000
+pop of  11 H 3pz          0.00521 | 0.00519        0.00003
+pop of  11 H 3dxy         0.00255 | 0.00254        0.00001
+pop of  11 H 3dyz         0.00333 | 0.00334       -0.00001
+pop of  11 H 3dz^2        0.00572 | 0.00576       -0.00003
+pop of  11 H 3dxz         0.00602 | 0.00603       -0.00001
+pop of  11 H 3dx2-y2      0.00273 | 0.00272        0.00000
+pop of  12 H 1s           0.37578 | 0.37516        0.00062
+pop of  12 H 2s           0.04624 | 0.04605        0.00019
+pop of  12 H 3s           0.00265 | 0.00270       -0.00004
+pop of  12 H 2px          0.03449 | 0.03459       -0.00010
+pop of  12 H 2py          0.04527 | 0.04572       -0.00045
+pop of  12 H 2pz          0.03432 | 0.03417        0.00015
+pop of  12 H 3px          0.00183 | 0.00183        0.00000
+pop of  12 H 3py          0.00720 | 0.00719        0.00001
+pop of  12 H 3pz          0.00228 | 0.00226        0.00001
+pop of  12 H 3dxy         0.00547 | 0.00549       -0.00002
+pop of  12 H 3dyz         0.00530 | 0.00530        0.00000
+pop of  12 H 3dz^2        0.00241 | 0.00242       -0.00001
+pop of  12 H 3dxz         0.00074 | 0.00074        0.00000
+pop of  12 H 3dx2-y2      0.00529 | 0.00530       -0.00001
+pop of  13 H 1s           0.35087 | 0.35024        0.00063
+pop of  13 H 2s           0.05938 | 0.05923        0.00015
+pop of  13 H 3s           0.00355 | 0.00358       -0.00003
+pop of  13 H 2px          0.04244 | 0.04252       -0.00008
+pop of  13 H 2py          0.03256 | 0.03255        0.00001
+pop of  13 H 2pz          0.03720 | 0.03723       -0.00003
+pop of  13 H 3px          0.00645 | 0.00645        0.00000
+pop of  13 H 3py          0.00208 | 0.00208        0.00000
+pop of  13 H 3pz          0.00276 | 0.00274        0.00002
+pop of  13 H 3dxy         0.00441 | 0.00442       -0.00001
+pop of  13 H 3dyz         0.00149 | 0.00149        0.00000
+pop of  13 H 3dz^2        0.00268 | 0.00268       -0.00000
+pop of  13 H 3dxz         0.00584 | 0.00587       -0.00002
+pop of  13 H 3dx2-y2      0.00541 | 0.00542       -0.00001
+pop of  14 S 1s           0.99938 | 0.99938       -0.00000
+pop of  14 S 2s           0.96454 | 0.96455       -0.00001
+pop of  14 S 3s           0.59045 | 0.58919        0.00125
+pop of  14 S 4s           0.03066 | 0.02748        0.00318
+pop of  14 S 5s           0.00370 | 0.00372       -0.00003
+pop of  14 S 2px          0.99866 | 0.99866        0.00000
+pop of  14 S 2py          0.99716 | 0.99715        0.00001
+pop of  14 S 2pz          0.99716 | 0.99716       -0.00000
+pop of  14 S 3px          0.76685 | 0.73538        0.03146
+pop of  14 S 3py          0.60020 | 0.57694        0.02327
+pop of  14 S 3pz          0.61818 | 0.61008        0.00810
+pop of  14 S 4px          0.02000 | 0.01676        0.00324
+pop of  14 S 4py          0.04503 | 0.04436        0.00067
+pop of  14 S 4pz          0.03651 | 0.03640        0.00011
+pop of  14 S 5px          0.00162 | 0.00148        0.00014
+pop of  14 S 5py          0.00473 | 0.00426        0.00047
+pop of  14 S 5pz          0.00372 | 0.00339        0.00033
+pop of  14 S 3dxy         0.01669 | 0.01307        0.00362
+pop of  14 S 3dyz         0.03179 | 0.02824        0.00355
+pop of  14 S 3dz^2        0.02135 | 0.02081        0.00054
+pop of  14 S 3dxz         0.01989 | 0.01517        0.00472
+pop of  14 S 3dx2-y2      0.01567 | 0.01163        0.00404
+pop of  14 S 4dxy         0.00274 | 0.00222        0.00052
+pop of  14 S 4dyz         0.00497 | 0.00443        0.00054
+pop of  14 S 4dz^2        0.00400 | 0.00377        0.00023
+pop of  14 S 4dxz         0.00361 | 0.00287        0.00074
+pop of  14 S 4dx2-y2      0.00260 | 0.00205        0.00056
+pop of  14 S 4f-3         0.00105 | 0.00065        0.00040
+pop of  14 S 4f-2         0.00296 | 0.00265        0.00031
+pop of  14 S 4f-1         0.00331 | 0.00334       -0.00003
+pop of  14 S 4f 0         0.00220 | 0.00209        0.00011
+pop of  14 S 4f 1         0.00143 | 0.00127        0.00016
+pop of  14 S 4f 2         0.00285 | 0.00254        0.00031
+pop of  14 S 4f 3         0.00107 | 0.00079        0.00028
+pop of  15 C 1s           0.95040 | 0.95043       -0.00003
+pop of  15 C 2s           0.32763 | 0.32857       -0.00093
+pop of  15 C 3s           0.02486 | 0.02595       -0.00109
+pop of  15 C 4s           0.00382 | 0.00382       -0.00001
+pop of  15 C 2px          0.43074 | 0.43233       -0.00159
+pop of  15 C 2py          0.45276 | 0.45304       -0.00028
+pop of  15 C 2pz          0.43646 | 0.43701       -0.00055
+pop of  15 C 3px          0.05352 | 0.05293        0.00059
+pop of  15 C 3py          0.02474 | 0.02423        0.00051
+pop of  15 C 3pz          0.02628 | 0.02571        0.00057
+pop of  15 C 4px          0.00196 | 0.00195        0.00001
+pop of  15 C 4py          0.00096 | 0.00094        0.00002
+pop of  15 C 4pz          0.00126 | 0.00121        0.00005
+pop of  15 C 3dxy         0.05631 | 0.05414        0.00216
+pop of  15 C 3dyz         0.02019 | 0.01994        0.00024
+pop of  15 C 3dz^2        0.06226 | 0.06043        0.00184
+pop of  15 C 3dxz         0.04013 | 0.03944        0.00069
+pop of  15 C 3dx2-y2      0.04591 | 0.04470        0.00121
+pop of  15 C 4dxy         0.00255 | 0.00245        0.00010
+pop of  15 C 4dyz         0.00071 | 0.00067        0.00003
+pop of  15 C 4dz^2        0.00192 | 0.00185        0.00006
+pop of  15 C 4dxz         0.00256 | 0.00254        0.00002
+pop of  15 C 4dx2-y2      0.00236 | 0.00229        0.00007
+pop of  15 C 4f-3         0.00378 | 0.00368        0.00010
+pop of  15 C 4f-2         0.00337 | 0.00331        0.00006
+pop of  15 C 4f-1         0.00327 | 0.00325        0.00002
+pop of  15 C 4f 0         0.00391 | 0.00391       -0.00000
+pop of  15 C 4f 1         0.00209 | 0.00200        0.00009
+pop of  15 C 4f 2         0.00197 | 0.00195        0.00002
+pop of  15 C 4f 3         0.00289 | 0.00285        0.00005
+pop of  16 H 1s           0.37716 | 0.37722       -0.00006
+pop of  16 H 2s           0.04713 | 0.04704        0.00008
+pop of  16 H 3s           0.00274 | 0.00280       -0.00006
+pop of  16 H 2px          0.03399 | 0.03422       -0.00023
+pop of  16 H 2py          0.03534 | 0.03546       -0.00011
+pop of  16 H 2pz          0.04507 | 0.04580       -0.00073
+pop of  16 H 3px          0.00192 | 0.00192       -0.00000
+pop of  16 H 3py          0.00219 | 0.00219       -0.00000
+pop of  16 H 3pz          0.00725 | 0.00726       -0.00001
+pop of  16 H 3dxy         0.00039 | 0.00039       -0.00000
+pop of  16 H 3dyz         0.00573 | 0.00574       -0.00001
+pop of  16 H 3dz^2        0.00727 | 0.00728       -0.00001
+pop of  16 H 3dxz         0.00530 | 0.00534       -0.00005
+pop of  16 H 3dx2-y2      0.00058 | 0.00058        0.00000
+pop of  17 H 1s           0.36542 | 0.36490        0.00052
+pop of  17 H 2s           0.05304 | 0.05333       -0.00029
+pop of  17 H 3s           0.00313 | 0.00323       -0.00010
+pop of  17 H 2px          0.04288 | 0.04318       -0.00030
+pop of  17 H 2py          0.03711 | 0.03716       -0.00005
+pop of  17 H 2pz          0.03461 | 0.03462       -0.00000
+pop of  17 H 3px          0.00527 | 0.00525        0.00002
+pop of  17 H 3py          0.00342 | 0.00342       -0.00000
+pop of  17 H 3pz          0.00275 | 0.00275       -0.00000
+pop of  17 H 3dxy         0.00462 | 0.00462       -0.00001
+pop of  17 H 3dyz         0.00238 | 0.00239       -0.00001
+pop of  17 H 3dz^2        0.00336 | 0.00338       -0.00002
+pop of  17 H 3dxz         0.00402 | 0.00402       -0.00000
+pop of  17 H 3dx2-y2      0.00515 | 0.00517       -0.00002
+pop of  18 H 1s           0.33220 | 0.33118        0.00102
+pop of  18 H 2s           0.09291 | 0.09353       -0.00061
+pop of  18 H 3s           0.00576 | 0.00588       -0.00012
+pop of  18 H 2px          0.03386 | 0.03397       -0.00011
+pop of  18 H 2py          0.05882 | 0.05856        0.00026
+pop of  18 H 2pz          0.03129 | 0.03138       -0.00009
+pop of  18 H 3px          0.00251 | 0.00251        0.00000
+pop of  18 H 3py          0.00751 | 0.00748        0.00003
+pop of  18 H 3pz          0.00165 | 0.00165       -0.00000
+pop of  18 H 3dxy         0.00652 | 0.00658       -0.00006
+pop of  18 H 3dyz         0.00559 | 0.00560       -0.00001
+pop of  18 H 3dz^2        0.00208 | 0.00208        0.00000
+pop of  18 H 3dxz         0.00039 | 0.00039       -0.00000
+pop of  18 H 3dx2-y2      0.00559 | 0.00560       -0.00001
+pop of  19 S 1s           0.99937 | 0.99937        0.00000
+pop of  19 S 2s           0.96399 | 0.96396        0.00002
+pop of  19 S 3s           0.58737 | 0.58698        0.00039
+pop of  19 S 4s           0.02936 | 0.02826        0.00111
+pop of  19 S 5s           0.00366 | 0.00366        0.00001
+pop of  19 S 2px          0.99655 | 0.99655       -0.00000
+pop of  19 S 2py          0.99866 | 0.99866        0.00000
+pop of  19 S 2pz          0.99777 | 0.99776        0.00001
+pop of  19 S 3px          0.56156 | 0.55751        0.00405
+pop of  19 S 3py          0.75375 | 0.73020        0.02355
+pop of  19 S 3pz          0.66737 | 0.64207        0.02531
+pop of  19 S 4px          0.03993 | 0.03848        0.00145
+pop of  19 S 4py          0.02248 | 0.02161        0.00087
+pop of  19 S 4pz          0.03049 | 0.03049        0.00000
+pop of  19 S 5px          0.00390 | 0.00402       -0.00012
+pop of  19 S 5py          0.00255 | 0.00190        0.00065
+pop of  19 S 5pz          0.00307 | 0.00239        0.00069
+pop of  19 S 3dxy         0.02004 | 0.01820        0.00183
+pop of  19 S 3dyz         0.01449 | 0.00882        0.00567
+pop of  19 S 3dz^2        0.01781 | 0.01246        0.00535
+pop of  19 S 3dxz         0.03122 | 0.03256       -0.00133
+pop of  19 S 3dx2-y2      0.02472 | 0.02196        0.00276
+pop of  19 S 4dxy         0.00370 | 0.00330        0.00041
+pop of  19 S 4dyz         0.00307 | 0.00262        0.00046
+pop of  19 S 4dz^2        0.00304 | 0.00220        0.00084
+pop of  19 S 4dxz         0.00429 | 0.00407        0.00021
+pop of  19 S 4dx2-y2      0.00395 | 0.00342        0.00054
+pop of  19 S 4f-3         0.00230 | 0.00223        0.00007
+pop of  19 S 4f-2         0.00218 | 0.00199        0.00018
+pop of  19 S 4f-1         0.00115 | 0.00059        0.00055
+pop of  19 S 4f 0         0.00141 | 0.00102        0.00039
+pop of  19 S 4f 1         0.00288 | 0.00286        0.00003
+pop of  19 S 4f 2         0.00315 | 0.00278        0.00037
+pop of  19 S 4f 3         0.00215 | 0.00208        0.00007
+pop of  20 Fe 1s          0.99988 | 0.99988       -0.00000
+pop of  20 Fe 2s          0.99415 | 0.99420       -0.00005
+pop of  20 Fe 3s          0.88769 | 0.88856       -0.00087
+pop of  20 Fe 4s          0.13696 | 0.14095       -0.00399
+pop of  20 Fe 5s          0.18802 | 0.19747       -0.00945
+pop of  20 Fe 6s          0.03409 | 0.04120       -0.00711
+pop of  20 Fe 7s          0.00335 | 0.00296        0.00039
+pop of  20 Fe 2px         0.99989 | 0.99989       -0.00000
+pop of  20 Fe 2py         0.99992 | 0.99992       -0.00000
+pop of  20 Fe 2pz         0.99985 | 0.99985       -0.00000
+pop of  20 Fe 3px         0.96926 | 0.96957       -0.00031
+pop of  20 Fe 3py         0.97641 | 0.97658       -0.00017
+pop of  20 Fe 3pz         0.96183 | 0.96219       -0.00035
+pop of  20 Fe 4px         0.11974 | 0.11715        0.00259
+pop of  20 Fe 4py         0.13319 | 0.13187        0.00133
+pop of  20 Fe 4pz         0.14876 | 0.14549        0.00327
+pop of  20 Fe 5px         0.13582 | 0.17836       -0.04254
+pop of  20 Fe 5py         0.14880 | 0.18186       -0.03306
+pop of  20 Fe 5pz         0.19534 | 0.22067       -0.02534
+pop of  20 Fe 6px         0.01162 | 0.01317       -0.00155
+pop of  20 Fe 6py         0.00858 | 0.00958       -0.00100
+pop of  20 Fe 6pz         0.02070 | 0.02264       -0.00194
+pop of  20 Fe 7px         0.00121 | 0.00119        0.00002
+pop of  20 Fe 7py         0.00121 | 0.00127       -0.00006
+pop of  20 Fe 7pz         0.00297 | 0.00280        0.00017
+pop of  20 Fe 3dxy        0.57548 | 0.90904       -0.33356
+pop of  20 Fe 3dyz        0.36766 | 0.89068       -0.52302
+pop of  20 Fe 3dz^2       0.22895 | 0.88296       -0.65401
+pop of  20 Fe 3dxz        0.34253 | 0.88534       -0.54281
+pop of  20 Fe 3dx2-y2     0.20950 | 0.90802       -0.69852
+pop of  20 Fe 4dxy        0.10773 | 0.15485       -0.04712
+pop of  20 Fe 4dyz        0.12888 | 0.20499       -0.07612
+pop of  20 Fe 4dz^2       0.10674 | 0.18055       -0.07381
+pop of  20 Fe 4dxz        0.11385 | 0.16837       -0.05452
+pop of  20 Fe 4dx2-y2     0.11457 | 0.18356       -0.06900
+pop of  20 Fe 5dxy        0.00781 | 0.01188       -0.00407
+pop of  20 Fe 5dyz        0.01467 | 0.02395       -0.00929
+pop of  20 Fe 5dz^2       0.00823 | 0.00976       -0.00153
+pop of  20 Fe 5dxz        0.01597 | 0.02407       -0.00810
+pop of  20 Fe 5dx2-y2     0.00666 | 0.01131       -0.00465
+pop of  20 Fe 6dxy        0.00175 | 0.00181       -0.00006
+pop of  20 Fe 6dyz        0.00328 | 0.00321        0.00007
+pop of  20 Fe 6dz^2       0.00177 | 0.00200       -0.00023
+pop of  20 Fe 6dxz        0.00341 | 0.00327        0.00014
+pop of  20 Fe 6dx2-y2     0.00141 | 0.00170       -0.00029
+pop of  20 Fe 4f-3        0.00068 | 0.00078       -0.00010
+pop of  20 Fe 4f-2        0.00129 | 0.00113        0.00016
+pop of  20 Fe 4f-1        0.00090 | 0.00094       -0.00004
+pop of  20 Fe 4f 0        0.00079 | 0.00068        0.00010
+pop of  20 Fe 4f 1        0.00093 | 0.00108       -0.00015
+pop of  20 Fe 4f 2        0.00130 | 0.00108        0.00021
+pop of  20 Fe 4f 3        0.00064 | 0.00067       -0.00003
+pop of  20 Fe 5f-3        0.00006 | 0.00007       -0.00002
+pop of  20 Fe 5f-2        0.00011 | 0.00010        0.00001
+pop of  20 Fe 5f-1        0.00008 | 0.00008       -0.00000
+pop of  20 Fe 5f 0        0.00006 | 0.00006        0.00000
+pop of  20 Fe 5f 1        0.00008 | 0.00009       -0.00001
+pop of  20 Fe 5f 2        0.00011 | 0.00009        0.00002
+pop of  20 Fe 5f 3        0.00005 | 0.00006       -0.00000
+pop of  20 Fe 5g-4        0.00000 | 0.00001       -0.00000
+pop of  20 Fe 5g-3        0.00001 | 0.00001       -0.00000
+pop of  20 Fe 5g-2        0.00000 | 0.00001       -0.00000
+pop of  20 Fe 5g-1        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 5g 0        0.00000 | 0.00000       -0.00000
+pop of  20 Fe 5g 1        0.00000 | 0.00001       -0.00000
+pop of  20 Fe 5g 2        0.00001 | 0.00000        0.00000
+pop of  20 Fe 5g 3        0.00001 | 0.00001       -0.00000
+pop of  20 Fe 5g 4        0.00000 | 0.00001       -0.00000
+pop of  21 Fe 1s          0.99988 | 0.99988        0.00000
+pop of  21 Fe 2s          0.99420 | 0.99415        0.00005
+pop of  21 Fe 3s          0.88834 | 0.88758        0.00076
+pop of  21 Fe 4s          0.14133 | 0.13935        0.00198
+pop of  21 Fe 5s          0.19207 | 0.18241        0.00966
+pop of  21 Fe 6s          0.04238 | 0.03524        0.00713
+pop of  21 Fe 7s          0.00293 | 0.00334       -0.00041
+pop of  21 Fe 2px         0.99990 | 0.99990        0.00000
+pop of  21 Fe 2py         0.99992 | 0.99992        0.00000
+pop of  21 Fe 2pz         0.99985 | 0.99985        0.00000
+pop of  21 Fe 3px         0.97121 | 0.97097        0.00025
+pop of  21 Fe 3py         0.97570 | 0.97552        0.00019
+pop of  21 Fe 3pz         0.96169 | 0.96135        0.00035
+pop of  21 Fe 4px         0.11543 | 0.11807       -0.00264
+pop of  21 Fe 4py         0.12872 | 0.12924       -0.00051
+pop of  21 Fe 4pz         0.14820 | 0.15101       -0.00281
+pop of  21 Fe 5px         0.16300 | 0.12739        0.03561
+pop of  21 Fe 5py         0.18207 | 0.14911        0.03296
+pop of  21 Fe 5pz         0.21355 | 0.19059        0.02295
+pop of  21 Fe 6px         0.01313 | 0.01191        0.00122
+pop of  21 Fe 6py         0.01244 | 0.01146        0.00098
+pop of  21 Fe 6pz         0.02064 | 0.01906        0.00158
+pop of  21 Fe 7px         0.00128 | 0.00130       -0.00002
+pop of  21 Fe 7py         0.00160 | 0.00157        0.00002
+pop of  21 Fe 7pz         0.00244 | 0.00264       -0.00020
+pop of  21 Fe 3dxy        0.90798 | 0.60918        0.29880
+pop of  21 Fe 3dyz        0.89301 | 0.31414        0.57888
+pop of  21 Fe 3dz^2       0.88475 | 0.31713        0.56763
+pop of  21 Fe 3dxz        0.88481 | 0.32842        0.55639
+pop of  21 Fe 3dx2-y2     0.91022 | 0.13526        0.77496
+pop of  21 Fe 4dxy        0.14224 | 0.10138        0.04086
+pop of  21 Fe 4dyz        0.23560 | 0.14710        0.08849
+pop of  21 Fe 4dz^2       0.17056 | 0.10471        0.06584
+pop of  21 Fe 4dxz        0.16816 | 0.11142        0.05674
+pop of  21 Fe 4dx2-y2     0.17984 | 0.11089        0.06896
+pop of  21 Fe 5dxy        0.01177 | 0.00815        0.00363
+pop of  21 Fe 5dyz        0.02434 | 0.01429        0.01006
+pop of  21 Fe 5dz^2       0.00897 | 0.00751        0.00146
+pop of  21 Fe 5dxz        0.02393 | 0.01586        0.00806
+pop of  21 Fe 5dx2-y2     0.01245 | 0.00762        0.00483
+pop of  21 Fe 6dxy        0.00189 | 0.00174        0.00015
+pop of  21 Fe 6dyz        0.00315 | 0.00323       -0.00008
+pop of  21 Fe 6dz^2       0.00183 | 0.00162        0.00021
+pop of  21 Fe 6dxz        0.00325 | 0.00338       -0.00013
+pop of  21 Fe 6dx2-y2     0.00191 | 0.00154        0.00037
+pop of  21 Fe 4f-3        0.00079 | 0.00063        0.00015
+pop of  21 Fe 4f-2        0.00114 | 0.00133       -0.00019
+pop of  21 Fe 4f-1        0.00097 | 0.00095        0.00003
+pop of  21 Fe 4f 0        0.00067 | 0.00080       -0.00012
+pop of  21 Fe 4f 1        0.00103 | 0.00087        0.00016
+pop of  21 Fe 4f 2        0.00113 | 0.00139       -0.00026
+pop of  21 Fe 4f 3        0.00061 | 0.00055        0.00006
+pop of  21 Fe 5f-3        0.00007 | 0.00006        0.00002
+pop of  21 Fe 5f-2        0.00010 | 0.00011       -0.00001
+pop of  21 Fe 5f-1        0.00008 | 0.00008        0.00000
+pop of  21 Fe 5f 0        0.00006 | 0.00006       -0.00001
+pop of  21 Fe 5f 1        0.00008 | 0.00007        0.00001
+pop of  21 Fe 5f 2        0.00010 | 0.00012       -0.00002
+pop of  21 Fe 5f 3        0.00005 | 0.00005        0.00001
+pop of  21 Fe 5g-4        0.00001 | 0.00000        0.00000
+pop of  21 Fe 5g-3        0.00001 | 0.00001       -0.00000
+pop of  21 Fe 5g-2        0.00000 | 0.00000        0.00000
+pop of  21 Fe 5g-1        0.00000 | 0.00000        0.00000
+pop of  21 Fe 5g 0        0.00000 | 0.00000        0.00000
+pop of  21 Fe 5g 1        0.00000 | 0.00000        0.00000
+pop of  21 Fe 5g 2        0.00000 | 0.00001       -0.00000
+pop of  21 Fe 5g 3        0.00001 | 0.00001        0.00000
+pop of  21 Fe 5g 4        0.00001 | 0.00000        0.00000
+pop of  22 S 1s           0.99925 | 0.99925       -0.00000
+pop of  22 S 2s           0.95980 | 0.95982       -0.00002
+pop of  22 S 3s           0.58248 | 0.58256       -0.00009
+pop of  22 S 4s           0.02498 | 0.02480        0.00018
+pop of  22 S 5s           0.00333 | 0.00350       -0.00017
+pop of  22 S 2px          0.99830 | 0.99830       -0.00000
+pop of  22 S 2py          0.99904 | 0.99904        0.00000
+pop of  22 S 2pz          0.99821 | 0.99821        0.00000
+pop of  22 S 3px          0.61643 | 0.63059       -0.01416
+pop of  22 S 3py          0.70681 | 0.71107       -0.00426
+pop of  22 S 3pz          0.62457 | 0.62032        0.00424
+pop of  22 S 4px          0.03426 | 0.03428       -0.00002
+pop of  22 S 4py          0.00982 | 0.01013       -0.00031
+pop of  22 S 4pz          0.02414 | 0.02483       -0.00070
+pop of  22 S 5px          0.00389 | 0.00421       -0.00032
+pop of  22 S 5py          0.00110 | 0.00108        0.00002
+pop of  22 S 5pz          0.00335 | 0.00344       -0.00010
+pop of  22 S 3dxy         0.01023 | 0.01152       -0.00128
+pop of  22 S 3dyz         0.00970 | 0.00854        0.00116
+pop of  22 S 3dz^2        0.01268 | 0.01302       -0.00034
+pop of  22 S 3dxz         0.01743 | 0.01749       -0.00006
+pop of  22 S 3dx2-y2      0.01290 | 0.01324       -0.00034
+pop of  22 S 4dxy         0.00248 | 0.00265       -0.00017
+pop of  22 S 4dyz         0.00193 | 0.00176        0.00017
+pop of  22 S 4dz^2        0.00195 | 0.00195       -0.00001
+pop of  22 S 4dxz         0.00557 | 0.00559       -0.00002
+pop of  22 S 4dx2-y2      0.00327 | 0.00324        0.00003
+pop of  22 S 4f-3         0.00131 | 0.00154       -0.00023
+pop of  22 S 4f-2         0.00168 | 0.00173       -0.00004
+pop of  22 S 4f-1         0.00063 | 0.00050        0.00013
+pop of  22 S 4f 0         0.00120 | 0.00114        0.00005
+pop of  22 S 4f 1         0.00225 | 0.00246       -0.00021
+pop of  22 S 4f 2         0.00227 | 0.00226        0.00001
+pop of  22 S 4f 3         0.00126 | 0.00132       -0.00006
+pop of  23 C 1s           0.94931 | 0.94931        0.00000
+pop of  23 C 2s           0.29723 | 0.29736       -0.00013
+pop of  23 C 3s           0.01957 | 0.01970       -0.00013
+pop of  23 C 4s           0.00421 | 0.00423       -0.00001
+pop of  23 C 2px          0.43172 | 0.43382       -0.00210
+pop of  23 C 2py          0.42907 | 0.42906        0.00002
+pop of  23 C 2pz          0.39107 | 0.39274       -0.00167
+pop of  23 C 3px          0.03523 | 0.03634       -0.00110
+pop of  23 C 3py          0.02079 | 0.02024        0.00055
+pop of  23 C 3pz          0.03273 | 0.03353       -0.00080
+pop of  23 C 4px          0.00384 | 0.00376        0.00008
+pop of  23 C 4py          0.00189 | 0.00188        0.00001
+pop of  23 C 4pz          0.00348 | 0.00350       -0.00003
+pop of  23 C 3dxy         0.01353 | 0.01289        0.00064
+pop of  23 C 3dyz         0.01932 | 0.01895        0.00036
+pop of  23 C 3dz^2        0.03213 | 0.03066        0.00146
+pop of  23 C 3dxz         0.04691 | 0.04556        0.00136
+pop of  23 C 3dx2-y2      0.03537 | 0.03315        0.00223
+pop of  23 C 4dxy         0.00140 | 0.00136        0.00004
+pop of  23 C 4dyz         0.00120 | 0.00115        0.00005
+pop of  23 C 4dz^2        0.00119 | 0.00117        0.00002
+pop of  23 C 4dxz         0.00262 | 0.00257        0.00006
+pop of  23 C 4dx2-y2      0.00155 | 0.00142        0.00013
+pop of  23 C 4f-3         0.00327 | 0.00324        0.00004
+pop of  23 C 4f-2         0.00242 | 0.00241        0.00002
+pop of  23 C 4f-1         0.00346 | 0.00347       -0.00001
+pop of  23 C 4f 0         0.00061 | 0.00053        0.00008
+pop of  23 C 4f 1         0.00411 | 0.00412       -0.00001
+pop of  23 C 4f 2         0.00213 | 0.00203        0.00009
+pop of  23 C 4f 3         0.00059 | 0.00056        0.00003
+pop of  24 H 1s           0.33161 | 0.33095        0.00066
+pop of  24 H 2s           0.06068 | 0.06030        0.00038
+pop of  24 H 3s           0.00385 | 0.00386       -0.00001
+pop of  24 H 2px          0.04035 | 0.04096       -0.00061
+pop of  24 H 2py          0.04188 | 0.04192       -0.00003
+pop of  24 H 2pz          0.02969 | 0.03001       -0.00032
+pop of  24 H 3px          0.00204 | 0.00205       -0.00001
+pop of  24 H 3py          0.00710 | 0.00709        0.00001
+pop of  24 H 3pz          0.00155 | 0.00155       -0.00000
+pop of  24 H 3dxy         0.00644 | 0.00655       -0.00011
+pop of  24 H 3dyz         0.00536 | 0.00543       -0.00006
+pop of  24 H 3dz^2        0.00202 | 0.00202        0.00000
+pop of  24 H 3dxz         0.00011 | 0.00010        0.00001
+pop of  24 H 3dx2-y2      0.00580 | 0.00580        0.00001
+pop of  25 H 1s           0.30377 | 0.30178        0.00199
+pop of  25 H 2s           0.07396 | 0.07485       -0.00089
+pop of  25 H 3s           0.00495 | 0.00531       -0.00036
+pop of  25 H 2px          0.04544 | 0.04644       -0.00099
+pop of  25 H 2py          0.03564 | 0.03611       -0.00047
+pop of  25 H 2pz          0.04184 | 0.04495       -0.00312
+pop of  25 H 3px          0.00370 | 0.00433       -0.00062
+pop of  25 H 3py          0.00221 | 0.00221       -0.00000
+pop of  25 H 3pz          0.00495 | 0.00497       -0.00002
+pop of  25 H 3dxy         0.00159 | 0.00165       -0.00006
+pop of  25 H 3dyz         0.00439 | 0.00435        0.00004
+pop of  25 H 3dz^2        0.00560 | 0.00555        0.00005
+pop of  25 H 3dxz         0.00572 | 0.00564        0.00008
+pop of  25 H 3dx2-y2      0.00243 | 0.00234        0.00008
+pop of  26 H 1s           0.31127 | 0.31175       -0.00048
+pop of  26 H 2s           0.06777 | 0.06608        0.00168
+pop of  26 H 3s           0.00443 | 0.00439        0.00004
+pop of  26 H 2px          0.04498 | 0.04562       -0.00064
+pop of  26 H 2py          0.03526 | 0.03495        0.00030
+pop of  26 H 2pz          0.04094 | 0.03960        0.00135
+pop of  26 H 3px          0.00450 | 0.00405        0.00045
+pop of  26 H 3py          0.00221 | 0.00221        0.00000
+pop of  26 H 3pz          0.00436 | 0.00435        0.00002
+pop of  26 H 3dxy         0.00232 | 0.00232        0.00000
+pop of  26 H 3dyz         0.00373 | 0.00378       -0.00005
+pop of  26 H 3dz^2        0.00500 | 0.00522       -0.00021
+pop of  26 H 3dxz         0.00530 | 0.00527        0.00004
+pop of  26 H 3dx2-y2      0.00318 | 0.00340       -0.00022
+In total                 90.00000 | 90.00000      -0.00000
+ ** Mulliken atomic charges    ( Nelec_alpha | Nelec_beta )    magnetism **
+charge of    0 C =      0.02914  (     2.98220      2.98866 )     -0.00646
+charge of    1 H =     -0.16157  (     0.58035      0.58122 )     -0.00088
+charge of    2 H =     -0.13060  (     0.56538      0.56522 )      0.00016
+charge of    3 H =     -0.14258  (     0.57136      0.57122 )      0.00014
+charge of    4 S =      0.49244  (     7.71509      7.79247 )     -0.07739
+charge of    5 C =      0.02866  (     2.98169      2.98965 )     -0.00796
+charge of    6 H =     -0.12635  (     0.56283      0.56352 )     -0.00070
+charge of    7 H =     -0.14409  (     0.57178      0.57231 )     -0.00053
+charge of    8 H =     -0.16323  (     0.58084      0.58239 )     -0.00155
+charge of    9 S =      0.48993  (     7.71318      7.79689 )     -0.08372
+charge of   10 C =      0.06082  (     2.97330      2.96588 )      0.00742
+charge of   11 H =     -0.12040  (     0.56098      0.55942 )      0.00155
+charge of   12 H =     -0.13819  (     0.56927      0.56892 )      0.00035
+charge of   13 H =     -0.11364  (     0.55714      0.55650 )      0.00064
+charge of   14 S =      0.45931  (     7.81675      7.72394 )      0.09281
+charge of   15 C =      0.02091  (     2.99158      2.98752 )      0.00406
+charge of   16 H =     -0.14530  (     0.57205      0.57325 )     -0.00120
+charge of   17 H =     -0.13457  (     0.56714      0.56742 )     -0.00028
+charge of   18 H =     -0.17305  (     0.58668      0.58637 )      0.00030
+charge of   19 S =      0.46963  (     7.80337      7.72700 )      0.07637
+charge of   20Fe =     -2.11477  (    12.44718     15.66759 )     -3.22041
+charge of   21Fe =     -2.06398  (    15.64950     12.41448 )      3.23503
+charge of   22 S =      0.62613  (     7.67848      7.69539 )     -0.01692
+charge of   23 C =      0.41734  (     2.79196      2.79071 )      0.00125
+charge of   24 H =     -0.07710  (     0.53851      0.53859 )     -0.00009
+charge of   25 H =     -0.07665  (     0.53618      0.54047 )     -0.00430
+charge of   26 H =     -0.06825  (     0.53526      0.53299 )      0.00227
+FINISH TIME =  02/11/2023 23:29:11
+TOTAL TIME  =            18138.900

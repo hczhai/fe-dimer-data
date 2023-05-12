@@ -1,0 +1,22 @@
+/home/hczhai/program/anaconda3/envs/python3.7/bin/python3
+Python 3.8.5
+2.0.1
+/central/groups/changroup/members/hczhai/program/pyscf/pyscf/__init__.py
+/central/scratch/hczhai/hife/hc-def2-SVP-uks.9/runs/mp-25
+SLURM_TASKS_PER_NODE=1
+OMP_NUM_THREADS=
+SLURM_JOBID=29906092
+SLURM_JOB_NAME=hc.25.hife
+HOST_NAME = hpc-20-32.cm.cluster
+PWD = /central/groups/changroup/members/hczhai/work/hife/feh-dimers/x2c-dk/hc/runs/mp-25
+SLURM_CPUS_PER_TASK=32
+/home/hczhai/program/anaconda3/envs/python3.7/bin/orterun
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+orterun noticed that process rank 0 with PID 39342 on node hpc-20-32 exited on signal 9 (Killed).
+--------------------------------------------------------------------------
+ERROR TERMINATION
+slurmstepd: error: Detected 2 oom-kill event(s) in StepId=29906092.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
